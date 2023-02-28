@@ -5,31 +5,23 @@ using UnityEngine.InputSystem;
 
 public class Inputs : MonoBehaviour
 {
-    public bool MouseClick { private set; get; }
-    public bool MouseHold { private set; get; }
-    public Vector2 MousePosition { get; private set; }
-    
-    private void OnEnable()
-    {
-        
-    }
+    public bool MouseClick {  set; get; }
+    public bool MouseHold {  set; get; }
+    public Vector2 MousePositionScreen { get; private set; }
+    public Vector2 MousePositionWorld { get; private set; }
+
     private void Awake()
     {
-        
-        MousePosition = new Vector2();
+        MousePositionWorld = new Vector2();
+        MousePositionScreen = new Vector2();
     }
     public void Click(InputAction.CallbackContext context)
     {
-        Debug.Log(context);
-        if(context.canceled)
+       
+        if (context.canceled)
         {
             MouseClick = true;
         }
-        else
-        {
-            MouseClick = false;
-        }
-
         if (context.performed)
         {
             MouseHold = true;
@@ -37,23 +29,23 @@ public class Inputs : MonoBehaviour
         else
         {
             MouseHold = false;
-        }
-    }
-    public void Space(InputAction.CallbackContext context)
-    {
-        Debug.Log(context);
-    }
-    public void MoveMouse(InputAction.CallbackContext context)
-    {
-        Debug.Log(context);
-        if(context.performed)
-        {
-            MousePosition = context.ReadValue<Vector2>();
+            //MouseClick = false;
         }
     }
 
-    //private void Update()
-    //{
-    //    Debug.Log(System.String.Format("Click: {0} Hold: {1}, Mouse Pos: {2}", MouseClick, MouseHold, MousePosition));
-    //}
+    public void MoveMouse(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            MousePositionScreen = context.ReadValue<Vector2>();
+            MousePositionWorld = Camera.main.ScreenToWorldPoint(MousePositionScreen);
+        }
+    }
+
+    void Update()
+    {
+       // Debug.Log(System.String.Format("click: {0} hold: {1}, mouse pos: {2}", MouseClick, MouseHold, MousePositionWorld));
+    }
+    
+
 }
