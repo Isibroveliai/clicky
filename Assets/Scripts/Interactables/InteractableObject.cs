@@ -16,7 +16,6 @@ public class InteractableObject : MonoBehaviour
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-       // inputs = (Inputs)FindObjectOfType(typeof(Inputs));
         inputs = (Inputs)FindAnyObjectByType(typeof(Inputs));
     }
   
@@ -34,7 +33,6 @@ public class InteractableObject : MonoBehaviour
             {
                 inputs.MouseClick = false;
                 OnInteract();
-
             }
             
         }
