@@ -7,6 +7,7 @@ public class ClickerManager : MonoBehaviour
 {
     public static ClickerManager Instance { get; private set; }
     public int Score { get; set; }
+ 
     Inputs inputs;
 
     private void Awake()
