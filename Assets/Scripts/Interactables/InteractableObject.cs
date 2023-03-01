@@ -12,7 +12,7 @@ public class InteractableObject : MonoBehaviour
 {
     protected BoxCollider2D boxCollider;
     protected Inputs inputs;
-   
+
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -29,16 +29,14 @@ public class InteractableObject : MonoBehaviour
         if (boxCollider.bounds.Contains(inputs.MousePositionWorld))
         {
             OnHover();
-            if(inputs.MouseClick)
+
+            if(inputs.MouseClick && !inputs.MouseHold)
             {
+                Debug.Log("CLICK!");
                 inputs.MouseClick = false;
+            
                 OnInteract();
             }
-            
-        }
-        else
-        {
-            inputs.MouseClick = false;
         }
        
     }

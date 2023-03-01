@@ -7,8 +7,12 @@ public class Inputs : MonoBehaviour
 {
     public bool MouseClick {  set; get; }
     public bool MouseHold {  set; get; }
+    private bool started;
     public Vector2 MousePositionScreen { get; private set; }
     public Vector2 MousePositionWorld { get; private set; }
+   // private float clickStart;
+   // private float delay = 0.3f;
+
 
     private void Awake()
     {
@@ -17,10 +21,16 @@ public class Inputs : MonoBehaviour
     }
     public void Click(InputAction.CallbackContext context)
     {
-       
+        if (context.started)
+        {
+            started = true;
+          //  clickStart = Time.time;
+        }
+
         if (context.canceled)
         {
             MouseClick = true;
+            
         }
         if (context.performed)
         {
@@ -44,7 +54,16 @@ public class Inputs : MonoBehaviour
 
     void Update()
     {
-       // Debug.Log(System.String.Format("click: {0} hold: {1}, mouse pos: {2}", MouseClick, MouseHold, MousePositionWorld));
+        //if(started)
+        //{
+        //    if(Time.time >= clickStart + delay)
+        //    {
+        //        MouseHold = true;
+        //        started = false;
+        //    }
+        //}
+        // Debug.Log(System.String.Format("click: {0} hold: {1}, mouse pos: {2}", MouseClick, MouseHold, MousePositionWorld));
+        Debug.Log(MouseHold);
     }
     
 
