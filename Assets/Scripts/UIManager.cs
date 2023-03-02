@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    
+    GameManager manager;
     TMP_Text currencyCounter;
     Button currencyGenerator;
     public  Button upgradeButton;
@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     GameObject optionsTab;
     void Start()
     {
-
+        manager = GameManager.Instance;
 
         currencyCounter = GameObject.Find("/UI/CurrencyCounter").GetComponent<TMP_Text>();
         currencyGenerator = GameObject.Find("UI/CurrencyGenerator/Button").GetComponent<Button>();
@@ -38,9 +38,9 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
+        currencyCounter.text = ((uint)manager.Score).ToString();
     }
+
     public void ChangeTab(GameObject obj)
     {
         obj.SetActive(!obj.activeSelf);
