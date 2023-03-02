@@ -6,31 +6,43 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
+    GameManager manager;
     TMP_Text currencyCounter;
     Button currencyGenerator;
-    Button upgradeButton;
+    public  Button upgradeButton;
+    public Button optionsButton;
     GameObject upgradeTab;
+    GameObject optionsTab;
     void Start()
     {
+        manager = GameManager.Instance;
+
         currencyCounter = GameObject.Find("/UI/CurrencyCounter").GetComponent<TMP_Text>();
         currencyGenerator = GameObject.Find("UI/CurrencyGenerator/Button").GetComponent<Button>();
         upgradeTab = GameObject.Find("UI/UpgradesTab");
         upgradeButton = GameObject.Find("UI/Menubar/Upgrades").GetComponent<Button>();
-        currencyGenerator.onClick.AddListener(ClickerManager.Instance.GenerateCurrency);
+        optionsTab = GameObject.Find("UI/OptionsTab");
+        optionsButton = GameObject.Find("UI/Menubar/Options").GetComponent<Button>();
+
+        //currencyGenerator.onClick.AddListener(ClickerManager.Instance.GenerateCurrency);
+        //upgradeButton.onClick.AddListener(delegate { ChangeTab(upgradeTab); });
+        //optionsButton.onClick.AddListener(delegate { ChangeTab(optionsTab); });
+        optionsButton.onClick.AddListener(() => { ChangeTab(optionsTab); });
+        upgradeButton.onClick.AddListener(() => { ChangeTab(upgradeTab); });
+
+
         upgradeTab.SetActive(false);
-        upgradeButton.onClick.AddListener(ChangeToUpgradeTab);
+        optionsTab.SetActive(false); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        currencyCounter.text = ClickerManager.Instance.Score.ToString();
-        
+        currencyCounter.text = ((uint)manager.Score).ToString();
     }
-    void ChangeToUpgradeTab()
-    {
-        upgradeTab.SetActive(!upgradeTab.activeSelf);
 
+    public void ChangeTab(GameObject obj)
+    {
+        obj.SetActive(!obj.activeSelf);
     }
 }
