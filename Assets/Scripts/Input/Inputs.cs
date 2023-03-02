@@ -63,7 +63,7 @@ public class Inputs : MonoBehaviour
         //    }
         //}
         // Debug.Log(System.String.Format("click: {0} hold: {1}, mouse pos: {2}", MouseClick, MouseHold, MousePositionWorld));
-        Debug.Log(MouseHold);
+        //Debug.Log(MouseHold);
     }
     
 
