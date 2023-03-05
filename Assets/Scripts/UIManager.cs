@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Numerics;
+using System;
 
 public class UIManager : MonoBehaviour
 {
     GameManager manager;
     TMP_Text currencyCounter;
     Button currencyGenerator;
-    public  Button upgradeButton;
-    public Button optionsButton;
+    Button upgradeButton;
+    Button optionsButton;
     GameObject upgradeTab;
     GameObject optionsTab;
+
+    [SerializeField]
+    GameObject currentlyActiveTab;
     void Start()
     {
         manager = GameManager.Instance;
 
-        currencyCounter = GameObject.Find("/UI/CurrencyCounter").GetComponent<TMP_Text>();
+        currencyCounter = GameObject.Find("/UI/Counters/CurrencyCounter").GetComponent<TMP_Text>();
         currencyGenerator = GameObject.Find("UI/CurrencyGenerator/Button").GetComponent<Button>();
         upgradeTab = GameObject.Find("UI/UpgradesTab");
         upgradeButton = GameObject.Find("UI/Menubar/Upgrades").GetComponent<Button>();
@@ -31,18 +36,24 @@ public class UIManager : MonoBehaviour
         upgradeButton.onClick.AddListener(() => { ChangeTab(upgradeTab); });
 
 
+        currentlyActiveTab = optionsTab; // just so it isnt null
         upgradeTab.SetActive(false);
         optionsTab.SetActive(false); 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        currencyCounter.text = ((uint)manager.Score).ToString();
+        currencyCounter.text = ((ulong)manager.Score).ToString();
     }
 
     public void ChangeTab(GameObject obj)
     {
         obj.SetActive(!obj.activeSelf);
+        if (currentlyActiveTab != obj)
+        {
+            currentlyActiveTab.SetActive(false);
+            currentlyActiveTab = obj;
+        }
+        
     }
 }
