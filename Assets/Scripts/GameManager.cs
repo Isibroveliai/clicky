@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     public float maxEnergy = 100; //upgradable
 
-    public float energyRegenerationRate = 5;
+    public float energyRegenerationRate = 6;
 
     public bool scoreThresholdReached = false; //100 for prototype?
 
