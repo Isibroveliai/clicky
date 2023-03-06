@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,16 @@ public class GameManager : MonoBehaviour
     public Dictionary<string, int> UpgradeCounts;
 
     public float CurrentGeneration = 0;
+
+    public float scoreReductionRate = 1f; //rate of which score reduces
+
+    public float currentEnergy = 100; //if reaches 0, game lost
+
+    public float maxEnergy = 100; //upgradable
+
+    public float energyRegenerationRate = 5;
+
+    public bool scoreThresholdReached = false; //100 for prototype?
 
     public GameManager()
     {
@@ -29,9 +40,26 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Score > 100)  //number changeable     
+            scoreThresholdReached = true;
+
         Score += CurrentGeneration * Time.deltaTime;
+        if (scoreThresholdReached)
+        {
+            currentEnergy -= scoreReductionRate * Time.fixedDeltaTime;
+        }
     }
 
-    public static void GenerateCurrency() => Instance.Score++;
+    public void GenerateCurrency()
+    {
+        Score++;
+        currentEnergy += energyRegenerationRate * Time.fixedDeltaTime;
+        if (currentEnergy > maxEnergy)
+            currentEnergy = maxEnergy;
+    }
 
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
