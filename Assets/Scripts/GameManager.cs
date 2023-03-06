@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
     public float currentEnergy = 100; //if reaches 0, game lost
 
     public float maxEnergy = 100; //upgradable
-
-    public float energyRegenerationRate = 6;
+    
+    public float energyRegenerationRate = 0.001f;
 
     public bool scoreThresholdReached = false; //100 for prototype?
 
@@ -46,16 +46,14 @@ public class GameManager : MonoBehaviour
         Score += CurrentGeneration * Time.deltaTime;
         if (scoreThresholdReached)
         {
-            currentEnergy -= scoreReductionRate * Time.fixedDeltaTime;
+            currentEnergy -= scoreReductionRate * Time.deltaTime;
         }
     }
 
     public void GenerateCurrency()
     {
         Score++;
-        currentEnergy += energyRegenerationRate * Time.fixedDeltaTime;
-        if (currentEnergy > maxEnergy)
-            currentEnergy = maxEnergy;
+        currentEnergy = Mathf.Min(maxEnergy, currentEnergy+energyRegenerationRate);
     }
 
     public void RestartScene()
