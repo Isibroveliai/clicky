@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
     GameObject gameOverTab;
     [SerializeField]
     Button restartButton;
+    [SerializeField]
+    TMP_Text energyCounter;
 
     GameObject currentlyActiveTab;
 
@@ -50,7 +52,9 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         currencyCounter.text = ((ulong)manager.Score).ToString();
-        if(manager.currentEnergy <= 0)
+        energyCounter.text = ((int)manager.currentEnergy).ToString() + "%";
+
+        if (manager.currentEnergy <= 0)
         {
             gameOverTab.SetActive(true);
         }
