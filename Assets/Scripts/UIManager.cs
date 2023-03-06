@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System.Numerics;
 using System;
 
-// TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
 {
     GameManager manager;
@@ -31,8 +30,6 @@ public class UIManager : MonoBehaviour
     TMP_Text energyCounter;
     [SerializeField]
     GameObject eventText;
-    
-    public TMP_Text upgradeDescriptionText;
 
     GameObject currentlyActiveTab;
 
@@ -53,11 +50,6 @@ public class UIManager : MonoBehaviour
         optionsTab.SetActive(false);
         gameOverTab.SetActive(false);
         eventText.SetActive(false);
-    }
-
-    public void UpdateUpgradeDescription(string text)
-    {
-        upgradeDescriptionText.text = text;
     }
 
     void Update()

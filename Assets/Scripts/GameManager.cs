@@ -8,9 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private static UIManager ui;
-
-    // TODO: Make this read-only through editor
+    [SerializeField]
     public float Score = 0;
 
     public Dictionary<string, int> UpgradeCounts;
@@ -19,7 +17,6 @@ public class GameManager : MonoBehaviour
 
     public float scoreReductionRate = 1f; //rate of which score reduces
 
-    // TODO: Make this read-only through editor
     public float currentEnergy = 100; //if reaches 0, game lost
 
     public float maxEnergy = 100; //upgradable
@@ -51,18 +48,14 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        Setup();
-    }
-
-    void Setup()
-    {
-        ui = GameObject.Find("/UI").GetComponent<UIManager>();
-        ui.UpdateUpgradeDescription("");
     }
 
     void Update()
     {
+
+
         var random = new System.Random();
+
 
         if (timer > EventCheckTime && !eventFlag)
         {
