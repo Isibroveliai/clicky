@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Unity.VisualScripting.FlowStateWidget;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +24,16 @@ public class GameManager : MonoBehaviour
     public float energyRegenerationRate = 0.001f;
 
     public bool scoreThresholdReached = false; //100 for prototype?
+    [SerializeField]
+    public float EventCheckTime = 120;
+
+    public float EventTime = 10;
+
+    public bool eventFlag = false;
+
+    public float timer = 0;
+
+    public float CurrentScore;
 
     public GameManager()
     {
@@ -40,6 +52,39 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+
+
+        var random = new System.Random();
+
+
+        if (timer > EventCheckTime && !eventFlag)
+        {
+            timer = 0;
+            if (random.Next(10) > 1)
+            {
+                eventFlag = true;
+                CurrentScore = Score;
+            }
+        }
+        else if (eventFlag)
+        {
+            
+            if (timer > EventTime)
+            {
+                eventFlag = false;
+                Debug.Log(string.Format("{0}, {1}", Score, CurrentScore));
+                if (CurrentScore + 20 <= Score)
+                {
+                    Score += 50;
+                }
+                else
+                {
+                    Score -= 50;
+                }
+                timer = 0;
+            }
+        }
+        timer += Time.deltaTime;
         if (Score > 100)  //number changeable     
             scoreThresholdReached = true;
 

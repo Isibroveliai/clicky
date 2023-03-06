@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour
     Button restartButton;
     [SerializeField]
     TMP_Text energyCounter;
+    [SerializeField]
+    GameObject eventText;
 
     GameObject currentlyActiveTab;
 
@@ -47,12 +49,14 @@ public class UIManager : MonoBehaviour
         upgradeTab.SetActive(false);
         optionsTab.SetActive(false);
         gameOverTab.SetActive(false);
+        eventText.SetActive(false);
     }
 
     void Update()
     {
         currencyCounter.text = ((ulong)manager.Score).ToString();
         energyCounter.text = ((int)manager.currentEnergy).ToString() + "%";
+        eventText.SetActive(manager.eventFlag);
 
         if (manager.currentEnergy <= 0)
         {
