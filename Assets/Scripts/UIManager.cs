@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     Button optionsButton;
     GameObject upgradeTab;
     GameObject optionsTab;
+    GameObject gameOverTab;
+    Button restartButton;
 
     [SerializeField]
     GameObject currentlyActiveTab;
@@ -28,22 +30,30 @@ public class UIManager : MonoBehaviour
         upgradeButton = GameObject.Find("UI/Menubar/Upgrades").GetComponent<Button>();
         optionsTab = GameObject.Find("UI/OptionsTab");
         optionsButton = GameObject.Find("UI/Menubar/Options").GetComponent<Button>();
+        gameOverTab = GameObject.Find("UI/GameOverTab");
+        restartButton = GameObject.Find("UI/GameOverTab/Button").GetComponent<Button>();
 
-        //currencyGenerator.onClick.AddListener(ClickerManager.Instance.GenerateCurrency);
+        currencyGenerator.onClick.AddListener(manager.GenerateCurrency);
         //upgradeButton.onClick.AddListener(delegate { ChangeTab(upgradeTab); });
         //optionsButton.onClick.AddListener(delegate { ChangeTab(optionsTab); });
         optionsButton.onClick.AddListener(() => { ChangeTab(optionsTab); });
         upgradeButton.onClick.AddListener(() => { ChangeTab(upgradeTab); });
+        restartButton.onClick.AddListener(() => { manager.RestartScene(); });
 
 
         currentlyActiveTab = optionsTab; // just so it isnt null
         upgradeTab.SetActive(false);
-        optionsTab.SetActive(false); 
+        optionsTab.SetActive(false);
+        gameOverTab.SetActive(false);
     }
 
     void Update()
     {
         currencyCounter.text = ((ulong)manager.Score).ToString();
+        if(manager.currentEnergy <= 0)
+        {
+            gameOverTab.SetActive(true);
+        }
     }
 
     public void ChangeTab(GameObject obj)
