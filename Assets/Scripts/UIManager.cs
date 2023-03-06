@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     GameManager manager;
     TMP_Text currencyCounter;
+    TMP_Text energyCounter;
     Button currencyGenerator;
     Button upgradeButton;
     Button optionsButton;
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
         manager = GameManager.Instance;
 
         currencyCounter = GameObject.Find("/UI/Counters/CurrencyCounter").GetComponent<TMP_Text>();
+        energyCounter = GameObject.Find("/UI/Counters/EnergyCounter").GetComponent<TMP_Text>();
         currencyGenerator = GameObject.Find("UI/CurrencyGenerator/Button").GetComponent<Button>();
         upgradeTab = GameObject.Find("UI/UpgradesTab");
         upgradeButton = GameObject.Find("UI/Menubar/Upgrades").GetComponent<Button>();
@@ -50,7 +52,9 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         currencyCounter.text = ((ulong)manager.Score).ToString();
-        if(manager.currentEnergy <= 0)
+        energyCounter.text = ((int)manager.currentEnergy).ToString() + "%";
+
+        if (manager.currentEnergy <= 0)
         {
             gameOverTab.SetActive(true);
         }
