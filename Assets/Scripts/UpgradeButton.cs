@@ -28,4 +28,16 @@ public class UpgradeButton : MonoBehaviour
         // Add "OnClick" event to ClickerManager to solve this problem.
         button.interactable = upgrade.CanBuy();
     }
+
+    public void OnPointerEnter()
+    {
+        UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
+        ui.UpdateUpgradeDescription(upgrade.description);
+    }
+
+    public void OnPointerExit()
+    {
+        UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
+        ui.UpdateUpgradeDescription("");
+    }
 }
