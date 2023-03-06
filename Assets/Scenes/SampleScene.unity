@@ -864,7 +864,7 @@ MonoBehaviour:
   Score: 100
   CurrentGeneration: 0
   scoreReductionRate: 1
-  currentEnergy: 0
+  currentEnergy: 100
   maxEnergy: 100
   energyRegenerationRate: 0.25
   scoreThresholdReached: 0
