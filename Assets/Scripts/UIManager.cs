@@ -9,50 +9,38 @@ using System;
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
 {
-    GameManager manager;
+    [Serializable]
+    public class UITab
+    {
+        public GameObject panel;
+        public Button button;
+    }
 
-    [SerializeField]
-    TMP_Text currencyCounter;
-    [SerializeField]
-    Button currencyGeneratorButton;
-    [SerializeField]
-    Button upgradeButton;
-    [SerializeField]
-    Button optionsButton;
-    [SerializeField]
-    GameObject upgradeTab;
-    [SerializeField]
-    GameObject optionsTab;
-    [SerializeField]
-    GameObject gameOverTab;
-    [SerializeField]
-    Button restartButton;
-    [SerializeField]
-    TMP_Text energyCounter;
-    [SerializeField]
-    GameObject eventText;
-    
+    public UITab[] tabs;
+
+    public TMP_Text energyCounter;
+    public GameObject eventText;
+
+    public GameObject gameOverTab;
+
+    public TMP_Text currencyCounter;
+
     public TMP_Text upgradeDescriptionText;
 
-    GameObject currentlyActiveTab;
+    UITab activeTab;
 
     void Start()
     {
-        manager = GameManager.Instance;
-
-        currencyGeneratorButton.onClick.AddListener(manager.GenerateCurrency);
-        //upgradeButton.onClick.AddListener(delegate { ChangeTab(upgradeTab); });
-        //optionsButton.onClick.AddListener(delegate { ChangeTab(optionsTab); });
-        optionsButton.onClick.AddListener(() => { ChangeTab(optionsTab); });
-        upgradeButton.onClick.AddListener(() => { ChangeTab(upgradeTab); });
-        restartButton.onClick.AddListener(() => { manager.RestartScene(); });
-
-
-        currentlyActiveTab = optionsTab; // just so it isnt null
-        upgradeTab.SetActive(false);
-        optionsTab.SetActive(false);
-        gameOverTab.SetActive(false);
         eventText.SetActive(false);
+        gameOverTab.SetActive(false);
+
+        activeTab = tabs[0];
+        for (int i = 0; i < tabs.Length; i++)
+        {
+            UITab tab = tabs[i];
+            tab.panel.SetActive(false);
+            tab.button.onClick.AddListener(() => { ChangeTab(tab); });
+        }
     }
 
     public void UpdateUpgradeDescription(string text)
@@ -60,26 +48,33 @@ public class UIManager : MonoBehaviour
         upgradeDescriptionText.text = text;
     }
 
-    void Update()
+    public void SetGameOverShown(bool isShown)
     {
-        currencyCounter.text = ((ulong)manager.Score).ToString();
-        energyCounter.text = ((int)manager.currentEnergy).ToString() + "%";
-        eventText.SetActive(manager.eventFlag);
-
-        if (manager.currentEnergy <= 0)
-        {
-            gameOverTab.SetActive(true);
-        }
+        gameOverTab.SetActive(isShown);
     }
 
-    public void ChangeTab(GameObject obj)
+    public void UpdateScoreDisplay(ulong score)
     {
-        obj.SetActive(!obj.activeSelf);
-        if (currentlyActiveTab != obj)
+        currencyCounter.text = score.ToString();
+    }
+
+    public void UpdateEnergyDisplay(float percent)
+    {
+        energyCounter.text = string.Format("{0}%", Math.Round(percent * 100));
+    }
+
+    public void SetEventTextShown(bool isShown)
+    {
+        eventText.SetActive(isShown);
+    }
+
+    public void ChangeTab(UITab tab)
+    {
+        tab.panel.SetActive(!tab.panel.activeSelf);
+        if (activeTab != tab)
         {
-            currentlyActiveTab.SetActive(false);
-            currentlyActiveTab = obj;
+            activeTab.panel.SetActive(false);
+            activeTab = tab;
         }
-        
     }
 }

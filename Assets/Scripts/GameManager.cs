@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
             {
                 eventFlag = true;
                 CurrentScore = Score;
+                ui.SetEventTextShown(true);
             }
         }
         else if (eventFlag)
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
             if (timer > EventTime)
             {
                 eventFlag = false;
-                Debug.Log(string.Format("{0}, {1}", Score, CurrentScore));
+                ui.SetEventTextShown(false);
                 if (CurrentScore + 20 <= Score)
                 {
                     Score += 50;
@@ -100,6 +101,13 @@ public class GameManager : MonoBehaviour
         {
             currentEnergy -= scoreReductionRate * Time.deltaTime;
         }
+
+        if (currentEnergy < 0)
+        {
+            ui.SetGameOverShown(true);
+        }
+        ui.UpdateScoreDisplay((ulong)Score);
+        ui.UpdateEnergyDisplay(currentEnergy / maxEnergy);
     }
 
     public void GenerateCurrency()
