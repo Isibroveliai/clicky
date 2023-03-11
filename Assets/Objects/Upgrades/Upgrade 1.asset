@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Upgrade 1
   m_EditorClassIdentifier: 
   id: 072ca211-cc1c-4751-80d8-9b42e441e6cb
-  name: Cog
+  displayName: Cog
   description: Wow cog
   baseCost: 10
   generation: 1

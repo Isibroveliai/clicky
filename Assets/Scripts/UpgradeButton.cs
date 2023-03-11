@@ -3,10 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // TODO: Make info about upgrade be visible in editor.
-
 public class UpgradeButton : MonoBehaviour
 {
-    [SerializeField]
     public Upgrade upgrade;
 
     private TMP_Text label;
@@ -14,11 +12,11 @@ public class UpgradeButton : MonoBehaviour
 
     void Start()
     {
-        GameManager manager = GameManager.Instance;
+        GameManager manager = GameManager.instance;
         label = transform.Find("Label").GetComponent<TMP_Text>();
         button = GetComponent<Button>();
 
-        label.text = upgrade.name;
+        label.text = upgrade.displayName;
         button.onClick.AddListener(() => upgrade.Buy());
     }
 

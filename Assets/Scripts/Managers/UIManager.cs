@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Numerics;
 using System;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
@@ -27,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     public TMP_Text upgradeDescriptionText;
 
-    UITab activeTab;
+    private UITab activeTab;
 
     void Start()
     {
