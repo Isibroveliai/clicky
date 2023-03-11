@@ -1,123 +1,120 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Unity.VisualScripting.FlowStateWidget;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+	public static GameManager instance;
 
-    private static UIManager ui;
+	private static UIManager ui;
 
-    // TODO: Make this read-only through editor
-    public float Score = 0;
+	// TODO: Make this read-only through editor
+	public float score = 0;
 
-    public Dictionary<string, int> UpgradeCounts;
+	public Dictionary<string, int> upgradeCounts;
 
-    public float CurrentGeneration = 0;
+	public float currentGeneration = 0;
 
-    public float scoreReductionRate = 1f; //rate of which score reduces
+	public float scoreReductionRate = 1f; // rate of which score reduces
 
-    // TODO: Make this read-only through editor
-    public float currentEnergy = 100; //if reaches 0, game lost
+	// TODO: Make this read-only through editor
+	public float currentEnergy = 100; // if reaches 0, game lost
 
-    public float maxEnergy = 100; //upgradable
-    
-    public float energyRegenerationRate = 0.001f;
+	public float maxEnergy = 100; // upgradable
 
-    public bool scoreThresholdReached = false; //100 for prototype?
-    [SerializeField]
-    public float EventCheckTime = 120;
+	public float energyRegenerationRate = 0.001f;
 
-    public float EventTime = 10;
+	public bool scoreThresholdReached = false; // 100 for prototype?
 
-    public bool eventFlag = false;
+	public float eventCheckTime = 120;
 
-    public float timer = 0;
+	public float eventTime = 10;
 
-    public float CurrentScore;
+	public bool eventFlag = false;
 
-    public GameManager()
-    {
-        UpgradeCounts = new Dictionary<string, int>();
-    }
+	public float timer = 0;
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-            return;
-        }
-        Instance = this;
-        Setup();
-    }
+	public float currentScore;
 
-    void Setup()
-    {
-        ui = GameObject.Find("/UI").GetComponent<UIManager>();
-        ui.UpdateUpgradeDescription("");
-    }
+	public GameManager()
+	{
+		upgradeCounts = new Dictionary<string, int>();
+	}
 
-    void Update()
-    {
-        var random = new System.Random();
+	private void Awake()
+	{
+		if (instance != null && instance != this)
+		{
+			Destroy(this);
+			return;
+		}
+		instance = this;
+		Setup();
+	}
 
-        if (timer > EventCheckTime && !eventFlag)
-        {
-            timer = 0;
-            if (random.Next(10) > 1)
-            {
-                eventFlag = true;
-                CurrentScore = Score;
-                ui.SetEventTextShown(true);
-            }
-        }
-        else if (eventFlag)
-        {
-            
-            if (timer > EventTime)
-            {
-                eventFlag = false;
-                ui.SetEventTextShown(false);
-                if (CurrentScore + 20 <= Score)
-                {
-                    Score += 50;
-                }
-                else
-                {
-                    Score -= 50;
-                }
-                timer = 0;
-            }
-        }
-        timer += Time.deltaTime;
-        if (Score > 100)  //number changeable     
-            scoreThresholdReached = true;
+	void Setup()
+	{
+		ui = GameObject.Find("/UI").GetComponent<UIManager>();
+		ui.UpdateUpgradeDescription("");
+	}
 
-        Score += CurrentGeneration * Time.deltaTime;
-        if (scoreThresholdReached)
-        {
-            currentEnergy -= scoreReductionRate * Time.deltaTime;
-        }
+	void Update()
+	{
+		var random = new System.Random();
 
-        if (currentEnergy < 0)
-        {
-            ui.SetGameOverShown(true);
-        }
-        ui.UpdateScoreDisplay((ulong)Score);
-        ui.UpdateEnergyDisplay(currentEnergy / maxEnergy);
-    }
+		if (timer > eventCheckTime && !eventFlag)
+		{
+			timer = 0;
+			if (random.Next(10) > 1)
+			{
+				eventFlag = true;
+				currentScore = score;
+				ui.SetEventTextShown(true);
+			}
+		}
+		else if (eventFlag)
+		{
+			if (timer > eventTime)
+			{
+				eventFlag = false;
+				ui.SetEventTextShown(false);
+				if (currentScore + 20 <= score)
+				{
+					score += 50;
+				}
+				else
+				{
+					score -= 50;
+				}
+				timer = 0;
+			}
+		}
+		timer += Time.deltaTime;
+		if (score > 100) // number changeable
+			scoreThresholdReached = true;
 
-    public void GenerateCurrency()
-    {
-        Score++;
-        currentEnergy = Mathf.Min(maxEnergy, currentEnergy+energyRegenerationRate);
-    }
+		// Score += CurrentGeneration * Time.deltaTime;
+		if (scoreThresholdReached)
+		{
+			currentEnergy -= scoreReductionRate * Time.deltaTime;
+		}
 
-    public void RestartScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+		if (currentEnergy < 0)
+		{
+			ui.SetGameOverShown(true);
+		}
+		ui.UpdateScoreDisplay((ulong)score);
+		ui.UpdateEnergyDisplay(currentEnergy / maxEnergy);
+	}
+
+	public void GenerateCurrency()
+	{
+		score++;
+		currentEnergy = Mathf.Min(maxEnergy, currentEnergy + energyRegenerationRate);
+	}
+
+	public void RestartScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
 }
