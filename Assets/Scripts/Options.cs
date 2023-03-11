@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 public class Options : MonoBehaviour
 {
-    public TextMeshProUGUI volumeNumberText;
-    private Slider volumeSlider;
+	public TextMeshProUGUI volumeNumberText;
+	private Slider volumeSlider;
 
-    void Start()
-    {
-        volumeSlider = GetComponent<Slider>();
-        SetVolumeText(volumeSlider.value);
-    }
+	void Start()
+	{
+		volumeSlider = GetComponent<Slider>();
+		SetVolumeText(volumeSlider.value);
+	}
 
-    public void SetVolumeText(float nr)
-    {
-        volumeNumberText.text = nr.ToString();
-    }
+	public void SetVolumeText(float nr)
+	{
+		volumeNumberText.text = nr.ToString();
+	}
 }
