@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 	public GameManager()
 	{
 		upgradeCounts = new Dictionary<string, int>();
+		researchUnlocks = new List<string>();
 	}
 
 	private void Awake()

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ResearchNode : ScriptableObject
 {
     [ScriptableObjectId]
-	string id;
+	public string id;
 	public string displayName;
 	public string description;
 	public int baseCost;
@@ -26,11 +26,12 @@ public class ResearchNode : ScriptableObject
 		GameManager manager = GameManager.instance;
 		manager.score -= baseCost;
 		
-		if (!manager.researchUnlocks.Contains(upgrade.id))
+		if (upgrade != null && !manager.researchUnlocks.Contains(upgrade.id))
 		{
-			manager.researchUnlocks.Add(id);
+			manager.researchUnlocks.Add(upgrade.id);
 		}
 		
 	}
+	
 	
 }
