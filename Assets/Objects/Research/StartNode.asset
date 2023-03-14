@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78ddfcf22f19ae4aa8c8d1c2434fcde, type: 3}
   m_Name: StartNode
   m_EditorClassIdentifier: 
-  id: 
+  id: 02d344ba-3834-4f8b-bd68-0673c7f6fef3
   displayName: Unlock research
   description: unlocks the research tree
   baseCost: 1000

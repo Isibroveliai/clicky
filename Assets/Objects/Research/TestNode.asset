@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78ddfcf22f19ae4aa8c8d1c2434fcde, type: 3}
   m_Name: TestNode
   m_EditorClassIdentifier: 
-  id: 
+  id: a2b6e41c-f1ab-4646-84d4-387300605bf6
   displayName: Test
   description: Test
   baseCost: 1

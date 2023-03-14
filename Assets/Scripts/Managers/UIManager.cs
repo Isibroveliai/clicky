@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
 
 	public TMP_Text upgradeDescriptionText;
 
+
 	private UITab activeTab;
 
 	void Start()
