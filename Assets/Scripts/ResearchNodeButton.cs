@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class ResearchNodeButton : MonoBehaviour
 	public List<ResearchNodeButton> next;
 	public List<ResearchNodeButton> preceding;
 	public bool unlocked = false;
+	public bool reachable = false;
 
 	public Image image;
 
@@ -20,6 +22,11 @@ public class ResearchNodeButton : MonoBehaviour
 
 	private void Awake()
 	{
+	
+	}
+	void Start()
+    {
+
 		image = GetComponent<Image>();
 		image.sprite = node.sprite;
 		button = GetComponent<Button>();
@@ -27,20 +34,14 @@ public class ResearchNodeButton : MonoBehaviour
 		foreach (var node in next)
 		{
 			node.GetComponent<Button>().interactable = false;
+			node.reachable = false;
 			node.preceding.Add(this);
+			var line = Instantiate(lineObject, transform);
+			line.GetComponent<LineDrawer>().StartPos = GetComponent<RectTransform>().position;
+			line.GetComponent<LineDrawer>().EndPos = node.GetComponent<RectTransform>().position;
 		}
-	}
-	void Start()
-    {
-        	
+
 		
-		
-		foreach(var node in preceding)
-		{
-			var obj = Instantiate(lineObject, transform);
-			obj.GetComponent<LineDrawer>().StartPos = node.GetComponent<RectTransform>().position;
-			obj.GetComponent<LineDrawer>().EndPos =GetComponent<RectTransform>().position;
-		}
 
 	}
 
@@ -56,51 +57,66 @@ public class ResearchNodeButton : MonoBehaviour
 		{
 			if(!node.unlocked)
 			{
+				node.reachable = true;
 				node.GetComponent<Button>().interactable = true;
-				
 			}
-		}
+			UpdateLines(node);
 
-		if (preceding.Count == 0) return;
-		UpdateLines();
-		
-		node.Buy();
+		}
+		UpdateLines(this);
+			//foreach (var node in preceding)
+			//{
+			//	var obj = Instantiate(lineObject, transform);
+			//	obj.GetComponent<LineDrawer>().StartPos = GetComponent<RectTransform>().position;
+			//	obj.GetComponent<LineDrawer>().EndPos = node.GetComponent<RectTransform>().position;
+			//}
+			//int i = 0;
+			//foreach(var node in next)
+			//{
+			//	if(!node.unlocked)
+			//	{
+			//		node.GetComponent<Button>().interactable = true;
+			//	}
+			//	UpdateLines(node);
+			//	i++;
+			//}
+			//if (preceding.Count == 0) return;
+			//foreach(var node in preceding)
+			//{
+			//	if(node.unlocked)
+			//	UpdateLines(node);
+
+			//}
+
+
+			node.Buy();
 	}
 
-	void UpdateLines()
+	void UpdateLines(ResearchNodeButton node)
 	{
-		int i = 0;
-		foreach(var node in preceding)
+		
+		foreach (var obj in node.preceding)
 		{
-			if(node.unlocked)
+			if (!obj.unlocked) continue;
+			for (int i = 0; i < obj.next.Count; i++)
 			{
-				var child = transform.GetChild(i);	
-				child.GetComponent<LineDrawer>().UpdateColor();
+				var child = obj.next[i];
+				if (child.unlocked)
+				{
+					obj.transform.GetChild(i).GetComponent<LineDrawer>().UpdateColor();
+					//node.next.Remove(child);
+				}
 			}
-			i++;
-			
+
 		}
 
-		foreach(var node in next)
-		{
-			if(node.unlocked && node.transform.childCount > 0)
-			{
-				for(int j = 0; j < transform.childCount; j++)
-				{
-					var child = transform.GetChild(j);
-					child.GetComponent<LineDrawer>().UpdateColor();
-				}
-				
-			}
-	
-		}
 	}
 
-	
-	
 
-	
 
-    
-   
+
+
+
+
+
 }
