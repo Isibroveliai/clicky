@@ -103,7 +103,7 @@ public class ResearchNodeButton : MonoBehaviour
 				var child = obj.next[i];
 				if (child.unlocked)
 				{
-					obj.transform.GetChild(i).GetComponent<LineDrawer>().UpdateColor();
+					obj.transform.GetChild(i).GetComponent<LineDrawer>().SetUnlockedColor();
 					//node.next.Remove(child);
 				}
 			}

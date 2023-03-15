@@ -134,11 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d890921f3bf243d4abff1a6df0595840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineObject: {fileID: 924766002763775783, guid: ab4df67da7a80644ab4fb5a173366c2a, type: 3}
+  lineObject: {fileID: 3873940889835898576, guid: b9850241dcfe1d245988571e1bb9704c, type: 3}
   node: {fileID: 0}
   next: []
   preceding: []
   unlocked: 0
+  reachable: 0
   image: {fileID: 0}
   button: {fileID: 0}
   lineRenderer: {fileID: 0}
