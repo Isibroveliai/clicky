@@ -1,100 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ResearchNodeButton : MonoBehaviour
 {
-	public GameObject lineObject;
-    public ResearchNode node;
+	[SerializeField]
+	GameObject lineObject;
+	[SerializeField]
+	ResearchNode node;
 	public List<ResearchNodeButton> next;
 	public List<ResearchNodeButton> preceding;
-	public bool unlocked = false;
-	public bool reachable = false;
+	public bool unlocked;
 
-	public Image image;
+	private Button button;
+	private Image image;
+	UIManager ui;
 
-	public Button button;
-
-	public LineRenderer lineRenderer;
-
-	private void Awake()
-	{
-	
-	}
 	void Start()
     {
+		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 
+		unlocked = false;
 		image = GetComponent<Image>();
 		image.sprite = node.sprite;
+
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => Unlock());
+
 		foreach (var node in next)
 		{
 			node.GetComponent<Button>().interactable = false;
-			node.reachable = false;
 			node.preceding.Add(this);
 			var line = Instantiate(lineObject, transform);
 			line.GetComponent<LineDrawer>().StartPos = GetComponent<RectTransform>().position;
 			line.GetComponent<LineDrawer>().EndPos = node.GetComponent<RectTransform>().position;
 		}
-
-		
-
 	}
 
-	void Update()
-	{
-
-	}
 	void Unlock()
 	{
+		if (!node.CanBuy()) return;
+
 		unlocked = true;
 		button.interactable = false;
 		foreach(var node in next)
 		{
 			if(!node.unlocked)
 			{
-				node.reachable = true;
 				node.GetComponent<Button>().interactable = true;
 			}
 			UpdateLines(node);
 
 		}
 		UpdateLines(this);
-			//foreach (var node in preceding)
-			//{
-			//	var obj = Instantiate(lineObject, transform);
-			//	obj.GetComponent<LineDrawer>().StartPos = GetComponent<RectTransform>().position;
-			//	obj.GetComponent<LineDrawer>().EndPos = node.GetComponent<RectTransform>().position;
-			//}
-			//int i = 0;
-			//foreach(var node in next)
-			//{
-			//	if(!node.unlocked)
-			//	{
-			//		node.GetComponent<Button>().interactable = true;
-			//	}
-			//	UpdateLines(node);
-			//	i++;
-			//}
-			//if (preceding.Count == 0) return;
-			//foreach(var node in preceding)
-			//{
-			//	if(node.unlocked)
-			//	UpdateLines(node);
-
-			//}
-
-
-			node.Buy();
+		node.Buy();
 	}
 
 	void UpdateLines(ResearchNodeButton node)
 	{
-		
 		foreach (var obj in node.preceding)
 		{
 			if (!obj.unlocked) continue;
@@ -104,15 +69,24 @@ public class ResearchNodeButton : MonoBehaviour
 				if (child.unlocked)
 				{
 					obj.transform.GetChild(i).GetComponent<LineDrawer>().SetUnlockedColor();
-					//node.next.Remove(child);
 				}
 			}
-
 		}
-
+	}
+	public void OnPointerEnter()
+	{
+		if(!node.CanBuy() && !unlocked)
+		{
+			ui.UpdateResearchCantBuyText("Not enough currency");
+		}
+		ui.UpdateResearchDescription(node.description);
 	}
 
-
+	public void OnPointerExit()
+	{
+		ui.UpdateResearchCantBuyText("");
+		ui.UpdateResearchDescription("");
+	}
 
 
 
