@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Upgrade 1
+  m_Name: Upgrade 4
   m_EditorClassIdentifier: 
-  id: 072ca211-cc1c-4751-80d8-9b42e441e6cb
-  displayName: Coal cart
-  description: Invest in more coal for the furnace. Awards 1 additional currency
-    per click!
-  baseCost: 10
-  generation: 1
+  id: ce444468-0e99-4878-9a73-5054c662d5fb
+  displayName: Pipe
+  description: 'Everyone knows that more pipes provide even more materials. Every
+    pipe upgrade increases click generation by 1000!  '
+  baseCost: 10000
+  generation: 1000
