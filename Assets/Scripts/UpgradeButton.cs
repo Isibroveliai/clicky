@@ -8,15 +8,21 @@ public class UpgradeButton : MonoBehaviour
 	public Upgrade upgrade;
 
 	private TMP_Text label;
+	private TMP_Text cCost;
+	//private TMP_Text eCost;
 	private Button button;
 
 	void Start()
 	{
 		GameManager manager = GameManager.instance;
 		label = transform.Find("Label").GetComponent<TMP_Text>();
+		cCost = transform.Find("CurrencyCost").GetComponent<TMP_Text>();
+		//eCost = transform.Find("EnergyCost").GetComponent<TMP_Text>();
 		button = GetComponent<Button>();
 
 		label.text = upgrade.displayName;
+		cCost.text = upgrade.baseCost.ToString();
+		//eCost.text = upgrade.energyCost.ToString();
 		button.onClick.AddListener(() => upgrade.Buy());
 	}
 
