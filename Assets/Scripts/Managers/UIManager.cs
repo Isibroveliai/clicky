@@ -23,8 +23,6 @@ public class UIManager : MonoBehaviour
 	public TMP_Text currencyCounter;
 
 	public TMP_Text upgradeDescriptionText;
-	public TMP_Text researchDescriptionText;
-	public TMP_Text researchCantBuyText;
 
 	private UITab activeTab;
 
@@ -45,14 +43,6 @@ public class UIManager : MonoBehaviour
 	public void UpdateUpgradeDescription(string text)
 	{
 		upgradeDescriptionText.text = text;
-	}
-	public void UpdateResearchDescription(string text)
-	{
-		researchDescriptionText.text = text;
-	}
-	public void UpdateResearchCantBuyText(string text)
-	{
-		researchCantBuyText.text = text;
 	}
 
 	public void SetGameOverShown(bool isShown)
