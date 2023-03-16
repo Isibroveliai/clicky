@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Upgrade 1
   m_EditorClassIdentifier: 
   id: 072ca211-cc1c-4751-80d8-9b42e441e6cb
-  displayName: Cog
-  description: Wow cog
+  displayName: Coal cart
+  description: Invest in more coal for the furnace. Awards 1 additional point per
+    click!
   baseCost: 10
   generation: 1
