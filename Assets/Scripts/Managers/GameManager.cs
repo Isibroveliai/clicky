@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 	public float score = 0;
 
 	public Dictionary<string, int> upgradeCounts;
+	public List<string> researchUnlocks;
 
 	public float currentGeneration = 0;
 

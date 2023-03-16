@@ -6,6 +6,7 @@
 /[Ll]ogs/
 /[Pp]ackages/StyleCop.Analyzers.1.1.118/
 /Assets/AssetStoreTools*
+/[Uu]serSettings/
 
 # Visual Studio 2015 cache directory
 /.vs/
