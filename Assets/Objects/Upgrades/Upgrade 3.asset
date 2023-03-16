@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Upgrade 3
   m_EditorClassIdentifier: 
   id: ce444468-0e99-4878-9a73-5054c662d5fb
-  displayName: Electricity
-  description: Invest in a bigger electricity level. Each electricity upgrade provides
-    100 more currency per click!
+  displayName: Cog^3
+  description: Wow, wow, wow cog
   baseCost: 1000
   generation: 100

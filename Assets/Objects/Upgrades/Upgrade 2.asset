@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Upgrade 2
   m_EditorClassIdentifier: 
   id: 544dbc90-0b18-4e0e-8640-03e60c69d538
-  displayName: Gear
-  description: Overclock your furnace! Each addtional gear provides 10 more currency
-    per click!
+  displayName: Cog^2
+  description: Wow, wow cog
   baseCost: 100
   generation: 10
