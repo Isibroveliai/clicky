@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
+  m_Name: TestNode
+  m_EditorClassIdentifier: 
+  id: abba936b-04e9-4218-a6c1-039da2ee9022
+  displayName: Test
+  description: Test
+  baseCost: 1
+  sprite: {fileID: 21300000, guid: d7094718bdac022428dd29244922d06b, type: 3}
+  upgrade: {fileID: 0}
