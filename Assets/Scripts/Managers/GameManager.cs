@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	// TODO: Make this read-only through editor
 	public float score = 0;
 
+	public List<string> researchUnlocks;
 	public Dictionary<string, int> upgradeCounts;
 
 	public float currentGeneration = 0;
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
 	public GameManager()
 	{
 		upgradeCounts = new Dictionary<string, int>();
+		researchUnlocks = new List<string>();
 	}
 
 	private void Awake()
