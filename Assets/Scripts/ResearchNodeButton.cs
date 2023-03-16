@@ -2,71 +2,95 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ResearchNodeButton : MonoBehaviour
 {
-    public ResearchNode node;
-	public List<ResearchNodeButton> neighbors;
-	public ResearchNodeButton parent;
-	public bool unlocked = false;
+	[SerializeField]
+	GameObject lineObject;
+	[SerializeField]
+	ResearchNode node;
+	public List<ResearchNodeButton> next;
+	public List<ResearchNodeButton> preceding;
+	public bool unlocked;
 
-	public Image image;
+	private Button button;
+	private Image image;
+	UIManager ui;
 
-	public Button button;
-
-	public LineRenderer lineRenderer;
-	
-    void Start()
+	void Start()
     {
-		
-        image = GetComponent<Image>();
+		ui = GameObject.Find("/UI").GetComponent<UIManager>();
+
+		unlocked = false;
+		image = GetComponent<Image>();
 		image.sprite = node.sprite;
+
 		button = GetComponent<Button>();
+		button.onClick.AddListener(() => Unlock());
 
-		button.onClick.AddListener(() =>Unlock());		
-		
-		
-		foreach(var neighbor in neighbors)
+		foreach (var node in next)
 		{
-			neighbor.GetComponent<Button>().interactable = false;
-			neighbor.parent = this;
+			node.GetComponent<Button>().interactable = false;
+			node.preceding.Add(this);
+			var line = Instantiate(lineObject, transform);
+			line.GetComponent<LineDrawer>().StartPos = GetComponent<RectTransform>().position;
+			line.GetComponent<LineDrawer>().EndPos = node.GetComponent<RectTransform>().position;
 		}
-		
-		// lineRenderer = GetComponent<LineRenderer>();
-		// lineRenderer.startWidth = 0.1f;
-		// lineRenderer.endWidth = 0.1f;
-		// Color c1 = Color.white;
-    	
-		// lineRenderer.startColor = c1;
-		// lineRenderer.endColor = c1;
-		// lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-		
-    }
-
-	void Update()
-	{
-		// if(parent != null)
-		// {
-		// 	Vector3 pos1 = this.GetComponent<RectTransform>().position;
-		// 	Vector3 pos2 = parent.GetComponent<RectTransform>().position;
-		// 	lineRenderer.SetPosition(0, new Vector3(pos1.x, pos1.y, 90));
-		// 	lineRenderer.SetPosition(1, new Vector3(pos2.x, pos2.y, 90));
-		// }
 	}
+
 	void Unlock()
 	{
+		if (!node.CanBuy()) return;
+
 		unlocked = true;
 		button.interactable = false;
-		foreach(var neighbor in neighbors)
+		foreach(var node in next)
 		{
-			neighbor.GetComponent<Button>().interactable = true;
+			if(!node.unlocked)
+			{
+				node.GetComponent<Button>().interactable = true;
+			}
+			UpdateLines(node);
+
 		}
+		UpdateLines(this);
 		node.Buy();
 	}
-	
 
-	
+	void UpdateLines(ResearchNodeButton node)
+	{
+		foreach (var obj in node.preceding)
+		{
+			if (!obj.unlocked) continue;
+			for (int i = 0; i < obj.next.Count; i++)
+			{
+				var child = obj.next[i];
+				if (child.unlocked)
+				{
+					obj.transform.GetChild(i).GetComponent<LineDrawer>().SetUnlockedColor();
+				}
+			}
+		}
+	}
+	public void OnPointerEnter()
+	{
+		if(!node.CanBuy() && !unlocked)
+		{
+			ui.UpdateResearchCantBuyText("Not enough currency");
+		}
+		ui.UpdateResearchDescription(node.description);
+	}
 
-    
-   
+	public void OnPointerExit()
+	{
+		ui.UpdateResearchCantBuyText("");
+		ui.UpdateResearchDescription("");
+	}
+
+
+
+
+
+
 }
