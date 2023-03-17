@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviour
 	public UITab[] tabs;
 
 	public TMP_Text energyCounter;
-	public GameObject eventText;
+	public GameObject eventTab;
+	public TMP_Text eventText;
 
 	public GameObject gameOverTab;
 
@@ -30,7 +31,7 @@ public class UIManager : MonoBehaviour
 
 	void Start()
 	{
-		eventText.SetActive(false);
+		eventTab.SetActive(false);
 		gameOverTab.SetActive(false);
 
 		activeTab = tabs[0];
@@ -72,7 +73,11 @@ public class UIManager : MonoBehaviour
 
 	public void SetEventTextShown(bool isShown)
 	{
-		eventText.SetActive(isShown);
+		eventTab.SetActive(isShown);
+	}
+	public void SetEventText(string text)
+	{
+		eventText.text = text;
 	}
 
 	public void ChangeTab(UITab tab)
