@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // TODO: Make info about upgrade be visible in editor.
-public class UpgradeButton : MonoBehaviour
+public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	public Upgrade upgrade;
 
@@ -24,8 +25,9 @@ public class UpgradeButton : MonoBehaviour
 		cCost.text = upgrade.baseCost.ToString();
 		//eCost.text = upgrade.energyCost.ToString();
 		button.onClick.AddListener(() => upgrade.Buy());
+		
 	}
-
+	
 	void FixedUpdate()
 	{
 		// TODO: Refactor, to not check can buy every frame.
@@ -33,15 +35,15 @@ public class UpgradeButton : MonoBehaviour
 		button.interactable = upgrade.CanBuy();
 	}
 
-	public void OnPointerEnter()
-	{
-		UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
-		ui.UpdateUpgradeDescription(upgrade.description);
-	}
-
-	public void OnPointerExit()
+	public void OnPointerExit(PointerEventData eventData)
 	{
 		UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		ui.UpdateUpgradeDescription("");
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
+		ui.UpdateUpgradeDescription(upgrade.description);
 	}
 }
