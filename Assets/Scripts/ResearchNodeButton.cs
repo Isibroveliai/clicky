@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ResearchNodeButton : MonoBehaviour
+public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
 	[SerializeField]
 	GameObject lineObject;
@@ -73,22 +73,21 @@ public class ResearchNodeButton : MonoBehaviour
 			}
 		}
 	}
-	public void OnPointerEnter()
-	{
-		if(!node.CanBuy() && !unlocked)
-		{
-			ui.UpdateResearchCantBuyText("Not enough currency");
-		}
-		ui.UpdateResearchDescription(node.description);
-	}
 
-	public void OnPointerExit()
+	public void OnPointerExit(PointerEventData eventData)
 	{
 		ui.UpdateResearchCantBuyText("");
 		ui.UpdateResearchDescription("");
 	}
 
-
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		if (!node.CanBuy() && !unlocked)
+		{
+			ui.UpdateResearchCantBuyText("Not enough currency");
+		}
+		ui.UpdateResearchDescription(node.description);
+	}
 
 
 
