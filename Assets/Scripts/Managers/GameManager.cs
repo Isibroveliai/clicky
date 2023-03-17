@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 	private static UIManager ui;
 
 	// TODO: Make this read-only through editor
+	[SerializeField]
 	public float score = 0;
 
 	public Dictionary<string, int> upgradeCounts;
@@ -26,16 +27,7 @@ public class GameManager : MonoBehaviour
 	public float energyRegenerationRate = 0.001f;
 
 	public bool scoreThresholdReached = false; // 100 for prototype?
-
-	public float eventCheckTime = 120;
-
-	public float eventTime = 10;
-
-	public bool eventFlag = false;
-
-	public float timer = 0;
-
-	public float currentScore;
+	public float clickMultiplier = 1;
 
 	public GameManager()
 	{
@@ -61,36 +53,6 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
-		var random = new System.Random();
-
-		if (timer > eventCheckTime && !eventFlag)
-		{
-			timer = 0;
-			if (random.Next(10) > 1)
-			{
-				eventFlag = true;
-				currentScore = score;
-				ui.SetEventTextShown(true);
-			}
-		}
-		else if (eventFlag)
-		{
-			if (timer > eventTime)
-			{
-				eventFlag = false;
-				ui.SetEventTextShown(false);
-				if (currentScore + 20 <= score)
-				{
-					score += 50;
-				}
-				else
-				{
-					score -= 50;
-				}
-				timer = 0;
-			}
-		}
-		timer += Time.deltaTime;
 		if (score > 100) // number changeable
 			scoreThresholdReached = true;
 
@@ -110,7 +72,7 @@ public class GameManager : MonoBehaviour
 
 	public void GenerateCurrency()
 	{
-		score++;
+		score += clickMultiplier;
 		currentEnergy = Mathf.Min(maxEnergy, currentEnergy + energyRegenerationRate);
 	}
 
