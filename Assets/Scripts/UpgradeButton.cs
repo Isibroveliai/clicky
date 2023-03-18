@@ -2,30 +2,42 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 
 // TODO: Make info about upgrade be visible in editor.
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	public Upgrade upgrade;
 
-	private TMP_Text label;
-	private TMP_Text cCost;
-	//private TMP_Text eCost;
+	private TMP_Text nameLabel;
+	private TMP_Text currencyCostLabel;
+	private TMP_Text energyCostLabel;
+	private TMP_Text boughtCountLabel;
+
 	private Button button;
 
 	void Start()
 	{
 		GameManager manager = GameManager.instance;
-		label = transform.Find("Label").GetComponent<TMP_Text>();
-		cCost = transform.Find("CurrencyCost").GetComponent<TMP_Text>();
-		//eCost = transform.Find("EnergyCost").GetComponent<TMP_Text>();
-		button = GetComponent<Button>();
+		nameLabel = transform.Find("Button/Label").GetComponent<TMP_Text>();
+		currencyCostLabel = transform.Find("Button/CurrencyCost").GetComponent<TMP_Text>();
+		energyCostLabel = transform.Find("Button/EnergyCost").GetComponent<TMP_Text>();
+		boughtCountLabel = transform.Find("Counter").GetComponent<TMP_Text>();
+		button = transform.Find("Button").GetComponent<Button>();
+		RawImage icon = transform.Find("Icon").GetComponent<RawImage>();
 
-		label.text = upgrade.displayName;
-		cCost.text = upgrade.baseCost.ToString();
-		//eCost.text = upgrade.energyCost.ToString();
+		UpdateCountLabel();
+		nameLabel.text = upgrade.displayName;
+		icon.texture = upgrade.icon;
+		currencyCostLabel.text = string.Format("{0}$", upgrade.baseCurrencyCost);
+		energyCostLabel.text = string.Format("{0}e", upgrade.energyUsage);
 		button.onClick.AddListener(() => upgrade.Buy());
-		
+
+		GameManager.OnUpgradeBought += (boughtUpgrade) => {
+			if (boughtUpgrade == upgrade)
+				UpdateCountLabel();
+		};
 	}
 	
 	void FixedUpdate()
@@ -33,6 +45,12 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		// TODO: Refactor, to not check can buy every frame.
 		// Add "OnClick" event to ClickerManager to solve this problem.
 		button.interactable = upgrade.CanBuy();
+	}
+
+	public void UpdateCountLabel()
+	{
+		GameManager manager = GameManager.instance;
+		boughtCountLabel.text = string.Format("x {0}", manager.upgradeCounts.GetValueOrDefault(upgrade.id, 0));
 	}
 
 	public void OnPointerExit(PointerEventData eventData)

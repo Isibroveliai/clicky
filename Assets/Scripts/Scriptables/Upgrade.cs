@@ -10,25 +10,21 @@ public class Upgrade : ScriptableObject
 
 	public string displayName;
 	public string description;
-	public int baseCost;
+	public int baseCurrencyCost;
+	public uint energyUsage;
 	public int generation;
+
+	public Texture icon;
 
 	public bool CanBuy()
 	{
 		GameManager manager = GameManager.instance;
-		return manager.score >= baseCost;
+		return manager.score >= baseCurrencyCost;
 	}
 
 	public void Buy()
 	{
 		GameManager manager = GameManager.instance;
-		manager.score -= baseCost;
-		manager.currentGeneration += generation;
-
-		if (!manager.upgradeCounts.ContainsKey(id))
-		{
-			manager.upgradeCounts.Add(id, 0);
-		}
-		manager.upgradeCounts[id]++;
+		manager.BuyUpgrade(this);
 	}
 }
