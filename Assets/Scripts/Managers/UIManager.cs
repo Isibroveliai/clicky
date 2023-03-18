@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
 	public TMP_Text researchDescriptionText;
 	public TMP_Text researchCantBuyText;
 
+	public GameObject upgradeButtonContainer;
+	public GameObject upgradeButtonPrefab;
+
 	private UITab activeTab;
 
 	void Start()
@@ -78,6 +81,15 @@ public class UIManager : MonoBehaviour
 	public void SetEventText(string text)
 	{
 		eventText.text = text;
+	}
+
+	// TODO: Add remove? idk if we will need it
+	public void AppendUpgradeButton(Upgrade upgrade)
+	{
+		var button = Instantiate(upgradeButtonPrefab);
+		var upgradeComponent = button.GetComponent<UpgradeButton>();
+		upgradeComponent.upgrade = upgrade;
+		button.transform.SetParent(upgradeButtonContainer.transform, false);
 	}
 
 	public void ChangeTab(UITab tab)

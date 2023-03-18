@@ -24,14 +24,14 @@ public class ResearchNode : ScriptableObject
 	public void Buy()
 	{
 		GameManager manager = GameManager.instance;
+		if (manager.unlockedResearch.Contains(this)) return;
+
 		manager.score -= baseCost;
-		
-		if (upgrade != null && !manager.researchUnlocks.Contains(upgrade.id))
+		manager.unlockedResearch.Add(this);
+
+		if (upgrade)
 		{
-			manager.researchUnlocks.Add(upgrade.id);
+			manager.UnlockUpgrade(upgrade);
 		}
-		
 	}
-	
-	
 }

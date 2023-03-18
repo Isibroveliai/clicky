@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Upgrade 1
+  m_Name: Gear Upgrade
   m_EditorClassIdentifier: 
-  id: 072ca211-cc1c-4751-80d8-9b42e441e6cb
-  displayName: Coal cart
-  description: Invest in more coal for the furnace. Awards 1 additional currency
+  id: 544dbc90-0b18-4e0e-8640-03e60c69d538
+  displayName: Gear
+  description: Overclock your furnace! Each addtional gear provides 10 more currency
     per click!
-  baseCost: 10
-  generation: 1
+  baseCurrencyCost: 100
+  energyUsage: 0
+  generation: 10
+  icon: {fileID: 2800000, guid: dd390570ef4a6ed469ef0d93d97dc521, type: 3}

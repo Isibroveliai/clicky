@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,26 +9,27 @@ public class GameManager : MonoBehaviour
 
 	private static UIManager ui;
 
+	public List<Upgrade> allUpgrades;
+
 	// TODO: Make this read-only through editor
 	[SerializeField]
 	public float score = 0;
 
 	public Dictionary<string, int> upgradeCounts;
-	public List<string> researchUnlocks;
-
 	public float currentGeneration = 0;
-
 	public float scoreReductionRate = 1f; // rate of which score reduces
-
 	// TODO: Make this read-only through editor
 	public float currentEnergy = 100; // if reaches 0, game lost
-
 	public float maxEnergy = 100; // upgradable
-
 	public float energyRegenerationRate = 0.001f;
 
 	public bool scoreThresholdReached = false; // 100 for prototype?
 	public float clickMultiplier = 1;
+
+	public List<Upgrade> unlockedUpgrades;
+	public List<ResearchNode> unlockedResearch;
+
+	public static event Action<Upgrade> OnUpgradeBought;
 
 	public GameManager()
 	{
@@ -49,6 +51,11 @@ public class GameManager : MonoBehaviour
 	{
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		ui.UpdateUpgradeDescription("");
+
+		//foreach (var upgrade in Resources.LoadAll<Upgrade>("Upgrades"))
+		//{
+		//	UnlockUpgrade(upgrade);
+		//}
 	}
 
 	void Update()
@@ -79,5 +86,27 @@ public class GameManager : MonoBehaviour
 	public void RestartScene()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void UnlockUpgrade(Upgrade upgrade)
+	{
+		if (unlockedUpgrades.Contains(upgrade)) return;
+
+		unlockedUpgrades.Add(upgrade);
+		ui.AppendUpgradeButton(upgrade);
+	}
+
+	public void BuyUpgrade(Upgrade upgrade)
+	{
+		score -= upgrade.baseCurrencyCost;
+		currentGeneration += upgrade.generation;
+
+		if (!upgradeCounts.ContainsKey(upgrade.id))
+		{
+			upgradeCounts.Add(upgrade.id, 0);
+		}
+		upgradeCounts[upgrade.id]++;
+
+		OnUpgradeBought(upgrade);
 	}
 }
