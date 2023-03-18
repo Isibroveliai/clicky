@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
 
 	private UITab activeTab;
 
+	private Color safeColor;
+	private Color dangerColor;
 	void Start()
 	{
 		eventTab.SetActive(false);
@@ -44,6 +46,9 @@ public class UIManager : MonoBehaviour
 			tab.panel.SetActive(false);
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
 		}
+
+		safeColor = new Color(0.7686275f, 0.6078432f, 0.3372549f);
+		dangerColor = new Color(0.2509804f, 0.1372549f, 0.1176471f, 1);
 	}
 
 	public void UpdateUpgradeDescription(string text)
@@ -69,10 +74,15 @@ public class UIManager : MonoBehaviour
 		currencyCounter.text = score.ToString();
 	}
 
-	public void UpdateEnergyDisplay(float percent)
+	public void UpdateEnergyDisplay(float current, float max)
 	{
-		energyCounter.text = string.Format("{0}%", Math.Round(percent * 100));
+		energyCounter.text = string.Format("{0:0} kW/{1:0} kW", current, max);
 	}
+	public void UpdateEnergyDisplayDanger(bool warning)
+	{
+		if (warning) energyCounter.color = dangerColor;
+		else energyCounter.color = safeColor;
+	}	
 
 	public void SetEventTextShown(bool isShown)
 	{

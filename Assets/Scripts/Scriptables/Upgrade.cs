@@ -11,8 +11,9 @@ public class Upgrade : ScriptableObject
 	public string displayName;
 	public string description;
 	public int baseCurrencyCost;
-	public uint energyUsage;
+	public int energyUsage;
 	public int generation;
+	public float energyConsumptionDecrease;
 
 	public Texture icon;
 
