@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
@@ -12,7 +13,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	ResearchNode node;
 	public List<ResearchNodeButton> next;
 	public List<ResearchNodeButton> preceding;
-	public bool unlocked;
+	public bool researched = false;
 
 	private Button button;
 	private Image image;
@@ -22,42 +23,52 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
     {
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 
-		unlocked = false;
 		image = GetComponent<Image>();
 		image.sprite = node.sprite;
 
 		button = GetComponent<Button>();
-		button.onClick.AddListener(() => Unlock());
+		button.onClick.AddListener(() => StartResearch());
 
 		foreach (var node in next)
 		{
 			node.GetComponent<Button>().interactable = false;
 			node.preceding.Add(this);
 			var line = Instantiate(lineObject, transform);
-			line.GetComponent<LineDrawer>().StartPos = GetComponent<RectTransform>().position;
-			line.GetComponent<LineDrawer>().EndPos = node.GetComponent<RectTransform>().position;
+			LineDrawer drawer = line.GetComponent<LineDrawer>();
+			drawer.StartPos = GetComponent<RectTransform>().position;
+			drawer.EndPos = node.GetComponent<RectTransform>().position;
+			drawer.UpdateColor(ui.startingLineColor);
 		}
+
+		GameManager.OnResearchStarted  += OnResearchStarted;
+		GameManager.OnResearchFinished += OnResearchFinished;
+		GameManager.OnResearchStopped  += OnResearchStopped;
 	}
 
-	void Unlock()
+	void StartResearch()
 	{
 		if (!node.CanBuy()) return;
 
-		unlocked = true;
 		button.interactable = false;
-		foreach(var node in next)
-		{
-			if(!node.unlocked)
-			{
-				node.GetComponent<Button>().interactable = true;
-			}
-			UpdateLines(node);
 
+		/*
+		unlocked = true;
+		foreach(var nextNode in next)
+		{
+			if(!nextNode.unlocked)
+			{
+				nextNode.GetComponent<Button>().interactable = true;
+			}
+			UpdateLines(nextNode);
 		}
 		UpdateLines(this);
-		node.Buy();
+		*/
+
+		GameManager manager = GameManager.instance;
+		manager.StartResearch(node);
 	}
 
+	/*
 	void UpdateLines(ResearchNodeButton node)
 	{
 		foreach (var obj in node.preceding)
@@ -73,6 +84,22 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 			}
 		}
 	}
+	*/
+
+	public void OnResearchStarted(ResearchNode research)
+	{
+		// TODO
+	}
+
+	public void OnResearchStopped(ResearchNode research)
+	{
+		// TODO
+	}
+
+	public void OnResearchFinished(ResearchNode research)
+	{
+		// TODO
+	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
@@ -82,14 +109,10 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if (!node.CanBuy() && !unlocked)
+		if (!node.CanBuy() && !researched)
 		{
 			ui.UpdateResearchCantBuyText("Not enough currency");
 		}
 		ui.UpdateResearchDescription(node.description);
 	}
-
-
-
-
 }

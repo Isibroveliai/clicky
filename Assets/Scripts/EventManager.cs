@@ -87,18 +87,18 @@ public class EventManager : MonoBehaviour
 		ui.SetEventText("Get 50 points in 10 seconds.");
 		ui.SetEventTextShown(true);
 
-		currentScore = manager.score;
+		currentScore = manager.currency;
 	}
 	private void Event1End()
 	{
 		ui.SetEventTextShown(false);
-		if (currentScore + 50 <= manager.score)
+		if (currentScore + 50 <= manager.currency)
 		{
-			manager.score += 50;
+			manager.currency += 50;
 		}
 		else
 		{
-			manager.score -= 70;
+			manager.currency -= 70;
 		}
 	}
 	private void Event2Start()

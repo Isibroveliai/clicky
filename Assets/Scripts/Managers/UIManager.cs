@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEditor.Build;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
@@ -14,8 +15,8 @@ public class UIManager : MonoBehaviour
 	}
 
 	public UITab[] tabs;
+	private UITab activeTab;
 
-	public TMP_Text energyCounter;
 	public GameObject eventTab;
 	public TMP_Text eventText;
 
@@ -23,17 +24,27 @@ public class UIManager : MonoBehaviour
 
 	public TMP_Text currencyCounter;
 
-	public TMP_Text upgradeDescriptionText;
-	public TMP_Text researchDescriptionText;
-	public TMP_Text researchCantBuyText;
-
+	[Header("Upgrades")]
 	public GameObject upgradeButtonContainer;
 	public GameObject upgradeButtonPrefab;
+	public TMP_Text upgradeDescriptionText;
 
-	private UITab activeTab;
+	[Header("Energy")]
+	public TMP_Text energyCounter;
+	public Color energySafeColor;
+	public Color energyDangerColor;
 
-	private Color safeColor;
-	private Color dangerColor;
+	[Header("Research")]
+	public TMP_Text researchCounter;
+	public TMP_Text researchDescriptionText;
+	public TMP_Text researchCantBuyText;
+	public TMP_Text currentResearchLabel;
+	public RectTransform researchProgressbar;
+	public Color startingLineColor;
+	public Color finishedLineColor;
+	public Color inProgressLineColor;
+	private float initialProgressbarSize;
+
 	void Start()
 	{
 		eventTab.SetActive(false);
@@ -47,8 +58,10 @@ public class UIManager : MonoBehaviour
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
 		}
 
-		safeColor = new Color(0.7686275f, 0.6078432f, 0.3372549f);
-		dangerColor = new Color(0.2509804f, 0.1372549f, 0.1176471f, 1);
+		initialProgressbarSize = researchProgressbar.sizeDelta.x;
+
+		UpdateCurrentResearchLabel("");
+		UpdateResearchProgress(0);
 	}
 
 	public void UpdateUpgradeDescription(string text)
@@ -71,17 +84,17 @@ public class UIManager : MonoBehaviour
 
 	public void UpdateScoreDisplay(ulong score)
 	{
-		currencyCounter.text = score.ToString();
+		currencyCounter.text = string.Format("{0}$", score);
 	}
 
 	public void UpdateEnergyDisplay(float current, float max)
 	{
-		energyCounter.text = string.Format("{0:0} kW/{1:0} kW", current, max);
+		energyCounter.text = string.Format("{0:0}/{1:0} kW", current, max);
 	}
 	public void UpdateEnergyDisplayDanger(bool warning)
 	{
-		if (warning) energyCounter.color = dangerColor;
-		else energyCounter.color = safeColor;
+		if (warning) energyCounter.color = energyDangerColor;
+		else energyCounter.color = energySafeColor;
 	}	
 
 	public void SetEventTextShown(bool isShown)
@@ -91,6 +104,11 @@ public class UIManager : MonoBehaviour
 	public void SetEventText(string text)
 	{
 		eventText.text = text;
+	}
+
+	public void UpdateResearchSpeedDisplay(float researchSpeed)
+	{
+		researchCounter.text = researchSpeed.ToString();
 	}
 
 	// TODO: Add remove? idk if we will need it
@@ -109,6 +127,24 @@ public class UIManager : MonoBehaviour
 		{
 			activeTab.panel.SetActive(false);
 			activeTab = tab;
+		}
+	}
+
+	public void UpdateResearchProgress(float percent)
+	{
+		float width = initialProgressbarSize * percent;
+		float height = researchProgressbar.sizeDelta.y;
+		researchProgressbar.sizeDelta = new Vector2(width, height);
+	}
+
+	public void UpdateCurrentResearchLabel(string researchName)
+	{
+		if (researchName == "")
+		{
+			currentResearchLabel.text = "";
+		} else
+		{
+			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
 	}
 }

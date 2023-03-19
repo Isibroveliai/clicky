@@ -12,28 +12,31 @@ public class GameManager : MonoBehaviour
 
 	public List<Upgrade> allUpgrades;
 
-	// TODO: Make this read-only through editor
-	[SerializeField]
-	public float score = 0;
+	public float currency = 0;
 
 	public Dictionary<string, int> upgradeCounts;
-	public float currentGeneration = 0;
-	public float scoreReductionRate = 1f; // rate of which score reduces
-										  // TODO: Make this read-only through editor
-	[ReadOnly]
-	public float currentEnergy = 0; // current consumption of devices
-	[ReadOnly]
-	public float maxEnergy = 1000; // upgradable
-	//[ReadOnly]
-	//public int energyRegenerationRate = 0.001f;
 
-	public bool scoreThresholdReached = false; // 100 for prototype?
+	[ReadOnly]
+	public float researchProduction = 0;
+	[ReadOnly]
+	public float currencyGeneration = 0;
+	[ReadOnly]
+	public float energyUsage = 0;
+	
+	public float maxEnergy = 1000; // TOD: Make this upgradable
+
 	public float clickMultiplier = 1;
 
 	public List<Upgrade> unlockedUpgrades;
 	public List<ResearchNode> unlockedResearch;
 
+	private ResearchNode activeResearch;
+	private float researchProgress;
+
 	public static event Action<Upgrade> OnUpgradeBought;
+	public static event Action<ResearchNode> OnResearchStarted;
+	public static event Action<ResearchNode> OnResearchFinished;
+	public static event Action<ResearchNode> OnResearchStopped;
 
 	public GameManager()
 	{
@@ -55,7 +58,8 @@ public class GameManager : MonoBehaviour
 	{
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		ui.UpdateUpgradeDescription("");
-		ui.UpdateEnergyDisplay(currentEnergy, maxEnergy);
+		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
+		ui.UpdateResearchSpeedDisplay(researchProduction);
 		//foreach (var upgrade in Resources.LoadAll<Upgrade>("Upgrades"))
 		//{
 		//	UnlockUpgrade(upgrade);
@@ -64,27 +68,26 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
-		if (score > 100) // number changeable
-			scoreThresholdReached = true;
+		currency += currencyGeneration * Time.deltaTime;
 
-		score += currentGeneration * Time.deltaTime;
-		//if (scoreThresholdReached)
-		//{
-		//	currentEnergy -= scoreReductionRate * Time.deltaTime;
-		//}
+		if (activeResearch)
+		{
+			researchProgress += researchProduction * Time.deltaTime;
+			float percent = Math.Clamp(researchProgress / activeResearch.researchCost, 0, 1);
+			ui.UpdateResearchProgress(percent);
 
-		//if (currentEnergy < 0)
-		//{
-		//	ui.SetGameOverShown(true);
-		//}
-		ui.UpdateScoreDisplay((ulong)score);
-		//ui.UpdateEnergyDisplay(currentEnergy / maxEnergy);
+			if (researchProgress >= activeResearch.researchCost)
+			{
+				ResearchFinished();
+			}
+		}
+
+		ui.UpdateScoreDisplay((ulong)currency);
 	}
 
 	public void GenerateCurrency()
 	{
-		score += clickMultiplier;
-		//currentEnergy = Mathf.Min(maxEnergy, currentEnergy + energyRegenerationRate);
+		currency += clickMultiplier;
 	}
 
 	public void RestartScene()
@@ -102,13 +105,16 @@ public class GameManager : MonoBehaviour
 
 	public void BuyUpgrade(Upgrade upgrade)
 	{
-		score -= upgrade.baseCurrencyCost;
-		currentGeneration += upgrade.generation;
-		currentEnergy += upgrade.energyUsage;
-		currentEnergy = Math.Max(currentEnergy - currentEnergy * upgrade.energyConsumptionDecrease, 0);
+		currency -= upgrade.baseCurrencyCost;
+		currencyGeneration += upgrade.currencyGeneration;
+		energyUsage += upgrade.energyUsage;
+		energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
+
+		researchProduction += upgrade.researchProduction;
+		ui.UpdateResearchSpeedDisplay(researchProduction);
 		
-		ui.UpdateEnergyDisplay(currentEnergy, maxEnergy);
-		if(currentEnergy >= maxEnergy)
+		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
+		if(energyUsage >= maxEnergy)
 		{
 			ui.UpdateEnergyDisplayDanger(true);
 		}
@@ -124,5 +130,60 @@ public class GameManager : MonoBehaviour
 		upgradeCounts[upgrade.id]++;
 
 		OnUpgradeBought(upgrade);
+	}
+
+	public bool StartResearch(ResearchNode research)
+	{
+		// TODO: Check if player has unlocked at least 1 previous research
+		if (unlockedResearch.Contains(activeResearch)) return false;
+		if (research.currencyCost > currency)
+		{
+			return false;
+		}
+
+		currency -= research.currencyCost;
+		
+		activeResearch = research;
+		if (research.researchCost > 0)
+		{
+			researchProgress = 0;
+			ui.UpdateCurrentResearchLabel(research.displayName);
+			OnResearchStarted(research);
+		}  else
+		{
+			OnResearchStarted(research);
+			ResearchFinished();
+		}
+
+		return true;
+	}
+
+	private void StopResearchWithoutEvent()
+	{
+		researchProgress = 0;
+		ui.UpdateResearchProgress(0);
+		ui.UpdateCurrentResearchLabel("");
+		activeResearch = null;
+	}
+
+	public void StopResearch()
+	{
+		var research = activeResearch;
+		StopResearchWithoutEvent();
+		OnResearchStopped(research);
+	}
+
+	public void ResearchFinished()
+	{
+		unlockedResearch.Add(activeResearch);
+
+		foreach (var upgrade in activeResearch.unlockUpgrades)
+		{
+			UnlockUpgrade(upgrade);
+		}
+
+		var research = activeResearch;
+		StopResearchWithoutEvent();
+		OnResearchFinished(research);
 	}
 }

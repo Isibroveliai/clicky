@@ -9,18 +9,20 @@ public class Upgrade : ScriptableObject
 	public string id;
 
 	public string displayName;
+	[TextArea(1, 3)]
 	public string description;
 	public int baseCurrencyCost;
 	public int energyUsage;
-	public int generation;
+	public int currencyGeneration;
 	public float energyConsumptionDecrease;
+	public int researchProduction;
 
 	public Texture icon;
 
 	public bool CanBuy()
 	{
 		GameManager manager = GameManager.instance;
-		return manager.score >= baseCurrencyCost;
+		return manager.currency >= baseCurrencyCost;
 	}
 
 	public void Buy()

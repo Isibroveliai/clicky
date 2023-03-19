@@ -30,7 +30,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		nameLabel.text = upgrade.displayName;
 		icon.texture = upgrade.icon;
 		currencyCostLabel.text = string.Format("{0}$", upgrade.baseCurrencyCost);
-		energyCostLabel.text = string.Format("{0}e", upgrade.energyUsage);
+		energyCostLabel.text = string.Format("{0} kW", upgrade.energyUsage);
 		button.onClick.AddListener(() => upgrade.Buy());
 
 		GameManager.OnUpgradeBought += (boughtUpgrade) => {

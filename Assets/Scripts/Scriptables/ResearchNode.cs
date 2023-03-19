@@ -9,29 +9,17 @@ public class ResearchNode : ScriptableObject
     [ScriptableObjectId]
 	public string id;
 	public string displayName;
+	[TextArea(1, 3)]
 	public string description;
-	public int baseCost;
+	public int currencyCost;
+	public int researchCost;
 	public Sprite sprite;
 
-	public Upgrade upgrade;
+	public List<Upgrade> unlockUpgrades;
 	
   	public bool CanBuy()
 	{
 		GameManager manager = GameManager.instance;
-		return manager.score >= baseCost;
-	}
-	
-	public void Buy()
-	{
-		GameManager manager = GameManager.instance;
-		if (manager.unlockedResearch.Contains(this)) return;
-
-		manager.score -= baseCost;
-		manager.unlockedResearch.Add(this);
-
-		if (upgrade)
-		{
-			manager.UnlockUpgrade(upgrade);
-		}
+		return manager.currency >= currencyCost;
 	}
 }
