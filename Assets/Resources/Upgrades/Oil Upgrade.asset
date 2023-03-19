@@ -17,6 +17,7 @@ MonoBehaviour:
   description: Slick your mashine up with some oil! Each oil barrel provides 10000
     more currency per click!
   baseCurrencyCost: 100
-  energyUsage: 0
+  energyUsage: 100
   generation: 10000
+  energyConsumptionDecrease: 0
   icon: {fileID: 2800000, guid: 4fb8ccdbf8647584e848e05305709df6, type: 3}

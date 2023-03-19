@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,10 +19,13 @@ public class GameManager : MonoBehaviour
 	public Dictionary<string, int> upgradeCounts;
 	public float currentGeneration = 0;
 	public float scoreReductionRate = 1f; // rate of which score reduces
-	// TODO: Make this read-only through editor
-	public float currentEnergy = 100; // if reaches 0, game lost
-	public float maxEnergy = 100; // upgradable
-	public float energyRegenerationRate = 0.001f;
+										  // TODO: Make this read-only through editor
+	[ReadOnly]
+	public float currentEnergy = 0; // current consumption of devices
+	[ReadOnly]
+	public float maxEnergy = 1000; // upgradable
+	//[ReadOnly]
+	//public int energyRegenerationRate = 0.001f;
 
 	public bool scoreThresholdReached = false; // 100 for prototype?
 	public float clickMultiplier = 1;
@@ -51,7 +55,7 @@ public class GameManager : MonoBehaviour
 	{
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		ui.UpdateUpgradeDescription("");
-
+		ui.UpdateEnergyDisplay(currentEnergy, maxEnergy);
 		//foreach (var upgrade in Resources.LoadAll<Upgrade>("Upgrades"))
 		//{
 		//	UnlockUpgrade(upgrade);
@@ -63,24 +67,24 @@ public class GameManager : MonoBehaviour
 		if (score > 100) // number changeable
 			scoreThresholdReached = true;
 
-		// Score += CurrentGeneration * Time.deltaTime;
-		if (scoreThresholdReached)
-		{
-			currentEnergy -= scoreReductionRate * Time.deltaTime;
-		}
+		score += currentGeneration * Time.deltaTime;
+		//if (scoreThresholdReached)
+		//{
+		//	currentEnergy -= scoreReductionRate * Time.deltaTime;
+		//}
 
-		if (currentEnergy < 0)
-		{
-			ui.SetGameOverShown(true);
-		}
+		//if (currentEnergy < 0)
+		//{
+		//	ui.SetGameOverShown(true);
+		//}
 		ui.UpdateScoreDisplay((ulong)score);
-		ui.UpdateEnergyDisplay(currentEnergy / maxEnergy);
+		//ui.UpdateEnergyDisplay(currentEnergy / maxEnergy);
 	}
 
 	public void GenerateCurrency()
 	{
 		score += clickMultiplier;
-		currentEnergy = Mathf.Min(maxEnergy, currentEnergy + energyRegenerationRate);
+		//currentEnergy = Mathf.Min(maxEnergy, currentEnergy + energyRegenerationRate);
 	}
 
 	public void RestartScene()
@@ -100,6 +104,18 @@ public class GameManager : MonoBehaviour
 	{
 		score -= upgrade.baseCurrencyCost;
 		currentGeneration += upgrade.generation;
+		currentEnergy += upgrade.energyUsage;
+		currentEnergy = Math.Max(currentEnergy - currentEnergy * upgrade.energyConsumptionDecrease, 0);
+		
+		ui.UpdateEnergyDisplay(currentEnergy, maxEnergy);
+		if(currentEnergy >= maxEnergy)
+		{
+			ui.UpdateEnergyDisplayDanger(true);
+		}
+		else
+		{
+			ui.UpdateEnergyDisplayDanger(false);
+		}
 
 		if (!upgradeCounts.ContainsKey(upgrade.id))
 		{

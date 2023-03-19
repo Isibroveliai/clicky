@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 
 // TODO: Make info about upgrade be visible in editor.
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
