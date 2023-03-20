@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
 	[Header("Research")]
 	public TMP_Text researchCounter;
 	public TMP_Text researchDescriptionText;
-	public TMP_Text researchCantBuyText;
+	public TMP_Text researchAdditionalText;
 	public TMP_Text currentResearchLabel;
 	public RectTransform researchProgressbar;
 	public Color startingLineColor;
@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour
 
 		UpdateCurrentResearchLabel("");
 		UpdateResearchProgress(0);
+		UpdateResearchDescription("");
+		UpdateResearchAdditionalText("", startingLineColor);
 	}
 
 	public void UpdateUpgradeDescription(string text)
@@ -72,9 +74,10 @@ public class UIManager : MonoBehaviour
 	{
 		researchDescriptionText.text = text;
 	}
-	public void UpdateResearchCantBuyText(string text)
+	public void UpdateResearchAdditionalText(string text, Color color)
 	{
-		researchCantBuyText.text = text;
+		researchAdditionalText.text = text;
+		researchAdditionalText.color = color;
 	}
 
 	public void SetGameOverShown(bool isShown)
