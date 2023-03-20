@@ -140,7 +140,10 @@ public class GameManager : MonoBehaviour
 		{
 			return false;
 		}
-
+		if(activeResearch)
+		{
+			OnResearchStopped(activeResearch);
+		}
 		currency -= research.currencyCost;
 		
 		activeResearch = research;

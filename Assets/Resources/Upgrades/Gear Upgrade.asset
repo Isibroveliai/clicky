@@ -18,6 +18,7 @@ MonoBehaviour:
     per click!
   baseCurrencyCost: 100
   energyUsage: 25
-  generation: 10
+  currencyGeneration: 10
   energyConsumptionDecrease: 0
-  icon: {fileID: 2800000, guid: dd390570ef4a6ed469ef0d93d97dc521, type: 3}
+  researchProduction: 0
+  icon: {fileID: 2800000, guid: e4ab2c2c487846b4ba50767f3045e0c5, type: 3}

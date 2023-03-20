@@ -19,4 +19,4 @@ MonoBehaviour:
   researchCost: 0
   sprite: {fileID: 21300000, guid: 5d375945dcd455b40bd3e94585e48a39, type: 3}
   unlockUpgrades:
-  - {fileID: 11400000, guid: 5933dd487b2e89a438c375c79109d4b8, type: 2}
+  - {fileID: 11400000, guid: 0113c4c913430e04a8c6c3a2ca426f77, type: 2}
