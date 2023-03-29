@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEditor.Build;
+using System.Collections.Generic;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
 	public Color energyDangerColor;
 
 	[Header("Research")]
+	public ResearchTabManager researchTabManager;
 	public TMP_Text researchCounter;
 	public TMP_Text researchDescriptionText;
 	public TMP_Text researchAdditionalText;
@@ -45,7 +46,7 @@ public class UIManager : MonoBehaviour
 	public Color inProgressLineColor;
 	private float initialProgressbarSize;
 
-	void Start()
+	void Awake()
 	{
 		eventTab.SetActive(false);
 		gameOverTab.SetActive(false);
@@ -54,8 +55,11 @@ public class UIManager : MonoBehaviour
 		for (int i = 0; i < tabs.Length; i++)
 		{
 			UITab tab = tabs[i];
-			tab.panel.SetActive(false);
+			tab.panel.SetActive(true); //to do all their Start() methods
+			
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
+			if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
+			tab.panel.SetActive(false);
 		}
 
 		initialProgressbarSize = researchProgressbar.sizeDelta.x;
@@ -149,5 +153,10 @@ public class UIManager : MonoBehaviour
 		{
 			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
+	}
+
+	public void LoadResearch(List<ResearchNode> research)
+	{
+		researchTabManager.LoadButtonState(research);
 	}
 }

@@ -16,14 +16,13 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	private Image image;
 	UIManager ui;
 
-	void Start()
+	void Awake()
     {
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		image = GetComponent<Image>();
 		image.sprite = node.sprite;
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
-
 	}
 	void StartResearch()
 	{
@@ -52,4 +51,6 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 
 		ui.UpdateResearchDescription(node.description);
 	}
+	public void ChangeButtonState(bool state) => button.interactable = state;
+	
 }

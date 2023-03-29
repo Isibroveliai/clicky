@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public static GameManager instance;
 
 	private static UIManager ui;
+	private SaveManager saveManager;
 
 	public List<Upgrade> allUpgrades;
 
@@ -16,11 +18,11 @@ public class GameManager : MonoBehaviour
 
 	public Dictionary<string, int> upgradeCounts;
 
-	[ReadOnly]
+	//[ReadOnly]
 	public float researchProduction = 0;
-	[ReadOnly]
+	//[ReadOnly]
 	public float currencyGeneration = 0;
-	[ReadOnly]
+	//[ReadOnly]
 	public float energyUsage = 0;
 	
 	public float maxEnergy = 1000; // TOD: Make this upgradable
@@ -60,6 +62,8 @@ public class GameManager : MonoBehaviour
 		ui.UpdateUpgradeDescription("");
 		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
 		ui.UpdateResearchSpeedDisplay(researchProduction);
+		saveManager = GetComponent<SaveManager>();
+		LoadData();
 		//foreach (var upgrade in Resources.LoadAll<Upgrade>("Upgrades"))
 		//{
 		//	UnlockUpgrade(upgrade);
@@ -188,5 +192,31 @@ public class GameManager : MonoBehaviour
 		var research = activeResearch;
 		StopResearchWithoutEvent();
 		OnResearchFinished(research);
+	}
+
+	public List<string> GetAssetsPaths(List<ScriptableObject> objects, string dir) 
+	{
+		List<string> paths = new List<string>();
+		foreach(var asset in objects) 
+		{
+			string path = dir + "/" + asset.name;
+			paths.Add(path);
+		}
+		return paths;
+	}
+	public void SaveGame()
+	{
+		saveManager.Save(saveManager.GetData());
+	}
+
+	public void LoadData()
+	{
+		SaveObject save = saveManager.Load();
+		saveManager.SetData(save);
+		foreach (var upgrade in unlockedUpgrades)
+		{
+			ui.AppendUpgradeButton(upgrade);
+		}
+		ui.LoadResearch(unlockedResearch);
 	}
 }
