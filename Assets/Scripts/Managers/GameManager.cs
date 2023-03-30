@@ -1,17 +1,19 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager instance;
-
-	private static UIManager ui;
 	private string saveFile = "clicky.sav";
 	private string savePath;
+
+	public static GameManager instance;
+	private static UIManager ui;
 	public List<Upgrade> allUpgrades;
 
 	public float currency = 0;
@@ -40,6 +42,12 @@ public class GameManager : MonoBehaviour
 	public static event Action<ResearchNode> OnResearchFinished;
 	public static event Action<ResearchNode> OnResearchStopped;
 
+
+	// GAME SETTINGS
+	public int windowState = 0;
+	public string windowStateName = "Small";
+	
+
 	public GameManager()
 	{
 		upgradeCounts = new Dictionary<string, int>();
@@ -64,6 +72,7 @@ public class GameManager : MonoBehaviour
 		ui.UpdateResearchSpeedDisplay(researchProduction);
 		savePath = Path.Combine(Application.persistentDataPath, saveFile);
 		LoadData();
+		ui.UpdateWindowChangeButtonText(windowStateName);
 	}
 
 	void Update()
@@ -190,6 +199,42 @@ public class GameManager : MonoBehaviour
 		OnResearchFinished(research);
 	}
 
+	public void ChangeWindowSize()
+	{
+		windowState++;
+		if (windowState >= 2)
+		{
+			windowState = 0;
+		}
+		switch (windowState)
+		{
+			case 0:
+				windowStateName = "Small";
+				Screen.SetResolution(640, 480, false);
+				break;
+
+			case 1:
+				windowStateName = "Large";
+				Screen.SetResolution(1280, 960, false);
+				break;
+			//maybe in future idk
+			//case 2:
+			//	windowStateName = "Fullscreen";
+				
+			//	Screen.SetResolution(1280, 960, true);
+
+			//	break;
+
+			default:
+				break;
+		}
+		ui.UpdateWindowChangeButtonText(windowStateName);
+	}
+	public void QuitGame()
+	{
+		SaveGame();
+		Application.Quit();
+	}
 	public void SaveGame()
 	{
 		SaveManager.Save(GetData(), savePath);

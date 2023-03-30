@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
 
 	public TMP_Text currencyCounter;
 
+	public GameObject changeWindowButtonObj;
+
 	[Header("Upgrades")]
 	public GameObject upgradeButtonContainer;
 	public GameObject upgradeButtonPrefab;
@@ -58,7 +60,8 @@ public class UIManager : MonoBehaviour
 			tab.panel.SetActive(true); //to do all their Start() methods
 			
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
-			if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
+			//if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
+			//else if(tab.panel.name == "Options") 
 			tab.panel.SetActive(false);
 		}
 
@@ -164,17 +167,15 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+	public void UpdateWindowChangeButtonText(string text)
+	{
+		changeWindowButtonObj.GetComponentInChildren<TMP_Text>().text = text;
+	}
 	void LoadUnlockedUpgrades(List<Upgrade> upgrades)
 	{
 		foreach (var upgrade in upgrades)
 		{
 			AppendUpgradeButton(upgrade);
 		}
-	}
-	void UpdateAllFields()
-	{
-		GameManager gm = GameManager.instance;
-		UpdateEnergyDisplay(gm.energyUsage, gm.maxEnergy);
-		
 	}
 }
