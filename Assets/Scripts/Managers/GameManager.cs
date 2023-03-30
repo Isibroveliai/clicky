@@ -210,7 +210,6 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 		Debug.Log("Save file not found");
-
 	}
 	/// <summary>
 	/// Sets all the data from a save object 

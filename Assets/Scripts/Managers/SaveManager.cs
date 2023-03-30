@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Runtime.Serialization;
-
 
 public static class SaveManager 
 {
@@ -20,8 +17,6 @@ public static class SaveManager
 	}
 	public static SaveObject Load(string path)
 	{
-		//dir = Application.persistentDataPath + "/" + "Clicky";
-		//path = Path.Combine(dir, file);
 		if (!File.Exists(path)) 
 		{
 			Debug.Log("No save file detected");

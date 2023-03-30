@@ -26,7 +26,7 @@ public class ResearchTabManager : MonoBehaviour
 	//		nodeButtonPairs.Add(node.node, node);
 	//	}
 	//}
-	void Awake()
+	void Start()
     {
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		gameManager = GameManager.instance;
@@ -129,6 +129,11 @@ public class ResearchTabManager : MonoBehaviour
 			}
 		}
 	}
+
+	/// <summary>
+	/// Loads already unlocked research states
+	/// </summary>
+	/// <param name="unlockedNodes"></param>
 	public void LoadButtonState(List<ResearchNode> unlockedNodes)
 	{
 		if(unlockedNodes.Count == 0) return;
@@ -136,6 +141,7 @@ public class ResearchTabManager : MonoBehaviour
 		{
 			nodeButtonPairs[unlocked].researched = true;
 			nodeButtonPairs[unlocked].ChangeButtonState(false);
+			UnlockNeighbors(nodeButtonPairs[unlocked]);
 			UpdateLines(unlocked, ui.finishedLineColor);
 		}
 	}

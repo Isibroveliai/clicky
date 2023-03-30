@@ -70,6 +70,12 @@ public class UIManager : MonoBehaviour
 		UpdateResearchAdditionalText("", startingLineColor);
 
 		LoadUnlockedUpgrades(GameManager.instance.unlockedUpgrades);
+		//fixes display issue on start when save date is loaded
+		UpdateEnergyDisplayDanger(GameManager.instance.energyUsage >= GameManager.instance.maxEnergy);
+		UpdateEnergyDisplay(GameManager.instance.energyUsage, GameManager.instance.maxEnergy);
+		UpdateScoreDisplay((ulong)GameManager.instance.currency);
+		UpdateResearchSpeedDisplay(GameManager.instance.researchProduction);
+		
 	}
 
 	public void UpdateUpgradeDescription(string text)
@@ -164,5 +170,11 @@ public class UIManager : MonoBehaviour
 		{
 			AppendUpgradeButton(upgrade);
 		}
+	}
+	void UpdateAllFields()
+	{
+		GameManager gm = GameManager.instance;
+		UpdateEnergyDisplay(gm.energyUsage, gm.maxEnergy);
+		
 	}
 }

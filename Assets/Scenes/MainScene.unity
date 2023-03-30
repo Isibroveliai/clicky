@@ -1127,7 +1127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allUpgrades: []
-  currency: 500
+  currency: 2500
   researchProduction: 0
   currencyGeneration: 0
   energyUsage: 0
@@ -1540,7 +1540,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 444362777}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LoadData
+        m_MethodName: DeleteSave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1872,7 +1872,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 444362777}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LoadData
+        m_MethodName: RestartScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
