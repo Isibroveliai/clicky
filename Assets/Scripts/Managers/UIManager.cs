@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEditor.Build;
+using System.Collections.Generic;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
 	public Color energyDangerColor;
 
 	[Header("Research")]
+	public ResearchTabManager researchTabManager;
 	public TMP_Text researchCounter;
 	public TMP_Text researchDescriptionText;
 	public TMP_Text researchAdditionalText;
@@ -54,8 +55,11 @@ public class UIManager : MonoBehaviour
 		for (int i = 0; i < tabs.Length; i++)
 		{
 			UITab tab = tabs[i];
-			tab.panel.SetActive(false);
+			tab.panel.SetActive(true); //to do all their Start() methods
+			
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
+			if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
+			tab.panel.SetActive(false);
 		}
 
 		initialProgressbarSize = researchProgressbar.sizeDelta.x;
@@ -64,6 +68,14 @@ public class UIManager : MonoBehaviour
 		UpdateResearchProgress(0);
 		UpdateResearchDescription("");
 		UpdateResearchAdditionalText("", startingLineColor);
+
+		LoadUnlockedUpgrades(GameManager.instance.unlockedUpgrades);
+		//fixes display issue on start when save date is loaded
+		UpdateEnergyDisplayDanger(GameManager.instance.energyUsage >= GameManager.instance.maxEnergy);
+		UpdateEnergyDisplay(GameManager.instance.energyUsage, GameManager.instance.maxEnergy);
+		UpdateScoreDisplay((ulong)GameManager.instance.currency);
+		UpdateResearchSpeedDisplay(GameManager.instance.researchProduction);
+		
 	}
 
 	public void UpdateUpgradeDescription(string text)
@@ -114,6 +126,7 @@ public class UIManager : MonoBehaviour
 		researchCounter.text = researchSpeed.ToString();
 	}
 
+	
 	// TODO: Add remove? idk if we will need it
 	public void AppendUpgradeButton(Upgrade upgrade)
 	{
@@ -149,5 +162,19 @@ public class UIManager : MonoBehaviour
 		{
 			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
+	}
+
+	void LoadUnlockedUpgrades(List<Upgrade> upgrades)
+	{
+		foreach (var upgrade in upgrades)
+		{
+			AppendUpgradeButton(upgrade);
+		}
+	}
+	void UpdateAllFields()
+	{
+		GameManager gm = GameManager.instance;
+		UpdateEnergyDisplay(gm.energyUsage, gm.maxEnergy);
+		
 	}
 }

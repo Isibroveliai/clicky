@@ -16,6 +16,16 @@ public class ResearchTabManager : MonoBehaviour
 	public Dictionary<ResearchNodeButton, List<Tuple<ResearchNodeButton, LineDrawer>>> graph; // stores node and its neighbors along with their lines
 	
 	Dictionary<ResearchNode, ResearchNodeButton> nodeButtonPairs; // used to get ResearchNodeButton that corresponds to ResearchNode
+	//private void Awake()
+	//{
+	//	nodeButtonPairs = new Dictionary<ResearchNode, ResearchNodeButton>();
+	//	for (int i = 0; i < content.transform.childCount; i++)
+	//	{
+	//		GameObject child = content.transform.GetChild(i).gameObject;
+	//		ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
+	//		nodeButtonPairs.Add(node.node, node);
+	//	}
+	//}
 	void Start()
     {
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
@@ -60,13 +70,16 @@ public class ResearchTabManager : MonoBehaviour
 			graph.Add(node, neighbors);
 
 		}
-		GameObject start = content.transform.Find("Start").gameObject; // the starting research panel node, unlocks all further research
+		ResearchNodeButton start = content.transform.Find("Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
 
-		start.GetComponent<Button>().interactable = true; 
+
+		start.ChangeButtonState(true);
 
 		GameManager.OnResearchStarted += OnResearchStarted;
 		GameManager.OnResearchFinished += OnResearchFinished;
 		GameManager.OnResearchStopped += OnResearchStopped;
+
+		LoadButtonState(GameManager.instance.unlockedResearch);
 	}
 
 
@@ -77,7 +90,7 @@ public class ResearchTabManager : MonoBehaviour
 	public void OnResearchStopped(ResearchNode research)
 	{
 		UpdateLines(research, ui.startingLineColor);
-		nodeButtonPairs[research].transform.GetComponent<Button>().interactable = true;
+		nodeButtonPairs[research].ChangeButtonState(true);
 	}
 
 	public void OnResearchFinished(ResearchNode research)
@@ -95,7 +108,7 @@ public class ResearchTabManager : MonoBehaviour
 	{
 		foreach (var neighbor in node.next)
 		{
-			if (!neighbor.researched) neighbor.GetComponent<Button>().interactable = true;
+			if (!neighbor.researched) neighbor.ChangeButtonState(true);
 		}
 	}
 	
@@ -114,6 +127,22 @@ public class ResearchTabManager : MonoBehaviour
 			{
 				pair.Item2.UpdateColor(color);
 			}
+		}
+	}
+
+	/// <summary>
+	/// Loads already unlocked research states
+	/// </summary>
+	/// <param name="unlockedNodes"></param>
+	public void LoadButtonState(List<ResearchNode> unlockedNodes)
+	{
+		if(unlockedNodes.Count == 0) return;
+		foreach(ResearchNode unlocked in unlockedNodes) 
+		{
+			nodeButtonPairs[unlocked].researched = true;
+			nodeButtonPairs[unlocked].ChangeButtonState(false);
+			UnlockNeighbors(nodeButtonPairs[unlocked]);
+			UpdateLines(unlocked, ui.finishedLineColor);
 		}
 	}
 }

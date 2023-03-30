@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,18 +10,19 @@ public class GameManager : MonoBehaviour
 	public static GameManager instance;
 
 	private static UIManager ui;
-
+	private string saveFile = "clicky.sav";
+	private string savePath;
 	public List<Upgrade> allUpgrades;
 
 	public float currency = 0;
 
 	public Dictionary<string, int> upgradeCounts;
 
-	[ReadOnly]
+	//[ReadOnly]
 	public float researchProduction = 0;
-	[ReadOnly]
+	//[ReadOnly]
 	public float currencyGeneration = 0;
-	[ReadOnly]
+	//[ReadOnly]
 	public float energyUsage = 0;
 	
 	public float maxEnergy = 1000; // TOD: Make this upgradable
@@ -60,10 +62,8 @@ public class GameManager : MonoBehaviour
 		ui.UpdateUpgradeDescription("");
 		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
 		ui.UpdateResearchSpeedDisplay(researchProduction);
-		//foreach (var upgrade in Resources.LoadAll<Upgrade>("Upgrades"))
-		//{
-		//	UnlockUpgrade(upgrade);
-		//}
+		savePath = Path.Combine(Application.persistentDataPath, saveFile);
+		LoadData();
 	}
 
 	void Update()
@@ -188,5 +188,97 @@ public class GameManager : MonoBehaviour
 		var research = activeResearch;
 		StopResearchWithoutEvent();
 		OnResearchFinished(research);
+	}
+
+	public void SaveGame()
+	{
+		SaveManager.Save(GetData(), savePath);
+	}
+
+	public void LoadData()
+	{
+		SaveObject save = SaveManager.Load(savePath);
+		if (save == null) return;
+		SetData(save);
+	}
+	public void DeleteSave()
+	{
+		if(File.Exists(savePath))
+		{
+			File.Delete(savePath);
+			Debug.Log("Save deleted");
+			return;
+		}
+		Debug.Log("Save file not found");
+	}
+	/// <summary>
+	/// Sets all the data from a save object 
+	/// </summary>
+	/// <param name="save"></param>
+	public void SetData(SaveObject save)
+	{
+		if (save == null) return;
+		clickMultiplier = save.clickMultiplier;
+		currency = save.currency;
+		currencyGeneration = save.currencyGeneration;
+		researchProduction = save.researchProduction;
+		energyUsage = save.energyUsage;
+		maxEnergy = save.maxEnergy;
+		
+		unlockedResearch = LoadScriptableObjects<ResearchNode>(save.unlockedResearch);
+		unlockedUpgrades = LoadScriptableObjects<Upgrade>(save.unlockedUpgrades);
+		upgradeCounts = save.upgradeCounts;
+	}
+	/// <summary>
+	/// Creates a save object from data
+	/// </summary>
+	/// <returns></returns>
+	public SaveObject GetData()
+	{
+		SaveObject save = new SaveObject();
+
+		save.clickMultiplier = clickMultiplier;
+		save.currency = currency;
+		save.currencyGeneration = currencyGeneration;
+		save.researchProduction = researchProduction;
+		save.energyUsage = energyUsage;
+		save.maxEnergy = maxEnergy;
+		save.unlockedResearch = GetScriptableObjectPaths(unlockedResearch, "Research");
+		save.unlockedUpgrades = GetScriptableObjectPaths(unlockedUpgrades, "Upgrades");
+		save.upgradeCounts = upgradeCounts;
+
+		return save;
+	}
+	/// <summary>
+	/// Gets list of paths of scriptable objects assets (cant serialize scriptable objects themselves)
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="objects"></param>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	List<string> GetScriptableObjectPaths<T>(List<T> objects, string path) where T: ScriptableObject
+	{
+		List<string> paths = new List<string>();
+		foreach(var asset in objects) 
+		{
+			string fullPath = path + "/" + asset.name;
+			paths.Add(fullPath);
+		}
+		return paths;
+	}
+	/// <summary>
+	/// Loads scriptable objects from given paths list
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="objectPaths"></param>
+	/// <returns></returns>
+	List<T> LoadScriptableObjects<T>(List<string> objectPaths) where T : ScriptableObject
+	{
+		List<T> objects = new List<T>();
+		foreach (string path in objectPaths)
+		{
+			objects.Add((T)Resources.Load(path));
+		}
+		return objects;
 	}
 }
