@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,6 +78,8 @@ public class ResearchTabManager : MonoBehaviour
 		GameManager.OnResearchStarted += OnResearchStarted;
 		GameManager.OnResearchFinished += OnResearchFinished;
 		GameManager.OnResearchStopped += OnResearchStopped;
+
+		LoadButtonState(GameManager.instance.unlockedResearch);
 	}
 
 
@@ -130,9 +131,9 @@ public class ResearchTabManager : MonoBehaviour
 	}
 	public void LoadButtonState(List<ResearchNode> unlockedNodes)
 	{
+		if(unlockedNodes.Count == 0) return;
 		foreach(ResearchNode unlocked in unlockedNodes) 
 		{
-
 			nodeButtonPairs[unlocked].researched = true;
 			nodeButtonPairs[unlocked].ChangeButtonState(false);
 			UpdateLines(unlocked, ui.finishedLineColor);

@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
 	public Color inProgressLineColor;
 	private float initialProgressbarSize;
 
-	void Awake()
+	void Start()
 	{
 		eventTab.SetActive(false);
 		gameOverTab.SetActive(false);
@@ -68,6 +68,8 @@ public class UIManager : MonoBehaviour
 		UpdateResearchProgress(0);
 		UpdateResearchDescription("");
 		UpdateResearchAdditionalText("", startingLineColor);
+
+		LoadUnlockedUpgrades(GameManager.instance.unlockedUpgrades);
 	}
 
 	public void UpdateUpgradeDescription(string text)
@@ -118,6 +120,7 @@ public class UIManager : MonoBehaviour
 		researchCounter.text = researchSpeed.ToString();
 	}
 
+	
 	// TODO: Add remove? idk if we will need it
 	public void AppendUpgradeButton(Upgrade upgrade)
 	{
@@ -155,8 +158,11 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void LoadResearch(List<ResearchNode> research)
+	void LoadUnlockedUpgrades(List<Upgrade> upgrades)
 	{
-		researchTabManager.LoadButtonState(research);
+		foreach (var upgrade in upgrades)
+		{
+			AppendUpgradeButton(upgrade);
+		}
 	}
 }
