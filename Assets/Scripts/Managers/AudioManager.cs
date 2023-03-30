@@ -6,11 +6,12 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour
 {
-	static AudioManager instance;
+	public static AudioManager instance;
 
 	private AudioSource audioSource;
 	private static System.Random rng = new System.Random();
 	public AudioClip[] buttonClick;
+	public AudioClip[] buyUpgrade;
 
 	private void Awake()
 	{
@@ -39,6 +40,11 @@ public class AudioManager : MonoBehaviour
 		if (n == 0) return;
 
 		var clip = clips[rng.Next() % n];
+		instance.audioSource.PlayOneShot(clip);
+	}
+
+	public static void PlaySingleSound(AudioClip clip)
+	{
 		instance.audioSource.PlayOneShot(clip);
 	}
 }

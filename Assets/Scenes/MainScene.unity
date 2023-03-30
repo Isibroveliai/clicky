@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allUpgrades: []
-  currency: 500
+  currency: 50000
   researchProduction: 0
   currencyGeneration: 0
   energyUsage: 0
@@ -2255,6 +2255,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d6011d37ab1b7c645bf0c77ccd587d90, type: 3}
   - {fileID: 8300000, guid: d9274ab4c2bbb83418f77d9d8cb38bb9, type: 3}
   - {fileID: 8300000, guid: d5ed86b8bb4b1e84dafc147a0aafba03, type: 3}
+  buyUpgrade:
+  - {fileID: 8300000, guid: e3cb9350a84036749b4ed119259f479c, type: 3}
+  - {fileID: 8300000, guid: b381b9999fd2659478a66865735fdf0e, type: 3}
+  - {fileID: 8300000, guid: 334f63a2db1206e42bf6800e9fbe1427, type: 3}
+  - {fileID: 8300000, guid: a70d2489a1a464a4aab408869c867ecb, type: 3}
+  - {fileID: 8300000, guid: d5edd53b2b2c5814281bb3a7fb8ffc61, type: 3}
+  - {fileID: 8300000, guid: 6319d9a1932424d49a53be2fbb069d3f, type: 3}
+  - {fileID: 8300000, guid: 0de94dad8e655f944ab7e7c3fbc33fc5, type: 3}
+  - {fileID: 8300000, guid: 1385fb3ef64d73d4488e64940d7aeb37, type: 3}
 --- !u!82 &1084491241
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2264,7 +2273,7 @@ AudioSource:
   m_GameObject: {fileID: 1084491237}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1287845856263021789, guid: 765d836ae22cd4c49abdebf5da189920, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
