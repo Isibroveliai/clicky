@@ -94,6 +94,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		lastBuy = Time.time;
 		buyUpgradeSoundIdx = (buyUpgradeSoundIdx + 1) % buyUpgradeSound.Length;
 		audioPlayer.pitch = buySpeed;
+		audioPlayer.Stop();
 		audioPlayer.clip = buyUpgradeSound[buyUpgradeSoundIdx];
 		audioPlayer.Play();
 	}
