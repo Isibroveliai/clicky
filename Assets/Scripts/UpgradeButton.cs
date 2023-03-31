@@ -41,7 +41,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		boughtCountLabel = transform.Find("Counter").GetComponent<TMP_Text>();
 		button = transform.Find("Button").GetComponent<Button>();
 		audioPlayer = GetComponent<AudioSource>();
-		RawImage icon = transform.Find("Icon").GetComponent<RawImage>();
+		RawImage icon = transform.Find("Icon frame/Icon mask/Icon").GetComponent<RawImage>();
 
 		UpdateCountLabel();
 		nameLabel.text = upgrade.displayName;
