@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allUpgrades: []
-  currency: 50000
+  currency: 500
   researchProduction: 0
   currencyGeneration: 0
   energyUsage: 0
