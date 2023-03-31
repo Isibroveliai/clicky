@@ -31,6 +31,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		button.interactable = false;
 		GameManager manager = GameManager.instance;
 		manager.StartResearch(node);
+		AudioManager.PlayButtonClick();
 	}
 	
 	public void OnPointerExit(PointerEventData eventData)

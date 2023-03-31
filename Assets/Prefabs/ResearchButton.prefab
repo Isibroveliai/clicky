@@ -135,11 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d890921f3bf243d4abff1a6df0595840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineObject: {fileID: 3873940889835898576, guid: bcb999e7a3fb9614293dd65aafccaeac, type: 3}
   node: {fileID: 0}
   next: []
-  preceding: []
-  unlocked: 0
+  researched: 0
 --- !u!114 &1520805733975715376
 MonoBehaviour:
   m_ObjectHideFlags: 0
