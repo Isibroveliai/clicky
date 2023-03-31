@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.FlowStateWidget;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.SceneManagement;
-using TMPro;
 
 public class EventManager : MonoBehaviour
 {

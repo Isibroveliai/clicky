@@ -9,7 +9,6 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 {
 	public ResearchNode node;
 	public List<ResearchNodeButton> next;
-	//public List<ResearchNodeButton> preceding;
 	public bool researched = false;
 
 	private Button button;
@@ -23,7 +22,6 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		image.sprite = node.sprite;
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
-
 	}
 	void StartResearch()
 	{
@@ -53,4 +51,6 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 
 		ui.UpdateResearchDescription(node.description);
 	}
+	public void ChangeButtonState(bool state) => button.interactable = state;
+	
 }
