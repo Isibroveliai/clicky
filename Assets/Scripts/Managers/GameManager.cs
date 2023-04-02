@@ -1,17 +1,34 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//store settings
+[System.Serializable]
+public class GameSettings
+{
+	public int windowState;
+	public string windowStateName;
+	public float volumeLevel;
+	public GameSettings()
+	{
+		windowState = 1;
+		windowStateName = "Large";
+		volumeLevel = 100f; //rip ears
+	}
+	// public GameSettings(int windowState, string windowStateName)
+	// {
+	// 	this.windowState = windowState;
+	// 	this.windowStateName = windowStateName;
+	// }
+}
+//PASIULYMAS: PERKELT DATA I ATSKIRA KLASE?
+//public class GameData{}
+
 public class GameManager : MonoBehaviour
 {
-	private string saveFile = "clicky.sav";
-	private string savePath;
-
+	public GameSettings settings;
 	public static GameManager instance;
 	private static UIManager ui;
 	public List<Upgrade> allUpgrades;
@@ -44,9 +61,9 @@ public class GameManager : MonoBehaviour
 
 
 	// GAME SETTINGS
-	public int windowState = 0;
-	public string windowStateName = "Small";
-	
+	public string saveFile = "clicky.sav"; 
+	public string savePath;
+	public DateTime lastSave;
 
 	public GameManager()
 	{
@@ -61,6 +78,7 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 		instance = this;
+		//DontDestroyOnLoad(this.gameObject);
 		Setup();
 	}
 
@@ -70,9 +88,12 @@ public class GameManager : MonoBehaviour
 		ui.UpdateUpgradeDescription("");
 		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
 		ui.UpdateResearchSpeedDisplay(researchProduction);
+		ui.UpdateSaveInfoText("");
 		savePath = Path.Combine(Application.persistentDataPath, saveFile);
+		settings = new GameSettings();
 		LoadData();
-		ui.UpdateWindowChangeButtonText(windowStateName);
+		ui.UpdateWindowChangeButtonText(settings.windowStateName);
+		ui.SetVolumeValue(settings.volumeLevel);
 	}
 
 	void Update()
@@ -198,37 +219,40 @@ public class GameManager : MonoBehaviour
 		StopResearchWithoutEvent();
 		OnResearchFinished(research);
 	}
-
-	public void ChangeWindowSize()
+	public void IncrementWindowState()
 	{
-		windowState++;
-		if (windowState >= 2)
+		settings.windowState++;
+		if (settings.windowState >= 2)
 		{
-			windowState = 0;
+			settings.windowState = 0;
 		}
-		switch (windowState)
+		ChangeWindowSize(settings.windowState);
+	}
+	public void ChangeWindowSize(int state)
+	{
+		switch (state)
 		{
 			case 0:
-				windowStateName = "Small";
+				settings.windowStateName = "Small";
 				Screen.SetResolution(640, 480, false);
 				break;
 
 			case 1:
-				windowStateName = "Large";
+				settings.windowStateName = "Large";
 				Screen.SetResolution(1280, 960, false);
 				break;
-			//maybe in future idk
-			//case 2:
-			//	windowStateName = "Fullscreen";
+			// maybe in future idk, looks shit now
+			// case 2:
+			// 	settings.windowStateName = "Fullscreen";
 				
-			//	Screen.SetResolution(1280, 960, true);
+			// 	Screen.SetResolution(1280, 960, true);
 
-			//	break;
+			// 	break;
 
 			default:
 				break;
 		}
-		ui.UpdateWindowChangeButtonText(windowStateName);
+		ui.UpdateWindowChangeButtonText(settings.windowStateName);
 	}
 	public void QuitGame()
 	{
@@ -238,6 +262,7 @@ public class GameManager : MonoBehaviour
 	public void SaveGame()
 	{
 		SaveManager.Save(GetData(), savePath);
+		ui.UpdateSaveInfoText(DateTime.Now.ToString("yyyy-dd-MM HH:mm:ss"));
 	}
 
 	public void LoadData()
@@ -245,6 +270,7 @@ public class GameManager : MonoBehaviour
 		SaveObject save = SaveManager.Load(savePath);
 		if (save == null) return;
 		SetData(save);
+		ui.UpdateSaveInfoText(lastSave.ToString("yyyy-dd-MM HH:mm:ss"));
 	}
 	public void DeleteSave()
 	{
@@ -273,6 +299,8 @@ public class GameManager : MonoBehaviour
 		unlockedResearch = LoadScriptableObjects<ResearchNode>(save.unlockedResearch);
 		unlockedUpgrades = LoadScriptableObjects<Upgrade>(save.unlockedUpgrades);
 		upgradeCounts = save.upgradeCounts;
+		settings = save.settings;
+		lastSave = save.saveTime;
 	}
 	/// <summary>
 	/// Creates a save object from data
@@ -281,7 +309,7 @@ public class GameManager : MonoBehaviour
 	public SaveObject GetData()
 	{
 		SaveObject save = new SaveObject();
-
+		save.saveTime = DateTime.Now;
 		save.clickMultiplier = clickMultiplier;
 		save.currency = currency;
 		save.currencyGeneration = currencyGeneration;
@@ -291,6 +319,7 @@ public class GameManager : MonoBehaviour
 		save.unlockedResearch = GetScriptableObjectPaths(unlockedResearch, "Research");
 		save.unlockedUpgrades = GetScriptableObjectPaths(unlockedUpgrades, "Upgrades");
 		save.upgradeCounts = upgradeCounts;
+		save.settings = settings;
 
 		return save;
 	}

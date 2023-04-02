@@ -24,7 +24,11 @@ public class UIManager : MonoBehaviour
 
 	public TMP_Text currencyCounter;
 
+	[Header("Options tab")]
 	public GameObject changeWindowButtonObj;
+	public TMP_Text saveInfoText;
+	public Slider volumeSlider;
+	public TMP_Text volumeValueText;
 
 	[Header("Upgrades")]
 	public GameObject upgradeButtonContainer;
@@ -128,6 +132,20 @@ public class UIManager : MonoBehaviour
 	{
 		researchCounter.text = researchSpeed.ToString();
 	}
+	public void SetVolumeValue(float value)
+	{
+		volumeSlider.value = value;
+		UpdateVolumeText(value.ToString());
+	}
+	public void UpdateVolumeText(string text)
+	{
+		volumeValueText.text = text;
+	}
+	public void OnVolumeChange()
+	{
+		UpdateVolumeText(volumeSlider.value.ToString());
+		GameManager.instance.settings.volumeLevel = volumeSlider.value;
+	}
 
 	
 	// TODO: Add remove? idk if we will need it
@@ -170,6 +188,10 @@ public class UIManager : MonoBehaviour
 	public void UpdateWindowChangeButtonText(string text)
 	{
 		changeWindowButtonObj.GetComponentInChildren<TMP_Text>().text = text;
+	}
+	public void UpdateSaveInfoText(string text)
+	{
+		saveInfoText.text = text;
 	}
 	void LoadUnlockedUpgrades(List<Upgrade> upgrades)
 	{
