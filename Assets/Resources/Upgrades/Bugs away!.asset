@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
+  m_Name: Bugs away!
+  m_EditorClassIdentifier: 
+  id: b38335c0-d674-41d3-84e7-02ebb6baae27
+  displayName: "Bugs away!\u2122"
+  description: Various bugs and filth in the workplace won't bother you anymore!
+    Decreases energy consumption and increases research speed.
+  baseCurrencyCost: 20000
+  energyUsage: 0
+  currencyGeneration: 0
+  energyConsumptionDecrease: 60
+  researchProduction: 60
+  icon: {fileID: 2800000, guid: 1da03b62d8983de49921a6ca1ccb6b48, type: 3}

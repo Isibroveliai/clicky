@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Electricity Upgrade
+  m_Name: Lab
   m_EditorClassIdentifier: 
   id: ce444468-0e99-4878-9a73-5054c662d5fb
-  displayName: Electricity
-  description: Invest in a bigger electricity level. Each electricity upgrade provides
-    100 more currency per click!
+  displayName: Laboratories
+  description: Science is POWER! Generate increase research speed by 10.
   baseCurrencyCost: 100
-  energyUsage: 0
+  energyUsage: 150
   currencyGeneration: 0
   energyConsumptionDecrease: 0
-  researchProduction: 0
-  icon: {fileID: 2800000, guid: cf373cbde5909ea47a6b3a3afe78b0b2, type: 3}
+  researchProduction: 10
+  icon: {fileID: 2800000, guid: dc911a80ee57999478f513f7d3f26e0a, type: 3}

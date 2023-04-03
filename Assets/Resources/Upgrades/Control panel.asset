@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Gear Upgrade
+  m_Name: Control panel
   m_EditorClassIdentifier: 
-  id: 544dbc90-0b18-4e0e-8640-03e60c69d538
-  displayName: Gear
-  description: Overclock your furnace! Each addtional gear provides 10 more currency
-    per click!
-  baseCurrencyCost: 100
-  energyUsage: 25
-  currencyGeneration: 10
+  id: 33ec9cec-4213-43fd-ba93-763023612948
+  displayName: Control panel
+  description: Install a control panel at in your work space! Control panels provide
+    more currency generation.
+  baseCurrencyCost: 6000
+  energyUsage: 75
+  currencyGeneration: 30
   energyConsumptionDecrease: 0
   researchProduction: 0
-  icon: {fileID: 2800000, guid: e4ab2c2c487846b4ba50767f3045e0c5, type: 3}
+  icon: {fileID: 2800000, guid: 7f368c928ca6cdf4d85541deb6dc6722, type: 3}
