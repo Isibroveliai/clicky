@@ -4,7 +4,7 @@ public class EventManager : MonoBehaviour
 {
 	private static UIManager ui;
 
-	public float eventTime = 15;
+	public float eventTime = 30;
 
 	public bool startEventFlag = false;
 
@@ -45,7 +45,7 @@ public class EventManager : MonoBehaviour
 	private void EventPicker()
 	{
 		var random = new System.Random();
-		int[] chances = { 50, 50 };
+		int[] chances = { 33, 33, 33 };
 		int totalRatio = 0;
 
 		foreach (int c in chances)
@@ -70,39 +70,47 @@ public class EventManager : MonoBehaviour
 				Event2Start();
 				Invoke("Event2End", eventTime);
 				break;
+			case 3:
+				Event3Start();
+				Invoke("Event3End", eventTime);
+				break;
 			default:
 				break;
-	}
+		}
 
-}
+	}
 	private void Event1Start()
 	{
-		ui.SetEventText("Get 50 points in 10 seconds.");
+		ui.SetEventText("Hard times... Resource generation is slower..");
 		ui.SetEventTextShown(true);
 
-		currentScore = manager.currency;
+		manager.clickMultiplier = 0.5f;
 	}
 	private void Event1End()
 	{
 		ui.SetEventTextShown(false);
-		if (currentScore + 50 <= manager.currency)
-		{
-			manager.currency += 50;
-		}
-		else
-		{
-			manager.currency -= 70;
-		}
+		manager.clickMultiplier = 1;
 	}
 	private void Event2Start()
 	{
-		ui.SetEventText("2x multiplier for generation.");
+		ui.SetEventText("Inspiration! You gain currency faster!");
 		ui.SetEventTextShown(true);
-		manager.clickMultiplier = 2;
+		manager.clickMultiplier = 5;
 	}
 	private void Event2End()
 	{
 		ui.SetEventTextShown(false);
 		manager.clickMultiplier = 1;
+	}
+	private void Event3Start()
+	{
+		ui.SetEventText("Eureka! Your research accelerates!");
+		ui.SetEventTextShown(true);
+		manager.researchProduction *= 2;
+	}
+	private void Event3End()
+	{
+		ui.SetEventTextShown(false);
+		manager.researchProduction /= 2;
 	}
 }
