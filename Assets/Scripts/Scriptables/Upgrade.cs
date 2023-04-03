@@ -13,9 +13,11 @@ public class Upgrade : ScriptableObject
 	public string description;
 	public int baseCurrencyCost;
 	public int energyUsage;
+	public float energyCapRaise;
 	public int currencyGeneration;
 	public float energyConsumptionDecrease;
 	public int researchProduction;
+	
 
 	public Texture icon;
 

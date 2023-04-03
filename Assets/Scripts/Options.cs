@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.IO;
-//maybe copy all options button click logic here
+//maybe copy all options button click logic here?
 public class Options : MonoBehaviour
 {
 	GameManager gm;

@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 		upgradeCounts = new Dictionary<string, int>();
 	}
 
-	private void Awake()
+	private void Start()
 	{
 		if (instance != null && instance != this)
 		{
@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
 
 	public bool StartResearch(ResearchNode research)
 	{
+		
 		// TODO: Check if player has unlocked at least 1 previous research
 		if (unlockedResearch.Contains(activeResearch)) return false;
 		if (research.currencyCost > currency)
@@ -207,17 +208,37 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void ResearchFinished()
-	{
+	{	
+		
 		unlockedResearch.Add(activeResearch);
-
-		foreach (var upgrade in activeResearch.unlockUpgrades)
+		if(!activeResearch.instantUnlock)
 		{
-			UnlockUpgrade(upgrade);
+			foreach (var upgrade in activeResearch.unlockUpgrades)
+			{
+				UnlockUpgrade(upgrade);
+			}
+		}
+		else
+		{
+			ApplyInstantUpgrades(activeResearch.unlockUpgrades);
 		}
 
 		var research = activeResearch;
 		StopResearchWithoutEvent();
 		OnResearchFinished(research);
+	}
+	public void ApplyInstantUpgrades(List<Upgrade> upgrades)
+	{
+		foreach(Upgrade upgrade in upgrades)
+		{
+			currencyGeneration += upgrade.currencyGeneration;
+			maxEnergy += upgrade.energyCapRaise;
+			researchProduction += upgrade.researchProduction;
+			energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
+		}
+		ui.UpdateResearchSpeedDisplay(researchProduction);
+
+		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
 	}
 	public void IncrementWindowState()
 	{
@@ -262,7 +283,7 @@ public class GameManager : MonoBehaviour
 	public void SaveGame()
 	{
 		SaveManager.Save(GetData(), savePath);
-		ui.UpdateSaveInfoText(DateTime.Now.ToString("yyyy-dd-MM HH:mm:ss"));
+		ui.UpdateSaveInfoText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 	}
 
 	public void LoadData()
@@ -270,7 +291,7 @@ public class GameManager : MonoBehaviour
 		SaveObject save = SaveManager.Load(savePath);
 		if (save == null) return;
 		SetData(save);
-		ui.UpdateSaveInfoText(lastSave.ToString("yyyy-dd-MM HH:mm:ss"));
+		ui.UpdateSaveInfoText(lastSave.ToString("yyyy-MM-dd HH:mm:ss"));
 	}
 	public void DeleteSave()
 	{
