@@ -18,6 +18,7 @@ MonoBehaviour:
     consumption by 5%.
   baseCurrencyCost: 10000
   energyUsage: 0
+  energyCapRaise: 0
   currencyGeneration: 0
   energyConsumptionDecrease: 0.05
   researchProduction: 0

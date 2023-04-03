@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
-  m_Name: Efficiency(1st tier energy)
+  m_Name: InstantTest
   m_EditorClassIdentifier: 
-  id: 11c77022-86b0-49f7-86a8-0a16d0daa847
-  displayName: Efficiency
-  description: test
-  currencyCost: 1000
-  researchCost: 100
-  sprite: {fileID: 21300000, guid: cf373cbde5909ea47a6b3a3afe78b0b2, type: 3}
-  instantUnlock: 0
+  id: dfe58874-d16d-4ab3-9365-ea041c468e53
+  displayName: Instant Unlock
+  description: Instantly unlockable
+  currencyCost: 100
+  researchCost: 50
+  sprite: {fileID: 21300000, guid: a6c7c40372a76b54baaa8023954e90a2, type: 3}
+  instantUnlock: 1
   unlockUpgrades:
-  - {fileID: 11400000, guid: ac53ab6dfe0542248b9eeea29935e55b, type: 2}
+  - {fileID: 11400000, guid: acef43339cc58ba47bf3558fe6b0b053, type: 2}

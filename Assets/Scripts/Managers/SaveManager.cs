@@ -2,7 +2,30 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System;
 
+[System.Serializable]
+public class SaveObject
+{
+	public DateTime saveTime;
+	public float currency;
+
+	public float researchProduction;
+
+	public float currencyGeneration;
+
+	public float energyUsage;
+
+	public float maxEnergy;
+
+	public float clickMultiplier;
+
+	public Dictionary<string, int> upgradeCounts;
+	public List<string> unlockedUpgrades;
+	public List<string> unlockedResearch;
+	public GameSettings settings;
+}
 public static class SaveManager 
 {
 	public static void Save(SaveObject save, string path)
@@ -38,6 +61,5 @@ public static class SaveManager
 		}
 		return null;
 	}
-	
 
 }

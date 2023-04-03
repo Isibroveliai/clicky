@@ -29,6 +29,4 @@ public class LineDrawer : MonoBehaviour
 		lr.startColor = color;
 		lr.endColor = color;
 	}
-
-
 }
