@@ -18,6 +18,7 @@ MonoBehaviour:
     Decreases energy consumption and increases research speed.
   baseCurrencyCost: 20000
   energyUsage: 0
+  energyCapRaise: 0
   currencyGeneration: 0
   energyConsumptionDecrease: 60
   researchProduction: 60

@@ -16,7 +16,8 @@ MonoBehaviour:
   displayName: You shouldn't see this
   description: Foo bar baz. heh
   currencyCost: 50
-  researchCost: 0
+  researchCost: 10
   sprite: {fileID: 21300000, guid: 36b05d25b348fba4fadf27b9dfa70562, type: 3}
+  instantUnlock: 1
   unlockUpgrades:
-  - {fileID: 11400000, guid: ee3eeeaaab9303f4f8ee0a29f61e15b7, type: 2}
+  - {fileID: 11400000, guid: acef43339cc58ba47bf3558fe6b0b053, type: 2}

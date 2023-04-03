@@ -17,6 +17,7 @@ MonoBehaviour:
   description: Science is POWER! Generate increase research speed by 10.
   baseCurrencyCost: 100
   energyUsage: 150
+  energyCapRaise: 0
   currencyGeneration: 0
   energyConsumptionDecrease: 0
   researchProduction: 10

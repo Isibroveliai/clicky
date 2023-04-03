@@ -17,6 +17,7 @@ MonoBehaviour:
   description: Invest in more coal for the furnace. Slighty increases currency generation.
   baseCurrencyCost: 10
   energyUsage: 50
+  energyCapRaise: 0
   currencyGeneration: 0
   energyConsumptionDecrease: 0
   researchProduction: 0

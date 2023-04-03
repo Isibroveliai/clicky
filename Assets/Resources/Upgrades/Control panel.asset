@@ -18,6 +18,7 @@ MonoBehaviour:
     more currency generation.
   baseCurrencyCost: 6000
   energyUsage: 75
+  energyCapRaise: 0
   currencyGeneration: 30
   energyConsumptionDecrease: 0
   researchProduction: 0

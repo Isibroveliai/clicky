@@ -15,7 +15,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	private Image image;
 	UIManager ui;
 
-	void Start()
+	void Awake()
     {
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		image = GetComponent<Image>();

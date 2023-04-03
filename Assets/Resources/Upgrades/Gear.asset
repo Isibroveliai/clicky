@@ -18,6 +18,7 @@ MonoBehaviour:
     per click!
   baseCurrencyCost: 100
   energyUsage: 25
+  energyCapRaise: 0
   currencyGeneration: 10
   energyConsumptionDecrease: 0
   researchProduction: 0
