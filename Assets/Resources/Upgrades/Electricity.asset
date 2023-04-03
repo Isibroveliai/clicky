@@ -18,5 +18,7 @@ MonoBehaviour:
     100 more currency per click!
   baseCurrencyCost: 100
   energyUsage: 0
-  generation: 100
+  currencyGeneration: 0
+  energyConsumptionDecrease: 0
+  researchProduction: 0
   icon: {fileID: 2800000, guid: cf373cbde5909ea47a6b3a3afe78b0b2, type: 3}
