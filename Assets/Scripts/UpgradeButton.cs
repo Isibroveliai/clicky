@@ -25,6 +25,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	private Button button;
 	private bool isButtonHovering = false;
 	private bool isButtonPressed = false;
+	private Button disableButton;//
+	private bool isDisabled = false; //
 
 	private float lastBuy = 0;
 	private int buyUpgradeSoundIdx = 0;
@@ -40,6 +42,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		energyCostLabel = transform.Find("Button/EnergyCost").GetComponent<TMP_Text>();
 		boughtCountLabel = transform.Find("Counter").GetComponent<TMP_Text>();
 		button = transform.Find("Button").GetComponent<Button>();
+		disableButton = transform.Find("DisableButton").GetComponent<Button>();//
 		audioPlayer = GetComponent<AudioSource>();
 		RawImage icon = transform.Find("Icon frame/Icon mask/Icon").GetComponent<RawImage>();
 
@@ -60,30 +63,38 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	{
 		// TODO: Refactor, to not check can buy every frame.
 		// Add "OnClick" event to ClickerManager to solve this problem.
-		button.interactable = upgrade.CanBuy();
-
-		Color buttonTextColor = button.interactable ? normalTextColor : disabledTextColor;
-		currencyCostLabel.color = buttonTextColor;
-		energyCostLabel.color = buttonTextColor;
-		nameLabel.color = buttonTextColor;
-
-		if (!button.interactable && isButtonHovering)
+		if (isDisabled)
 		{
-			currencyCostLabel.color = currencyHighlightColor;
+			button.interactable = false;
 		}
-
-		float now = Time.time;
-		float buyInterval = buyUpgradeSound[buyUpgradeSoundIdx].length / buySpeed;
-		if ((now - lastBuy) > buyInterval)
+		else
 		{
-			if (isButtonPressed && upgrade.CanBuy())
+			button.interactable = upgrade.CanBuy();
+
+
+			Color buttonTextColor = button.interactable ? normalTextColor : disabledTextColor;
+			currencyCostLabel.color = buttonTextColor;
+			energyCostLabel.color = buttonTextColor;
+			nameLabel.color = buttonTextColor;
+
+			if (!button.interactable && isButtonHovering)
 			{
-				BuyUpgrade();
-				buySpeed = Math.Min(buySpeed * 1.05f, 2f);
+				currencyCostLabel.color = currencyHighlightColor;
 			}
-			else
+
+			float now = Time.time;
+			float buyInterval = buyUpgradeSound[buyUpgradeSoundIdx].length / buySpeed;
+			if ((now - lastBuy) > buyInterval)
 			{
-				buySpeed = 1;
+				if (isButtonPressed && upgrade.CanBuy())
+				{
+					BuyUpgrade();
+					buySpeed = Math.Min(buySpeed * 1.05f, 2f);
+				}
+				else
+				{
+					buySpeed = 1;
+				}
 			}
 		}
 	}
@@ -129,6 +140,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void OnButtonPressed()
 	{
+		Debug.Log("pressed");
 		if (!button.IsInteractable()) return;
 
 		var pos = button.transform.localPosition;
@@ -138,9 +150,30 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void OnButtonReleased()
 	{
+		Debug.Log("released");
 		if (!button.IsInteractable()) return;
 		var pos = button.transform.localPosition;
 		button.transform.localPosition = new Vector3(pos.x, pos.y + pressedOffset, pos.z);
 		isButtonPressed = false;
 	}
+
+	//
+	public void DisableButtonPressed()
+	{
+		Debug.Log("disableButton");
+		if (isDisabled)
+		{
+			var pos = button.transform.localPosition;
+			isDisabled = false;
+			GameManager.instance.EnableUpgrade(upgrade);
+		}
+		else
+		{
+			var pos = button.transform.localPosition;
+			isDisabled = true;
+			GameManager.instance.DisableUpgrade(upgrade);
+		}
+		
+	}
+
 }

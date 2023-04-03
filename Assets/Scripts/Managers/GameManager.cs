@@ -162,6 +162,54 @@ public class GameManager : MonoBehaviour
 		OnUpgradeBought(upgrade);
 	}
 
+	public void DisableUpgrade(Upgrade upgrade)
+	{
+		if (!upgradeCounts.ContainsKey(upgrade.id))
+		{
+			upgradeCounts.Add(upgrade.id, 0);
+		}
+
+		currencyGeneration -= upgrade.currencyGeneration * upgradeCounts[upgrade.id];
+		energyUsage -= upgrade.energyUsage * upgradeCounts[upgrade.id];
+		energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
+		researchProduction -= upgrade.researchProduction * upgradeCounts[upgrade.id];
+		ui.UpdateResearchSpeedDisplay(researchProduction);
+		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
+
+		if (energyUsage >= maxEnergy)
+		{
+			ui.UpdateEnergyDisplayDanger(true);
+		}
+		else
+		{
+			ui.UpdateEnergyDisplayDanger(false);
+		}
+	}
+
+	public void EnableUpgrade(Upgrade upgrade)
+	{
+		if (!upgradeCounts.ContainsKey(upgrade.id))
+		{
+			upgradeCounts.Add(upgrade.id, 0);
+		}
+
+		currencyGeneration += upgrade.currencyGeneration * upgradeCounts[upgrade.id];
+		energyUsage += upgrade.energyUsage * upgradeCounts[upgrade.id];
+		energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
+		researchProduction += upgrade.researchProduction * upgradeCounts[upgrade.id];
+		ui.UpdateResearchSpeedDisplay(researchProduction);
+		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
+
+		if (energyUsage >= maxEnergy)
+		{
+			ui.UpdateEnergyDisplayDanger(true);
+		}
+		else
+		{
+			ui.UpdateEnergyDisplayDanger(false);
+		}
+	}
+
 	public bool StartResearch(ResearchNode research)
 	{
 		
