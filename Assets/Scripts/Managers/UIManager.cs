@@ -56,17 +56,16 @@ public class UIManager : MonoBehaviour
 	{
 		eventTab.SetActive(false);
 		gameOverTab.SetActive(false);
-
 		activeTab = tabs[0];
 		for (int i = 0; i < tabs.Length; i++)
 		{
 			UITab tab = tabs[i];
-			tab.panel.SetActive(true); //to do all their Start() methods
+			//tab.panel.SetActive(true); //to do all their Start() methods
 			
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
 			//if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
 			//else if(tab.panel.name == "Options") 
-			tab.panel.SetActive(false);
+			//tab.panel.SetActive(false);
 		}
 
 		initialProgressbarSize = researchProgressbar.sizeDelta.x;
@@ -76,12 +75,14 @@ public class UIManager : MonoBehaviour
 		UpdateResearchDescription("");
 		UpdateResearchAdditionalText("", startingLineColor);
 
-		LoadUnlockedUpgrades(GameManager.instance.unlockedUpgrades);
+		GameManager mng = GameManager.instance;
+		LoadUnlockedUpgrades(mng.unlockedUpgradeObjs);
 		//fixes display issue on start when save date is loaded
-		UpdateEnergyDisplayDanger(GameManager.instance.energyUsage >= GameManager.instance.maxEnergy);
-		UpdateEnergyDisplay(GameManager.instance.energyUsage, GameManager.instance.maxEnergy);
-		UpdateScoreDisplay(GameManager.instance.currency);
-		UpdateResearchSpeedDisplay(GameManager.instance.researchProduction);
+		UpdateEnergyDisplayDanger(mng.data.energyUsage >= mng.data.maxEnergy);
+		UpdateEnergyDisplay(mng.data.energyUsage, mng.data.maxEnergy);
+		UpdateScoreDisplay(mng.data.currency);
+		UpdateResearchSpeedDisplay(mng.data.researchProduction);
+
 		
 	}
 
@@ -132,20 +133,7 @@ public class UIManager : MonoBehaviour
 	{
 		researchCounter.text = researchSpeed.ToString();
 	}
-	public void SetVolumeValue(float value)
-	{
-		volumeSlider.value = value;
-		UpdateVolumeText(value.ToString());
-	}
-	public void UpdateVolumeText(string text)
-	{
-		volumeValueText.text = text;
-	}
-	public void OnVolumeChange()
-	{
-		UpdateVolumeText(volumeSlider.value.ToString());
-		GameManager.instance.settings.volumeLevel = volumeSlider.value;
-	}
+	
 
 	
 	// TODO: Add remove? idk if we will need it
@@ -185,14 +173,6 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void UpdateWindowChangeButtonText(string text)
-	{
-		changeWindowButtonObj.GetComponentInChildren<TMP_Text>().text = text;
-	}
-	public void UpdateSaveInfoText(string text)
-	{
-		saveInfoText.text = text;
-	}
 	void LoadUnlockedUpgrades(List<Upgrade> upgrades)
 	{
 		foreach (var upgrade in upgrades)

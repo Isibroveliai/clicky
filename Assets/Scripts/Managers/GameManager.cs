@@ -11,46 +11,91 @@ public class GameSettings
 	public int windowState;
 	public string windowStateName;
 	public float volumeLevel;
-	public GameSettings()
+	public  GameSettings()
 	{
 		windowState = 1;
 		windowStateName = "Large";
-		volumeLevel = 100f; //rip ears
+		volumeLevel = 50f;
 	}
-	// public GameSettings(int windowState, string windowStateName)
-	// {
-	// 	this.windowState = windowState;
-	// 	this.windowStateName = windowStateName;
-	// }
 }
-//PASIULYMAS: PERKELT DATA I ATSKIRA KLASE?
-//public class GameData{}
-
-public class GameManager : MonoBehaviour
+[System.Serializable]
+public class GameData
 {
-	public GameSettings settings;
-	public static GameManager instance;
-	private static UIManager ui;
-	public List<Upgrade> allUpgrades;
-
-	public HugeNumber currency = new HugeNumber(0);
+	public DateTime lastSave;
+	public HugeNumber currency;
 
 	public Dictionary<string, int> upgradeCounts;
 
 	//[ReadOnly]
-	public float researchProduction = 0;
+	public float researchProduction;
 	//[ReadOnly]
-	public HugeNumber currencyGeneration = new HugeNumber(0);
+	public HugeNumber currencyGeneration;
 	//[ReadOnly]
-	public float energyUsage = 0;
+	public float energyUsage;
 	
-	public float maxEnergy = 1000; // TOD: Make this upgradable
+	public float maxEnergy;
 
-	public HugeNumber clickMultiplier = new HugeNumber(1);
+	public HugeNumber clickMultiplier;
 
-	public List<Upgrade> unlockedUpgrades;
-	public List<ResearchNode> unlockedResearch;
+	public List<string> unlockedUpgrade;
+	public List<string> unlockedResearch;
+	public GameData()
+	{
+		lastSave = DateTime.MinValue;
+		currencyGeneration = new HugeNumber(0);
+		researchProduction = 0;
+		currency = new HugeNumber(0);
+		energyUsage = 0;
+		maxEnergy = 0;
+		clickMultiplier = new HugeNumber(1);
+		unlockedResearch = new List<string>();
+		unlockedUpgrade = new List<string>();
+		upgradeCounts = new Dictionary<string, int>();
+	}
+	/// <summary>
+	/// Gets list of paths of scriptable objects assets (cant serialize scriptable objects themselves)
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="objects"></param>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	public List<string> GetScriptableObjectPaths<T>(List<T> objects, string path) where T: ScriptableObject
+	{
+		List<string> paths = new List<string>();
+		foreach(var asset in objects) 
+		{
+			string fullPath = path + "/" + asset.name;
+			paths.Add(fullPath);
+		}
+		return paths;
+	}
+	/// <summary>
+	/// Loads scriptable objects from given paths list
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="objectPaths"></param>
+	/// <returns></returns>
+	public List<T> LoadScriptableObjects<T>(List<string> objectPaths) where T : ScriptableObject
+	{
+		List<T> objects = new List<T>();
+		foreach (string path in objectPaths)
+		{
+			objects.Add((T)Resources.Load(path));
+		}
+		return objects;
+	}
+}
 
+public class GameManager : MonoBehaviour
+{
+	public GameData data;
+	public GameSettings settings;
+	public static GameManager instance;
+	private static UIManager ui;
+	public List<Upgrade> allUpgrades;
+	public List<Upgrade> unlockedUpgradeObjs;
+	public List<ResearchNode> unlockedResearchObjs;
+	
 	private ResearchNode activeResearch;
 	private float researchProgress;
 
@@ -63,14 +108,9 @@ public class GameManager : MonoBehaviour
 	// GAME SETTINGS
 	public string saveFile = "clicky.sav"; 
 	public string savePath;
-	public DateTime lastSave;
 
-	public GameManager()
-	{
-		upgradeCounts = new Dictionary<string, int>();
-	}
 
-	private void Start()
+	private void Awake()
 	{
 		if (instance != null && instance != this)
 		{
@@ -78,31 +118,29 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 		instance = this;
+		Debug.Log("game manager start");
 		//DontDestroyOnLoad(this.gameObject);
 		Setup();
 	}
 
 	void Setup()
 	{
-		ui = GameObject.Find("/UI").GetComponent<UIManager>();
-		ui.UpdateUpgradeDescription("");
-		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
-		ui.UpdateResearchSpeedDisplay(researchProduction);
-		ui.UpdateSaveInfoText("");
-		savePath = Path.Combine(Application.persistentDataPath, saveFile);
 		settings = new GameSettings();
+		data = new GameData();
+		ui = GameObject.Find("/UI").GetComponent<UIManager>();
+		savePath = Path.Combine(Application.persistentDataPath, saveFile);
 		LoadData();
-		ui.UpdateWindowChangeButtonText(settings.windowStateName);
-		ui.SetVolumeValue(settings.volumeLevel);
 	}
 
 	void Update()
 	{
-		currency += currencyGeneration * Time.deltaTime;
+		if(SceneManager.GetActiveScene().buildIndex == 0) return; // if in main menu do nothing 
+
+		data.currency += data.currencyGeneration * Time.deltaTime;
 
 		if (activeResearch)
 		{
-			researchProgress += researchProduction * Time.deltaTime;
+			researchProgress += data.researchProduction * Time.deltaTime;
 			float percent = Math.Clamp(researchProgress / activeResearch.researchCost, 0, 1);
 			ui.UpdateResearchProgress(percent);
 
@@ -112,12 +150,12 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		ui.UpdateScoreDisplay(currency);
+		ui.UpdateScoreDisplay(data.currency);
 	}
 
 	public void GenerateCurrency()
 	{
-		currency += clickMultiplier;
+		data.currency += data.clickMultiplier;
 	}
 
 	public void RestartScene()
@@ -127,24 +165,24 @@ public class GameManager : MonoBehaviour
 
 	public void UnlockUpgrade(Upgrade upgrade)
 	{
-		if (unlockedUpgrades.Contains(upgrade)) return;
+		if (unlockedUpgradeObjs.Contains(upgrade)) return;
 
-		unlockedUpgrades.Add(upgrade);
+		unlockedUpgradeObjs.Add(upgrade);
 		ui.AppendUpgradeButton(upgrade);
 	}
 
 	public void BuyUpgrade(Upgrade upgrade)
 	{
-		currency -= upgrade.baseCurrencyCost;
-		currencyGeneration += upgrade.currencyGeneration;
-		energyUsage += upgrade.energyUsage;
-		energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
+		data.currency -= upgrade.baseCurrencyCost;
+		data.currencyGeneration += upgrade.currencyGeneration;
+		data.energyUsage += upgrade.energyUsage;
+		data.energyUsage = Math.Max(data.energyUsage - data.energyUsage * upgrade.energyConsumptionDecrease, 0);
 
-		researchProduction += upgrade.researchProduction;
-		ui.UpdateResearchSpeedDisplay(researchProduction);
+		data.researchProduction += upgrade.researchProduction;
+		ui.UpdateResearchSpeedDisplay(data.researchProduction);
 		
-		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
-		if(energyUsage >= maxEnergy)
+		ui.UpdateEnergyDisplay(data.energyUsage, data.maxEnergy);
+		if(data.energyUsage >= data.maxEnergy)
 		{
 			ui.UpdateEnergyDisplayDanger(true);
 		}
@@ -153,30 +191,30 @@ public class GameManager : MonoBehaviour
 			ui.UpdateEnergyDisplayDanger(false);
 		}
 
-		if (!upgradeCounts.ContainsKey(upgrade.id))
+		if (!data.upgradeCounts.ContainsKey(upgrade.id))
 		{
-			upgradeCounts.Add(upgrade.id, 0);
+			data.upgradeCounts.Add(upgrade.id, 0);
 		}
-		upgradeCounts[upgrade.id]++;
+		data.upgradeCounts[upgrade.id]++;
 
 		OnUpgradeBought(upgrade);
 	}
 
 	public void DisableUpgrade(Upgrade upgrade)
 	{
-		if (!upgradeCounts.ContainsKey(upgrade.id))
+		if (!data.upgradeCounts.ContainsKey(upgrade.id))
 		{
-			upgradeCounts.Add(upgrade.id, 0);
+			data.upgradeCounts.Add(upgrade.id, 0);
 		}
 
-		currencyGeneration -= upgrade.currencyGeneration * upgradeCounts[upgrade.id];
-		energyUsage -= upgrade.energyUsage * upgradeCounts[upgrade.id];
-		energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
-		researchProduction -= upgrade.researchProduction * upgradeCounts[upgrade.id];
-		ui.UpdateResearchSpeedDisplay(researchProduction);
-		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
+		data.currencyGeneration -= upgrade.currencyGeneration * data.upgradeCounts[upgrade.id];
+		data.energyUsage -= upgrade.energyUsage * data.upgradeCounts[upgrade.id];
+		data.energyUsage = Math.Max(data.energyUsage - data.energyUsage * upgrade.energyConsumptionDecrease, 0);
+		data.researchProduction -= upgrade.researchProduction * data.upgradeCounts[upgrade.id];
+		ui.UpdateResearchSpeedDisplay(data.researchProduction);
+		ui.UpdateEnergyDisplay(data.energyUsage, data.maxEnergy);
 
-		if (energyUsage >= maxEnergy)
+		if (data.energyUsage >= data.maxEnergy)
 		{
 			ui.UpdateEnergyDisplayDanger(true);
 		}
@@ -188,19 +226,19 @@ public class GameManager : MonoBehaviour
 
 	public void EnableUpgrade(Upgrade upgrade)
 	{
-		if (!upgradeCounts.ContainsKey(upgrade.id))
+		if (!data.upgradeCounts.ContainsKey(upgrade.id))
 		{
-			upgradeCounts.Add(upgrade.id, 0);
+			data.upgradeCounts.Add(upgrade.id, 0);
 		}
 
-		currencyGeneration += upgrade.currencyGeneration * upgradeCounts[upgrade.id];
-		energyUsage += upgrade.energyUsage * upgradeCounts[upgrade.id];
-		energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
-		researchProduction += upgrade.researchProduction * upgradeCounts[upgrade.id];
-		ui.UpdateResearchSpeedDisplay(researchProduction);
-		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
+		data.currencyGeneration += upgrade.currencyGeneration * data.upgradeCounts[upgrade.id];
+		data.energyUsage += upgrade.energyUsage * data.upgradeCounts[upgrade.id];
+		data.energyUsage = Math.Max(data.energyUsage - data.energyUsage * upgrade.energyConsumptionDecrease, 0);
+		data.researchProduction += upgrade.researchProduction * data.upgradeCounts[upgrade.id];
+		ui.UpdateResearchSpeedDisplay(data.researchProduction);
+		ui.UpdateEnergyDisplay(data.energyUsage, data.maxEnergy);
 
-		if (energyUsage >= maxEnergy)
+		if (data.energyUsage >= data.maxEnergy)
 		{
 			ui.UpdateEnergyDisplayDanger(true);
 		}
@@ -214,8 +252,8 @@ public class GameManager : MonoBehaviour
 	{
 		
 		// TODO: Check if player has unlocked at least 1 previous research
-		if (unlockedResearch.Contains(activeResearch)) return false;
-		if (research.currencyCost > currency)
+		if (unlockedResearchObjs.Contains(activeResearch)) return false;
+		if (research.currencyCost > data.currency)
 		{
 			return false;
 		}
@@ -223,7 +261,7 @@ public class GameManager : MonoBehaviour
 		{
 			OnResearchStopped(activeResearch);
 		}
-		currency -= research.currencyCost;
+		data.currency -= research.currencyCost;
 		
 		activeResearch = research;
 		if (research.researchCost > 0)
@@ -258,7 +296,7 @@ public class GameManager : MonoBehaviour
 	public void ResearchFinished()
 	{	
 		
-		unlockedResearch.Add(activeResearch);
+		unlockedResearchObjs.Add(activeResearch);
 		if(!activeResearch.instantUnlock)
 		{
 			foreach (var upgrade in activeResearch.unlockUpgrades)
@@ -279,59 +317,14 @@ public class GameManager : MonoBehaviour
 	{
 		foreach(Upgrade upgrade in upgrades)
 		{
-			currencyGeneration += upgrade.currencyGeneration;
-			maxEnergy += upgrade.energyCapRaise;
-			researchProduction += upgrade.researchProduction;
-			energyUsage = Math.Max(energyUsage - energyUsage * upgrade.energyConsumptionDecrease, 0);
+			data.currencyGeneration += upgrade.currencyGeneration;
+			data.maxEnergy += upgrade.energyCapRaise;
+			data.researchProduction += upgrade.researchProduction;
+			data.energyUsage = Math.Max(data.energyUsage - data.energyUsage * upgrade.energyConsumptionDecrease, 0);
 		}
-		ui.UpdateResearchSpeedDisplay(researchProduction);
+		ui.UpdateResearchSpeedDisplay(data.researchProduction);
 
-		ui.UpdateEnergyDisplay(energyUsage, maxEnergy);
-	}
-	public void IncrementWindowState()
-	{
-		settings.windowState++;
-		if (settings.windowState >= 2)
-		{
-			settings.windowState = 0;
-		}
-		ChangeWindowSize(settings.windowState);
-	}
-	public void ChangeWindowSize(int state)
-	{
-		switch (state)
-		{
-			case 0:
-				settings.windowStateName = "Small";
-				Screen.SetResolution(640, 480, false);
-				break;
-
-			case 1:
-				settings.windowStateName = "Large";
-				Screen.SetResolution(1280, 960, false);
-				break;
-			// maybe in future idk, looks shit now
-			// case 2:
-			// 	settings.windowStateName = "Fullscreen";
-				
-			// 	Screen.SetResolution(1280, 960, true);
-
-			// 	break;
-
-			default:
-				break;
-		}
-		ui.UpdateWindowChangeButtonText(settings.windowStateName);
-	}
-	public void QuitGame()
-	{
-		SaveGame();
-		Application.Quit();
-	}
-	public void SaveGame()
-	{
-		SaveManager.Save(GetData(), savePath);
-		ui.UpdateSaveInfoText(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+		ui.UpdateEnergyDisplay(data.energyUsage,data. maxEnergy);
 	}
 
 	public void LoadData()
@@ -339,18 +332,9 @@ public class GameManager : MonoBehaviour
 		SaveObject save = SaveManager.Load(savePath);
 		if (save == null) return;
 		SetData(save);
-		ui.UpdateSaveInfoText(lastSave.ToString("yyyy-MM-dd HH:mm:ss"));
+		
 	}
-	public void DeleteSave()
-	{
-		if(File.Exists(savePath))
-		{
-			File.Delete(savePath);
-			Debug.Log("Save deleted");
-			return;
-		}
-		Debug.Log("Save file not found");
-	}
+
 	/// <summary>
 	/// Sets all the data from a save object 
 	/// </summary>
@@ -358,19 +342,12 @@ public class GameManager : MonoBehaviour
 	public void SetData(SaveObject save)
 	{
 		if (save == null) return;
-		clickMultiplier = save.clickMultiplier;
-		currency = save.currency;
-		currencyGeneration = save.currencyGeneration; 
-		researchProduction = save.researchProduction;
-		energyUsage = save.energyUsage;
-		maxEnergy = save.maxEnergy;
-		
-		unlockedResearch = LoadScriptableObjects<ResearchNode>(save.unlockedResearch);
-		unlockedUpgrades = LoadScriptableObjects<Upgrade>(save.unlockedUpgrades);
-		upgradeCounts = save.upgradeCounts;
 		settings = save.settings;
-		lastSave = save.saveTime;
+		data = save.data;
+		unlockedResearchObjs = data.LoadScriptableObjects<ResearchNode>(data.unlockedResearch);
+		unlockedUpgradeObjs = data.LoadScriptableObjects<Upgrade>(data.unlockedUpgrade);
 	}
+
 	/// <summary>
 	/// Creates a save object from data
 	/// </summary>
@@ -378,50 +355,11 @@ public class GameManager : MonoBehaviour
 	public SaveObject GetData()
 	{
 		SaveObject save = new SaveObject();
-		save.saveTime = DateTime.Now;
-		save.clickMultiplier = clickMultiplier;
-		save.currency = currency;
-		save.currencyGeneration = currencyGeneration;
-		save.researchProduction = researchProduction;
-		save.energyUsage = energyUsage;
-		save.maxEnergy = maxEnergy;
-		save.unlockedResearch = GetScriptableObjectPaths(unlockedResearch, "Research");
-		save.unlockedUpgrades = GetScriptableObjectPaths(unlockedUpgrades, "Upgrades");
-		save.upgradeCounts = upgradeCounts;
+		data.unlockedResearch = data.GetScriptableObjectPaths<ResearchNode>(unlockedResearchObjs, "Research");
+		data.unlockedUpgrade = data.GetScriptableObjectPaths<Upgrade>(unlockedUpgradeObjs, "Upgrades");
+		data.lastSave = DateTime.Now;
 		save.settings = settings;
-
+		save.data = data;
 		return save;
-	}
-	/// <summary>
-	/// Gets list of paths of scriptable objects assets (cant serialize scriptable objects themselves)
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="objects"></param>
-	/// <param name="path"></param>
-	/// <returns></returns>
-	List<string> GetScriptableObjectPaths<T>(List<T> objects, string path) where T: ScriptableObject
-	{
-		List<string> paths = new List<string>();
-		foreach(var asset in objects) 
-		{
-			string fullPath = path + "/" + asset.name;
-			paths.Add(fullPath);
-		}
-		return paths;
-	}
-	/// <summary>
-	/// Loads scriptable objects from given paths list
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="objectPaths"></param>
-	/// <returns></returns>
-	List<T> LoadScriptableObjects<T>(List<string> objectPaths) where T : ScriptableObject
-	{
-		List<T> objects = new List<T>();
-		foreach (string path in objectPaths)
-		{
-			objects.Add((T)Resources.Load(path));
-		}
-		return objects;
 	}
 }

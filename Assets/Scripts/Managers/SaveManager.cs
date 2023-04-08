@@ -8,23 +8,9 @@ using System;
 [System.Serializable]
 public class SaveObject
 {
-	public DateTime saveTime;
-	public HugeNumber currency;
-
-	public float researchProduction;
-
-	public HugeNumber currencyGeneration;
-
-	public float energyUsage;
-
-	public float maxEnergy;
-
-	public HugeNumber clickMultiplier;
-
-	public Dictionary<string, int> upgradeCounts;
-	public List<string> unlockedUpgrades;
-	public List<string> unlockedResearch;
+	public GameData data;
 	public GameSettings settings;
+
 }
 public static class SaveManager 
 {

@@ -12,7 +12,7 @@ public class ResearchTabManager : MonoBehaviour
 	[SerializeField]
 	GameObject content;
 	UIManager ui;
-	GameManager gameManager;
+	GameManager mng;
 	public Dictionary<ResearchNodeButton, List<Tuple<ResearchNodeButton, LineDrawer>>> graph; // stores node and its neighbors along with their lines
 	
 	Dictionary<ResearchNode, ResearchNodeButton> nodeButtonPairs; // used to get ResearchNodeButton that corresponds to ResearchNode
@@ -29,7 +29,7 @@ public class ResearchTabManager : MonoBehaviour
 	void Start()
     {
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
-		gameManager = GameManager.instance;
+		mng = GameManager.instance;
 		nodeButtonPairs = new Dictionary<ResearchNode, ResearchNodeButton>();
 
 		graph = new Dictionary<ResearchNodeButton, List<Tuple<ResearchNodeButton, LineDrawer>>>();
@@ -79,7 +79,7 @@ public class ResearchTabManager : MonoBehaviour
 		GameManager.OnResearchFinished += OnResearchFinished;
 		GameManager.OnResearchStopped += OnResearchStopped;
 
-		LoadButtonState(GameManager.instance.unlockedResearch);
+		LoadButtonState(mng.unlockedResearchObjs);
 	}
 
 

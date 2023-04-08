@@ -14,12 +14,12 @@ public class EventManager : MonoBehaviour
 
 	public float currentScore;
 
-	GameManager manager;
+	GameManager mng;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		manager = GameManager.instance;
+		mng = GameManager.instance;
 		InvokeRepeating("EventInitiation", eventfrequency, eventfrequency);
 		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 	}
@@ -84,33 +84,33 @@ public class EventManager : MonoBehaviour
 		ui.SetEventText("Hard times... Resource generation is slower..");
 		ui.SetEventTextShown(true);
 
-		manager.clickMultiplier = new HugeNumber(0.5f);
+		mng.data.clickMultiplier = new HugeNumber(0.5f);
 	}
 	private void Event1End()
 	{
 		ui.SetEventTextShown(false);
-		manager.clickMultiplier = new HugeNumber(1);
+		mng.data.clickMultiplier = new HugeNumber(1);
 	}
 	private void Event2Start()
 	{
 		ui.SetEventText("Inspiration! You gain currency faster!");
 		ui.SetEventTextShown(true);
-		manager.clickMultiplier = new HugeNumber(5);
+		mng.data.clickMultiplier = new HugeNumber(5);
 	}
 	private void Event2End()
 	{
 		ui.SetEventTextShown(false);
-		manager.clickMultiplier = new HugeNumber(1);
+		mng.data.clickMultiplier = new HugeNumber(1);
 	}
 	private void Event3Start()
 	{
 		ui.SetEventText("Eureka! Your research accelerates!");
 		ui.SetEventTextShown(true);
-		manager.researchProduction *= 2;
+		mng.data.researchProduction *= 2;
 	}
 	private void Event3End()
 	{
 		ui.SetEventTextShown(false);
-		manager.researchProduction /= 2;
+		mng.data.researchProduction /= 2;
 	}
 }

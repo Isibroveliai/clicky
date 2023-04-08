@@ -21,8 +21,8 @@ public class Upgrade : ScriptableObject
 
 	public bool CanBuy()
 	{
-		GameManager manager = GameManager.instance;
-		return manager.currency >= baseCurrencyCost;
+		GameManager mng = GameManager.instance;
+		return mng.data.currency >= baseCurrencyCost;
 	}
 
 	public void Buy()

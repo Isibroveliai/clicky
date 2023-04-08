@@ -36,7 +36,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	{
 		buyUpgradeSound = AudioManager.instance.buyUpgrade;
 
-		GameManager manager = GameManager.instance;
+		GameManager mng = GameManager.instance;
 		nameLabel = transform.Find("Button/Label").GetComponent<TMP_Text>();
 		currencyCostLabel = transform.Find("Button/CurrencyCost").GetComponent<TMP_Text>();
 		energyCostLabel = transform.Find("Button/EnergyCost").GetComponent<TMP_Text>();
@@ -112,8 +112,8 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void UpdateCountLabel()
 	{
-		GameManager manager = GameManager.instance;
-		boughtCountLabel.text = string.Format("x {0}", manager.upgradeCounts.GetValueOrDefault(upgrade.id, 0));
+		GameManager mng = GameManager.instance;
+		boughtCountLabel.text = string.Format("x {0}", mng.data.upgradeCounts.GetValueOrDefault(upgrade.id, 0));
 	}
 
 	public void OnPointerExit(PointerEventData eventData)

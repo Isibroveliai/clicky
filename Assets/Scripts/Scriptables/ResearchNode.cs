@@ -19,7 +19,7 @@ public class ResearchNode : ScriptableObject
 	
   	public bool CanBuy()
 	{
-		GameManager manager = GameManager.instance;
-		return manager.currency >= currencyCost;
+		GameManager mng = GameManager.instance;
+		return mng.data.currency >= currencyCost;
 	}
 }
