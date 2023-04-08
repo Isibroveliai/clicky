@@ -33,20 +33,20 @@ public class GameManager : MonoBehaviour
 	private static UIManager ui;
 	public List<Upgrade> allUpgrades;
 
-	public float currency = 0;
+	public HugeNumber currency = new HugeNumber(0);
 
 	public Dictionary<string, int> upgradeCounts;
 
 	//[ReadOnly]
 	public float researchProduction = 0;
 	//[ReadOnly]
-	public float currencyGeneration = 0;
+	public HugeNumber currencyGeneration = new HugeNumber(0);
 	//[ReadOnly]
 	public float energyUsage = 0;
 	
 	public float maxEnergy = 1000; // TOD: Make this upgradable
 
-	public float clickMultiplier = 1;
+	public HugeNumber clickMultiplier = new HugeNumber(1);
 
 	public List<Upgrade> unlockedUpgrades;
 	public List<ResearchNode> unlockedResearch;
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		ui.UpdateScoreDisplay((ulong)currency);
+		ui.UpdateScoreDisplay(currency);
 	}
 
 	public void GenerateCurrency()
@@ -360,7 +360,7 @@ public class GameManager : MonoBehaviour
 		if (save == null) return;
 		clickMultiplier = save.clickMultiplier;
 		currency = save.currency;
-		currencyGeneration = save.currencyGeneration;
+		currencyGeneration = save.currencyGeneration; 
 		researchProduction = save.researchProduction;
 		energyUsage = save.energyUsage;
 		maxEnergy = save.maxEnergy;

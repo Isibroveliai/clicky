@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
 		//fixes display issue on start when save date is loaded
 		UpdateEnergyDisplayDanger(GameManager.instance.energyUsage >= GameManager.instance.maxEnergy);
 		UpdateEnergyDisplay(GameManager.instance.energyUsage, GameManager.instance.maxEnergy);
-		UpdateScoreDisplay((ulong)GameManager.instance.currency);
+		UpdateScoreDisplay(GameManager.instance.currency);
 		UpdateResearchSpeedDisplay(GameManager.instance.researchProduction);
 		
 	}
@@ -104,9 +104,9 @@ public class UIManager : MonoBehaviour
 		gameOverTab.SetActive(isShown);
 	}
 
-	public void UpdateScoreDisplay(ulong score)
+	public void UpdateScoreDisplay(HugeNumber score)
 	{
-		currencyCounter.text = string.Format("{0}$", score);
+		currencyCounter.text = string.Format("{0} $", score);
 	}
 
 	public void UpdateEnergyDisplay(float current, float max)

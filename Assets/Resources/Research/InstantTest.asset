@@ -15,7 +15,9 @@ MonoBehaviour:
   id: dfe58874-d16d-4ab3-9365-ea041c468e53
   displayName: Instant Unlock
   description: Instantly unlockable
-  currencyCost: 100
+  currencyCost:
+    value: 0
+    postfix: 0
   researchCost: 50
   sprite: {fileID: 21300000, guid: a6c7c40372a76b54baaa8023954e90a2, type: 3}
   instantUnlock: 1

@@ -1305,12 +1305,18 @@ MonoBehaviour:
     windowStateName: Large
     volumeLevel: 100
   allUpgrades: []
-  currency: 2500
+  currency:
+    value: 0
+    postfix: 0
   researchProduction: 0
-  currencyGeneration: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyUsage: 0
   maxEnergy: 1000
-  clickMultiplier: 1
+  clickMultiplier:
+    value: 1
+    postfix: 0
   unlockedUpgrades: []
   unlockedResearch: []
   saveFile: clicky.sav
@@ -6134,7 +6140,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 581296274}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

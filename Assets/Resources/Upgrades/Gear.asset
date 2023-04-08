@@ -16,10 +16,14 @@ MonoBehaviour:
   displayName: Gear
   description: Overclock your furnace! Each addtional gear provides 10 more currency
     per click!
-  baseCurrencyCost: 100
+  baseCurrencyCost:
+    value: 0
+    postfix: 0
   energyUsage: 25
   energyCapRaise: 0
-  currencyGeneration: 10
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
   icon: {fileID: 2800000, guid: e4ab2c2c487846b4ba50767f3045e0c5, type: 3}

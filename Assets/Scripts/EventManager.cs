@@ -84,23 +84,23 @@ public class EventManager : MonoBehaviour
 		ui.SetEventText("Hard times... Resource generation is slower..");
 		ui.SetEventTextShown(true);
 
-		manager.clickMultiplier = 0.5f;
+		manager.clickMultiplier = new HugeNumber(0.5f);
 	}
 	private void Event1End()
 	{
 		ui.SetEventTextShown(false);
-		manager.clickMultiplier = 1;
+		manager.clickMultiplier = new HugeNumber(1);
 	}
 	private void Event2Start()
 	{
 		ui.SetEventText("Inspiration! You gain currency faster!");
 		ui.SetEventTextShown(true);
-		manager.clickMultiplier = 5;
+		manager.clickMultiplier = new HugeNumber(5);
 	}
 	private void Event2End()
 	{
 		ui.SetEventTextShown(false);
-		manager.clickMultiplier = 1;
+		manager.clickMultiplier = new HugeNumber(1);
 	}
 	private void Event3Start()
 	{

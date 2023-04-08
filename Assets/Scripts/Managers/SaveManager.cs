@@ -9,17 +9,17 @@ using System;
 public class SaveObject
 {
 	public DateTime saveTime;
-	public float currency;
+	public HugeNumber currency;
 
 	public float researchProduction;
 
-	public float currencyGeneration;
+	public HugeNumber currencyGeneration;
 
 	public float energyUsage;
 
 	public float maxEnergy;
 
-	public float clickMultiplier;
+	public HugeNumber clickMultiplier;
 
 	public Dictionary<string, int> upgradeCounts;
 	public List<string> unlockedUpgrades;

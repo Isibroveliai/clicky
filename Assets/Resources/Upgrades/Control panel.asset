@@ -16,10 +16,14 @@ MonoBehaviour:
   displayName: Control panel
   description: Install a control panel at in your work space! Control panels provide
     more currency generation.
-  baseCurrencyCost: 6000
+  baseCurrencyCost:
+    value: 0
+    postfix: 0
   energyUsage: 75
   energyCapRaise: 0
-  currencyGeneration: 30
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
   icon: {fileID: 2800000, guid: 7f368c928ca6cdf4d85541deb6dc6722, type: 3}

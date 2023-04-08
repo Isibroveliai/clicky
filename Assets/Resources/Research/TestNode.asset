@@ -15,7 +15,9 @@ MonoBehaviour:
   id: c3c44084-a359-473b-a189-666242d6327c
   displayName: You shouldn't see this
   description: Foo bar baz. heh
-  currencyCost: 50
+  currencyCost:
+    value: 0
+    postfix: 0
   researchCost: 0
   sprite: {fileID: 21300000, guid: 36b05d25b348fba4fadf27b9dfa70562, type: 3}
   instantUnlock: 0

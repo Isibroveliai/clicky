@@ -15,10 +15,14 @@ MonoBehaviour:
   id: 55392b32-5dec-41eb-a35e-f9a843353837
   displayName: 
   description: 
-  baseCurrencyCost: 0
+  baseCurrencyCost:
+    value: 0
+    postfix: 0
   energyUsage: 0
   energyCapRaise: 500
-  currencyGeneration: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 0.05
   researchProduction: 0
   icon: {fileID: 0}

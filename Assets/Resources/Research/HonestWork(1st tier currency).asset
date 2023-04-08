@@ -15,7 +15,9 @@ MonoBehaviour:
   id: 77cba67d-d258-41d3-b206-e0e84c52cf33
   displayName: Honest Work
   description: Unlocks a new device.
-  currencyCost: 1000
+  currencyCost:
+    value: 0
+    postfix: 0
   researchCost: 0
   sprite: {fileID: 21300000, guid: 5d375945dcd455b40bd3e94585e48a39, type: 3}
   instantUnlock: 0
