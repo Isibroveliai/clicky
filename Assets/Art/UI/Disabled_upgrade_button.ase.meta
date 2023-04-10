@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0cbbb5dfb7d53104fa2f40ed968e5e0d
+guid: 2ad4058f2d650df498a566783bf6128d
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -30,7 +30,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 1
+    spriteMeshType: 0
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 100
@@ -113,7 +113,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   multiSpriteImportData:
-  - name: Upgrade_button_Frame_0
+  - name: Disabled_upgrade_button
     originalName: 
     pivot: {x: 0.5, y: -0.0625}
     alignment: 9
@@ -124,7 +124,7 @@ ScriptedImporter:
       y: 4
       width: 304
       height: 32
-    spriteID: 62bbb076181961747ac459001f1ee664
+    spriteID: 7578bfcfb2b6e044e95c4358ded1bb49
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -133,77 +133,21 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: Upgrade_button_Frame_1
-    originalName: 
-    pivot: {x: 0.5, y: -0.0625}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 44
-      width: 304
-      height: 32
-    spriteID: 1dcaeaf26651b184e8f311c8f4125377
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 44}
-  - name: Upgrade_button_Frame_2
-    originalName: 
-    pivot: {x: 0.5, y: -0.0625}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 84
-      width: 304
-      height: 32
-    spriteID: a8731e85d1256ae42baa2e7882bc4393
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 84}
   asepriteLayers:
   - layerIndex: 0
-    guid: -1343748459
-    name: Upgrade_button
+    guid: 1390465590
+    name: Disabled_upgrade_button
     layerFlags: 0
     layerType: 0
     cells:
-    - name: Upgrade_button_Frame_0
+    - name: Disabled_upgrade_button
       frameIndex: 0
       cellRect:
         x: 1
         y: 2
         width: 304
         height: 32
-      spriteId: 62bbb076181961747ac459001f1ee664
-    - name: Upgrade_button_Frame_1
-      frameIndex: 1
-      cellRect:
-        x: 1
-        y: 2
-        width: 304
-        height: 32
-      spriteId: 1dcaeaf26651b184e8f311c8f4125377
-    - name: Upgrade_button_Frame_2
-      frameIndex: 2
-      cellRect:
-        x: 1
-        y: 2
-        width: 304
-        height: 32
-      spriteId: a8731e85d1256ae42baa2e7882bc4393
+      spriteId: 7578bfcfb2b6e044e95c4358ded1bb49
     linkedCells: []
     parentIndex: -1
   platformSettings: []
