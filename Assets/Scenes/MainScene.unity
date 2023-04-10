@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &44669676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8454239789997416787, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
+  m_PrefabInstance: {fileID: 1183887774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &83532291 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4477041125245646300, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
@@ -1316,26 +1327,26 @@ MonoBehaviour:
     currency:
       value: 0
       postfix: 0
-    researchProduction: 0
-    currencyGeneration:
-      value: 0
-      postfix: 0
-    energyUsage: 0
-    maxEnergy: 0
-    clickMultiplier:
-      value: 1
-      postfix: 0
-    unlockedUpgrade: []
     unlockedResearch: []
+    activeResearch: 
+    researchProgress: 0
   settings:
     windowState: 1
     windowStateName: Large
-    volumeLevel: 100
-  allUpgrades: []
-  unlockedUpgradeObjs: []
-  unlockedResearchObjs: []
-  saveFile: clicky.sav
-  savePath: 
+    volumeLevel: 50
+  unlockedUpgrades: []
+  unlockedResearches: []
+  activeResearch: {fileID: 0}
+  maxEnergy: 100
+  researchProduction: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
+  rawEnergyUsage: 0
+  energyUsageEfficiency: 0
+  currencyPerClick:
+    value: 1
+    postfix: 0
 --- !u!114 &452054943 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4477041125245646300, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
@@ -1863,6 +1874,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691372547}
   m_CullTransparentMesh: 1
+--- !u!114 &778063330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7395473568304054285, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
+  m_PrefabInstance: {fileID: 1183887774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &820266428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2706,23 +2728,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4037925101979921758, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4037925101979921758, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5361574808891153805, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5361574808891153805, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5361574808891153805, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6743614061718814927, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2834,7 +2856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6743614063540414348, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
@@ -3414,6 +3436,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263425051}
   m_CullTransparentMesh: 1
+--- !u!1 &1532701914 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2596728532970826490, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
+  m_PrefabInstance: {fileID: 1183887774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1541956031
 GameObject:
   m_ObjectHideFlags: 0
@@ -4771,10 +4798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee4ade5924c4f04f9956dafc16dc9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTime: 10
+  eventTime: 30
   startEventFlag: 0
   timer: 0
-  eventfrequency: 30
+  eventfrequency: 20
   currentScore: 0
 --- !u!4 &1752507237
 Transform:
@@ -5817,6 +5844,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983556978}
   m_CullTransparentMesh: 1
+--- !u!114 &2055665938 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6743614061569015894, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
+  m_PrefabInstance: {fileID: 1183887774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2121437231
 GameObject:
   m_ObjectHideFlags: 0
@@ -6019,33 +6057,33 @@ MonoBehaviour:
   tabs:
   - panel: {fileID: 1772632040}
     button: {fileID: 1226458868}
-  - panel: {fileID: 1053374192}
-    button: {fileID: 1704645188}
   - panel: {fileID: 272810641}
     button: {fileID: 1118712558}
+  - panel: {fileID: 1053374192}
+    button: {fileID: 1704645188}
   eventTab: {fileID: 691372547}
   eventText: {fileID: 153595740}
   gameOverTab: {fileID: 565476646}
   currencyCounter: {fileID: 1237179554}
-  changeWindowButtonObj: {fileID: 0}
-  saveInfoText: {fileID: 0}
-  volumeSlider: {fileID: 0}
-  volumeValueText: {fileID: 0}
+  changeWindowButtonObj: {fileID: 1532701914}
+  saveInfoText: {fileID: 2055665938}
+  volumeSlider: {fileID: 44669676}
+  volumeValueText: {fileID: 778063330}
   upgradeButtonContainer: {fileID: 1637579001}
   upgradeButtonPrefab: {fileID: 2413596800833516689, guid: 1ca43ff8c3d5c654d80d362b1c043069, type: 3}
   upgradeDescriptionText: {fileID: 1950059080}
   energyCounter: {fileID: 1880873462}
   energySafeColor: {r: 0.93725497, g: 0.7411765, b: 0.41176474, a: 1}
-  energyDangerColor: {r: 0.08235294, g: 0.0627451, b: 0.08235294, a: 1}
-  researchTabManager: {fileID: 0}
+  energyDangerColor: {r: 0.16862746, g: 0.27058825, b: 0.30980393, a: 1}
+  researchTabManager: {fileID: 272810645}
   researchCounter: {fileID: 159097759}
   researchDescriptionText: {fileID: 1928533175}
   researchAdditionalText: {fileID: 435909254}
   currentResearchLabel: {fileID: 1566840794}
   researchProgressbar: {fileID: 1750079343}
-  startingLineColor: {r: 1, g: 1, b: 1, a: 0.24705882}
-  finishedLineColor: {r: 0.8666667, g: 0.62352943, b: 0.0627451, a: 1}
-  inProgressLineColor: {r: 0.21568629, g: 0.36862746, b: 0.47058827, a: 1}
+  startingLineColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
+  finishedLineColor: {r: 0.93725497, g: 0.7411765, b: 0.41176474, a: 1}
+  inProgressLineColor: {r: 0.227451, g: 0.43921572, b: 0.5568628, a: 1}
 --- !u!224 &2132500584 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1238465160641286902, guid: ee2cfa5352b8fb340b8901186aa72108, type: 3}

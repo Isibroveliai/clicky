@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using System.IO;
+
 //maybe copy all options button click logic here?
 public class Options : MonoBehaviour
 {
+	const string dateFormat = "yyyy-dd-MM HH:mm:ss";
+	
 	GameManager mng;
 	[SerializeField]
 	TMP_Text volumeValueText;
@@ -25,17 +25,15 @@ public class Options : MonoBehaviour
 		
 		if(!mng.data.lastSave.Equals(DateTime.MinValue))
 		{
-			UpdateSaveInfoText(mng.data.lastSave.ToString("yyyy-dd-MM HH:mm:ss"));
+			UpdateSaveInfoText(mng.data.lastSave.ToString(dateFormat));
 		}
 		else UpdateSaveInfoText("");
 
 		UpdateWindowChangeButtonText(mng.settings.windowStateName);
 		UpdateVolumeText(mng.settings.volumeLevel.ToString());
-		SetVolumeValue(mng.settings.volumeLevel);
-		
-
-		
+		SetVolumeValue(mng.settings.volumeLevel);		
 	}
+
 	public void IncrementWindowState()
 	{
 		mng.settings.windowState++;
@@ -45,6 +43,7 @@ public class Options : MonoBehaviour
 		}
 		ChangeWindowSize(mng.settings.windowState);
 	}
+
 	public void ChangeWindowSize(int state)
 	{
 		switch (state)
@@ -71,6 +70,7 @@ public class Options : MonoBehaviour
 		}
 		UpdateWindowChangeButtonText(mng.settings.windowStateName);
 	}
+
 	public void QuitGame()
 	{
 		SaveGame();
@@ -79,24 +79,19 @@ public class Options : MonoBehaviour
 
 	public void SaveGame()
 	{
-		SaveManager.Save(mng.GetData(), mng.savePath);
-		UpdateSaveInfoText(DateTime.Now.ToString("yyyy-dd-MM HH:mm:ss"));
+		SaveManager.Save(mng.GetSaveObject());
+		UpdateSaveInfoText(DateTime.Now.ToString(dateFormat));
 	}
 
 	public void LoadData()
 	{
-		mng.LoadData();
-		UpdateSaveInfoText(mng.data.lastSave.ToString("yyyy-MM-dd HH:mm:ss"));
+		mng.LoadSaveFile();
+		UpdateSaveInfoText(mng.data.lastSave.ToString(dateFormat));
 	}
+
 	public void DeleteSave()
 	{
-		if(File.Exists(mng.savePath))
-		{
-			File.Delete(mng.savePath);
-			Debug.Log("Save deleted");
-			return;
-		}
-		Debug.Log("Save file not found");
+		SaveManager.DeleteSave();
 	}
 
 	public void SetVolumeValue(float value)
@@ -104,23 +99,25 @@ public class Options : MonoBehaviour
 		volumeSlider.value = value;
 		UpdateVolumeText(value.ToString());
 	}
+	
 	public void UpdateVolumeText(string text)
 	{
 		volumeValueText.text = text;
 	}
+	
 	public void OnVolumeChange()
 	{
 		UpdateVolumeText(volumeSlider.value.ToString());
 		mng.settings.volumeLevel = volumeSlider.value;
 	}
+
 	public void UpdateWindowChangeButtonText(string text)
 	{
 		changeWindowButtonObj.GetComponentInChildren<TMP_Text>().text = text;
 	}
+
 	public void UpdateSaveInfoText(string text)
 	{
 		saveInfoText.text = text;
 	}
-
-	
 }

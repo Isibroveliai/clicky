@@ -46,19 +46,18 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		audioPlayer = GetComponent<AudioSource>();
 		RawImage icon = transform.Find("Icon frame/Icon mask/Icon").GetComponent<RawImage>();
 
-		UpdateCountLabel();
 		nameLabel.text = upgrade.displayName;
 		icon.texture = upgrade.icon;
 		currencyCostLabel.text = string.Format("{0}$", upgrade.baseCurrencyCost);
 		energyCostLabel.text = string.Format("{0} kW", upgrade.energyUsage);
 		button.onClick.AddListener(() => upgrade.Buy());
-
-		GameManager.OnUpgradeBought += (boughtUpgrade) => {
-			if (boughtUpgrade == upgrade)
-				UpdateCountLabel();
-		};
 	}
 	
+	void Update()
+	{
+		UpdateCountLabel();
+	}
+
 	void FixedUpdate()
 	{
 		// TODO: Refactor, to not check can buy every frame.

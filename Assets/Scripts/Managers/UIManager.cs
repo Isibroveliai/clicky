@@ -76,14 +76,17 @@ public class UIManager : MonoBehaviour
 		UpdateResearchAdditionalText("", startingLineColor);
 
 		GameManager mng = GameManager.instance;
-		LoadUnlockedUpgrades(mng.unlockedUpgradeObjs);
+		LoadUnlockedUpgrades(mng.unlockedUpgrades);
 		//fixes display issue on start when save date is loaded
-		UpdateEnergyDisplayDanger(mng.data.energyUsage >= mng.data.maxEnergy);
-		UpdateEnergyDisplay(mng.data.energyUsage, mng.data.maxEnergy);
+		UpdateEnergyDisplayDanger(mng.GetEnergyUsage() >= mng.maxEnergy);
+		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 		UpdateScoreDisplay(mng.data.currency);
-		UpdateResearchSpeedDisplay(mng.data.researchProduction);
+		UpdateResearchSpeedDisplay(mng.researchProduction);
 
-		
+		GameManager.OnUpgradeUnlocked += (upgrade) =>
+		{
+			AppendUpgradeButton(upgrade);
+		};
 	}
 
 	public void UpdateUpgradeDescription(string text)

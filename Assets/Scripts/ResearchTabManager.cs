@@ -79,7 +79,7 @@ public class ResearchTabManager : MonoBehaviour
 		GameManager.OnResearchFinished += OnResearchFinished;
 		GameManager.OnResearchStopped += OnResearchStopped;
 
-		LoadButtonState(mng.unlockedResearchObjs);
+		LoadButtonState(mng.unlockedResearches);
 	}
 
 
