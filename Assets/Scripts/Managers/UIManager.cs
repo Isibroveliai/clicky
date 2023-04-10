@@ -24,16 +24,13 @@ public class UIManager : MonoBehaviour
 
 	public TMP_Text currencyCounter;
 
+	public UpgradeTab upgradeTab;
+
 	[Header("Options tab")]
 	public GameObject changeWindowButtonObj;
 	public TMP_Text saveInfoText;
 	public Slider volumeSlider;
 	public TMP_Text volumeValueText;
-
-	[Header("Upgrades")]
-	public GameObject upgradeButtonContainer;
-	public GameObject upgradeButtonPrefab;
-	public TMP_Text upgradeDescriptionText;
 
 	[Header("Energy")]
 	public TMP_Text energyCounter;
@@ -76,23 +73,14 @@ public class UIManager : MonoBehaviour
 		UpdateResearchAdditionalText("", startingLineColor);
 
 		GameManager mng = GameManager.instance;
-		LoadUnlockedUpgrades(mng.unlockedUpgrades);
+		
 		//fixes display issue on start when save date is loaded
 		UpdateEnergyDisplayDanger(mng.GetEnergyUsage() >= mng.maxEnergy);
 		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 		UpdateScoreDisplay(mng.data.currency);
 		UpdateResearchSpeedDisplay(mng.researchProduction);
-
-		GameManager.OnUpgradeUnlocked += (upgrade) =>
-		{
-			AppendUpgradeButton(upgrade);
-		};
 	}
 
-	public void UpdateUpgradeDescription(string text)
-	{
-		upgradeDescriptionText.text = text;
-	}
 	public void UpdateResearchDescription(string text)
 	{
 		researchDescriptionText.text = text;
@@ -136,17 +124,6 @@ public class UIManager : MonoBehaviour
 	{
 		researchCounter.text = researchSpeed.ToString();
 	}
-	
-
-	
-	// TODO: Add remove? idk if we will need it
-	public void AppendUpgradeButton(Upgrade upgrade)
-	{
-		var button = Instantiate(upgradeButtonPrefab);
-		var upgradeComponent = button.GetComponent<UpgradeButton>();
-		upgradeComponent.upgrade = upgrade;
-		button.transform.SetParent(upgradeButtonContainer.transform, false);
-	}
 
 	public void ChangeTab(UITab tab)
 	{
@@ -173,14 +150,6 @@ public class UIManager : MonoBehaviour
 		} else
 		{
 			currentResearchLabel.text = $"Researching '{researchName}'...";
-		}
-	}
-
-	void LoadUnlockedUpgrades(List<Upgrade> upgrades)
-	{
-		foreach (var upgrade in upgrades)
-		{
-			AppendUpgradeButton(upgrade);
 		}
 	}
 }

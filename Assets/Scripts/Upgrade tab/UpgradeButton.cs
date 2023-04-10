@@ -8,6 +8,7 @@ using System;
 // TODO: Make info about upgrade be visible in editor.
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+	public UpgradeTab upgradeTab;
 	public Upgrade upgrade;
 
 	private AudioClip[] buyUpgradeSound;
@@ -117,14 +118,12 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
-		ui.UpdateUpgradeDescription("");
+		upgradeTab.descriptionText.text = "";
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		UIManager ui = GameObject.Find("/UI").GetComponent<UIManager>();
-		ui.UpdateUpgradeDescription(upgrade.description);
+		upgradeTab.descriptionText.text = upgrade.description;
 	}
 
 	public void OnButtonEnter()
