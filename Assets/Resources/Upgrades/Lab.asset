@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Laboratories
   description: Science is POWER! Generate increase research speed by 10.
   baseCurrencyCost:
-    value: 0
+    value: 10
     postfix: 0
   energyUsage: 150
   energyCapRaise: 0

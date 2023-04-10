@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Increase the efficiency of current devices. Reduce the total energy
     consumption by 5%.
   baseCurrencyCost:
-    value: 0
+    value: 10
     postfix: 0
   energyUsage: 0
   energyCapRaise: 0

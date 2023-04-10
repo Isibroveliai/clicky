@@ -17,7 +17,7 @@ MonoBehaviour:
   description: 'Everyone knows that more pipes provide even more materials. Every
     pipe upgrade increases click generation by 1000!  '
   baseCurrencyCost:
-    value: 0
+    value: 20
     postfix: 0
   energyUsage: 50
   energyCapRaise: 0

@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Overclock your furnace! Each addtional gear provides 10 more currency
     per click!
   baseCurrencyCost:
-    value: 0
+    value: 10
     postfix: 0
   energyUsage: 25
   energyCapRaise: 0
