@@ -39,13 +39,14 @@ public class ResearchTabManager : MonoBehaviour
 
 		for(int i = 0; i < pages.transform.childCount; i++)
 		{
-			GameObject page = pages.transform.GetChild(i).Find("Content").gameObject;
+			GameObject page = pages.transform.GetChild(i).gameObject;
+			GameObject content = page.transform.Find("Content").gameObject;
 			page.SetActive(true);
 			//go through each child object of page game object (every button)
-			for (int j = 0; j < page.transform.childCount; j++)
+			for (int j = 0; j < content.transform.childCount; j++)
 			{
 				List <ResearchNodeButton> neighbors = new List<ResearchNodeButton>(); // stores a node's neighbors
-				GameObject child = page.transform.GetChild(j).gameObject;
+				GameObject child = content.transform.GetChild(j).gameObject;
 				ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
 
 				nodeButtonPairs.Add(node.node, node); //TODO: change ResearchNode variable in ResearchNodeButton
@@ -55,18 +56,14 @@ public class ResearchTabManager : MonoBehaviour
 				{
 					neighbors.Add(next);
 				}
-				
+
 				graph.Add(node, neighbors);
-
 			}
-
 		}
-
 
 		ResearchNodeButton start = pages.transform.Find("MainPage/Content/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
 		currentPage = GameObject.Find("Pages/MainPage");
 		
-
 		start.ChangeButtonState(true);
 
 		GameManager.OnResearchStarted += OnResearchStarted;
@@ -86,6 +83,7 @@ public class ResearchTabManager : MonoBehaviour
 			page.SetActive(false);
 		}
 		currentPage.SetActive(true);
+
 	}
 
 	void Update()
