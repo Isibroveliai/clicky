@@ -28,8 +28,10 @@ public class GameManager : Singleton<GameManager>
 	public float rawEnergyUsage = 0;
 	[ReadOnly]
 	public float energyUsageEfficiency = 0;
-
+	
 	public HugeNumber currencyPerClick = new HugeNumber(1);
+
+	public float researchPercent = 0.0f;
 
 	public static event Action<Upgrade> OnUpgradeUnlocked;
 	public static event Action<ResearchNode> OnResearchStarted;
@@ -58,11 +60,11 @@ public class GameManager : Singleton<GameManager>
 		if (activeResearch)
 		{
 			data.researchProgress += researchProduction * Time.deltaTime;
-			float percent = Math.Clamp(data.researchProgress / activeResearch.researchCost, 0, 1);
-			ui.UpdateResearchProgress(percent);
+			researchPercent = Math.Clamp(data.researchProgress / activeResearch.researchCost, 0, 1);
 
 			if (data.researchProgress >= activeResearch.researchCost)
 			{
+				researchPercent = 0.0f;
 				ResearchFinished();
 			}
 		}
@@ -280,7 +282,6 @@ public class GameManager : Singleton<GameManager>
 		if (research.researchCost > 0)
 		{
 			data.researchProgress = 0;
-			ui.UpdateCurrentResearchLabel(research.displayName);
 			OnResearchStarted(research);
 		}
 		else
@@ -298,8 +299,7 @@ public class GameManager : Singleton<GameManager>
 		activeResearch = null;
 		data.activeResearch = null;
 
-		ui.UpdateResearchProgress(0);
-		ui.UpdateCurrentResearchLabel("");
+	
 	}
 
 	public void StopResearch()

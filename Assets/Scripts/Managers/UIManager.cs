@@ -40,14 +40,6 @@ public class UIManager : MonoBehaviour
 	[Header("Research")]
 	public ResearchTabManager researchTabManager;
 	public TMP_Text researchCounter;
-	public TMP_Text researchDescriptionText;
-	public TMP_Text researchAdditionalText;
-	public TMP_Text currentResearchLabel;
-	public RectTransform researchProgressbar;
-	public Color startingLineColor;
-	public Color finishedLineColor;
-	public Color inProgressLineColor;
-	private float initialProgressbarSize;
 
 	void Start()
 	{
@@ -62,15 +54,8 @@ public class UIManager : MonoBehaviour
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
 			//if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
 			//else if(tab.panel.name == "Options") 
-			//tab.panel.SetActive(false);
+			tab.panel.SetActive(false);
 		}
-
-		initialProgressbarSize = researchProgressbar.sizeDelta.x;
-
-		UpdateCurrentResearchLabel("");
-		UpdateResearchProgress(0);
-		UpdateResearchDescription("");
-		UpdateResearchAdditionalText("", startingLineColor);
 
 		GameManager mng = GameManager.instance;
 		
@@ -81,15 +66,7 @@ public class UIManager : MonoBehaviour
 		UpdateResearchSpeedDisplay(mng.researchProduction);
 	}
 
-	public void UpdateResearchDescription(string text)
-	{
-		researchDescriptionText.text = text;
-	}
-	public void UpdateResearchAdditionalText(string text, Color color)
-	{
-		researchAdditionalText.text = text;
-		researchAdditionalText.color = color;
-	}
+	
 
 	public void SetGameOverShown(bool isShown)
 	{
@@ -132,24 +109,6 @@ public class UIManager : MonoBehaviour
 		{
 			activeTab.panel.SetActive(false);
 			activeTab = tab;
-		}
-	}
-
-	public void UpdateResearchProgress(float percent)
-	{
-		float width = initialProgressbarSize * percent;
-		float height = researchProgressbar.sizeDelta.y;
-		researchProgressbar.sizeDelta = new Vector2(width, height);
-	}
-
-	public void UpdateCurrentResearchLabel(string researchName)
-	{
-		if (researchName == "")
-		{
-			currentResearchLabel.text = "";
-		} else
-		{
-			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
 	}
 }
