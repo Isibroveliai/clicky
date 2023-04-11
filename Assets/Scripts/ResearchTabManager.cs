@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ public class ResearchTabManager : MonoBehaviour
 	public Dictionary<ResearchNodeButton, List<ResearchNodeButton>> graph; // stores node and its neighbors along with their lines
 	
 	Dictionary<ResearchNode, ResearchNodeButton> nodeButtonPairs; // used to get ResearchNodeButton that corresponds to ResearchNode
-	
+	GameObject currentPage;
 	void Start()
     {
 		mng = GameManager.instance;
@@ -38,7 +39,8 @@ public class ResearchTabManager : MonoBehaviour
 
 		for(int i = 0; i < pages.transform.childCount; i++)
 		{
-			GameObject page = pages.transform.GetChild(i).gameObject;
+			GameObject page = pages.transform.GetChild(i).Find("Content").gameObject;
+			page.SetActive(true);
 			//go through each child object of page game object (every button)
 			for (int j = 0; j < page.transform.childCount; j++)
 			{
@@ -57,10 +59,13 @@ public class ResearchTabManager : MonoBehaviour
 				graph.Add(node, neighbors);
 
 			}
-		}
-		
-		ResearchNodeButton start = pages.transform.Find("MainPage/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
 
+		}
+
+
+		ResearchNodeButton start = pages.transform.Find("MainPage/Content/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
+		currentPage = GameObject.Find("Pages/MainPage");
+		
 
 		start.ChangeButtonState(true);
 
@@ -74,6 +79,13 @@ public class ResearchTabManager : MonoBehaviour
 		UpdateResearchDescription("");
 		UpdateCurrentResearchLabel("");
 		UpdateResearchProgress(0);
+
+		for (int i = 0; i < pages.transform.childCount; i++)
+		{
+			GameObject page = pages.transform.GetChild(i).gameObject;
+			page.SetActive(false);
+		}
+		currentPage.SetActive(true);
 	}
 
 	void Update()
@@ -154,5 +166,12 @@ public class ResearchTabManager : MonoBehaviour
 		{
 			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
+	}
+
+	public void SwapPages(GameObject newPage)
+	{
+		currentPage.SetActive(false);
+		newPage.SetActive(true);
+		currentPage = newPage;
 	}
 }
