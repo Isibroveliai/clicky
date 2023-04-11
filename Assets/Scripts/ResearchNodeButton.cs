@@ -9,7 +9,6 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 {
 	public ResearchNode node;
 	public List<ResearchNodeButton> next;
-	public bool researched = false;
 
 	private Button button;
 	private Image image;
@@ -31,6 +30,11 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		manager.StartResearch(node);
 		AudioManager.PlayButtonClick();
 	}
+
+	public bool IsResearched()
+	{
+		return GameManager.instance.data.unlockedResearch.Contains(node.id);
+	}
 	
 	public void OnPointerExit(PointerEventData eventData)
 	{
@@ -40,6 +44,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		var researched = IsResearched();
 		if (!node.CanBuy() && !researched)
 		{
 			ui.UpdateResearchAdditionalText("Not enough currency", ui.energyDangerColor);

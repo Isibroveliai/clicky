@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -43,6 +44,8 @@ public class GameManager : Singleton<GameManager>
 
 		unlockedResearches = new List<ResearchNode>();
 		unlockedUpgrades = new List<Upgrade>();
+		
+		CheckResourcesIds();
 		LoadSaveFile();
 	}
 
@@ -82,6 +85,30 @@ public class GameManager : Singleton<GameManager>
 		return rawEnergyUsage * Math.Clamp(energyUsageEfficiency, 0, 1);
 	}
 
+	public void CheckResourcesIds()
+	{
+		// Check to make sure each research has a unique id
+		var allResearch = Resources.FindObjectsOfTypeAll<ResearchNode>();
+		foreach (var group in allResearch.GroupBy(r => r.id))
+		{
+			if (group.Count() > 1)
+			{
+				var names = string.Join(", ", group.Select(r => r.name));
+				Debug.LogWarning($"Research id '{group.Key}' is used between: {names}");
+			}
+		}
+
+		var allUpgrades = Resources.FindObjectsOfTypeAll<Upgrade>();
+		foreach (var group in allUpgrades.GroupBy(r => r.id))
+		{
+			if (group.Count() > 1)
+			{
+				var names = string.Join(", ", group.Select(r => r.name));
+				Debug.LogWarning($"Upgrade id '{group.Key}' is used between: {names}");
+			}
+		}
+	}
+
 	// ======================= Saving/Loading ========================
 
 	public void LoadSaveFile()
@@ -98,7 +125,7 @@ public class GameManager : Singleton<GameManager>
 		data.unlockedResearch = new List<string>();
 		foreach (var id in unlockedResearch)
 		{
-			var research = allResearch.Where(r => r.id == id).First();
+			var research = allResearch.Where(r => r.id == id).FirstOrDefault();
 			if (research == null)
 			{
 				Debug.LogWarning($"Tried to load research with unknown id: {id}");
@@ -114,9 +141,9 @@ public class GameManager : Singleton<GameManager>
 		}
 
 		// Apply current research
-		if (data.activeResearch != null)
+		if (data.activeResearch.NullIfEmpty() != null)
 		{
-			activeResearch = allResearch.Where(research => research.id == data.activeResearch).First();
+			activeResearch = allResearch.Where(research => research.id == data.activeResearch).FirstOrDefault();
 			if (activeResearch == null)
 			{
 				Debug.LogWarning($"Tried to start research with unknown id: {data.activeResearch}");

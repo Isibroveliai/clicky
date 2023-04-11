@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -72,14 +74,13 @@ public class ResearchTabManager : MonoBehaviour
 		}
 		ResearchNodeButton start = content.transform.Find("Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
 
-
 		start.ChangeButtonState(true);
 
 		GameManager.OnResearchStarted += OnResearchStarted;
 		GameManager.OnResearchFinished += OnResearchFinished;
 		GameManager.OnResearchStopped += OnResearchStopped;
 
-		LoadButtonState(mng.unlockedResearches);
+		LoadButtonStatesFromManager();
 	}
 
 
@@ -96,7 +97,6 @@ public class ResearchTabManager : MonoBehaviour
 	public void OnResearchFinished(ResearchNode research)
 	{
 		UpdateLines(research, ui.finishedLineColor);
-		nodeButtonPairs[research].researched = true;
 		UnlockNeighbors(nodeButtonPairs[research]);
 	}
 
@@ -108,7 +108,7 @@ public class ResearchTabManager : MonoBehaviour
 	{
 		foreach (var neighbor in node.next)
 		{
-			if (!neighbor.researched) neighbor.ChangeButtonState(true);
+			if (!neighbor.IsResearched()) neighbor.ChangeButtonState(true);
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class ResearchTabManager : MonoBehaviour
 
 		foreach (var pair in neighbors)
 		{
-			if (pair.Item1.researched)
+			if (pair.Item1.IsResearched())
 			{
 				pair.Item2.UpdateColor(color);
 			}
@@ -134,15 +134,20 @@ public class ResearchTabManager : MonoBehaviour
 	/// Loads already unlocked research states
 	/// </summary>
 	/// <param name="unlockedNodes"></param>
-	public void LoadButtonState(List<ResearchNode> unlockedNodes)
+	public void LoadButtonStatesFromManager()
 	{
-		if(unlockedNodes.Count == 0) return;
-		foreach(ResearchNode unlocked in unlockedNodes) 
+		foreach(string id in mng.data.unlockedResearch) 
 		{
-			nodeButtonPairs[unlocked].researched = true;
-			nodeButtonPairs[unlocked].ChangeButtonState(false);
-			UnlockNeighbors(nodeButtonPairs[unlocked]);
-			UpdateLines(unlocked, ui.finishedLineColor);
+			var button = nodeButtonPairs.Values.Where(btn => btn.node.id == id).FirstOrDefault();
+			if (button == null)
+			{
+				Debug.Log($"Research button for '{id}' could not be found");
+				continue;
+			}
+			
+			button.ChangeButtonState(false);
+			UnlockNeighbors(button);
+			UpdateLines(button.node, ui.finishedLineColor);
 		}
 	}
 }
