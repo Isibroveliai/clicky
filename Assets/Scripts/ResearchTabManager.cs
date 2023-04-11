@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ public class ResearchTabManager : MonoBehaviour
 	public Dictionary<ResearchNodeButton, List<ResearchNodeButton>> graph; // stores node and its neighbors along with their lines
 	
 	Dictionary<ResearchNode, ResearchNodeButton> nodeButtonPairs; // used to get ResearchNodeButton that corresponds to ResearchNode
-	
+	GameObject currentPage;
 	void Start()
     {
 		mng = GameManager.instance;
@@ -39,11 +40,13 @@ public class ResearchTabManager : MonoBehaviour
 		for(int i = 0; i < pages.transform.childCount; i++)
 		{
 			GameObject page = pages.transform.GetChild(i).gameObject;
+			GameObject content = page.transform.Find("Content").gameObject;
+			page.SetActive(true);
 			//go through each child object of page game object (every button)
-			for (int j = 0; j < page.transform.childCount; j++)
+			for (int j = 0; j < content.transform.childCount; j++)
 			{
 				List <ResearchNodeButton> neighbors = new List<ResearchNodeButton>(); // stores a node's neighbors
-				GameObject child = page.transform.GetChild(j).gameObject;
+				GameObject child = content.transform.GetChild(j).gameObject;
 				ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
 
 				nodeButtonPairs.Add(node.node, node); //TODO: change ResearchNode variable in ResearchNodeButton
@@ -53,15 +56,14 @@ public class ResearchTabManager : MonoBehaviour
 				{
 					neighbors.Add(next);
 				}
-				
-				graph.Add(node, neighbors);
 
+				graph.Add(node, neighbors);
 			}
 		}
+
+		ResearchNodeButton start = pages.transform.Find("MainPage/Content/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
+		currentPage = GameObject.Find("Pages/MainPage");
 		
-		ResearchNodeButton start = pages.transform.Find("MainPage/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
-
-
 		start.ChangeButtonState(true);
 
 		GameManager.OnResearchStarted += OnResearchStarted;
@@ -74,6 +76,14 @@ public class ResearchTabManager : MonoBehaviour
 		UpdateResearchDescription("");
 		UpdateCurrentResearchLabel("");
 		UpdateResearchProgress(0);
+
+		for (int i = 0; i < pages.transform.childCount; i++)
+		{
+			GameObject page = pages.transform.GetChild(i).gameObject;
+			page.SetActive(false);
+		}
+		currentPage.SetActive(true);
+
 	}
 
 	void Update()
@@ -154,5 +164,12 @@ public class ResearchTabManager : MonoBehaviour
 		{
 			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
+	}
+
+	public void SwapPages(GameObject newPage)
+	{
+		currentPage.SetActive(false);
+		newPage.SetActive(true);
+		currentPage = newPage;
 	}
 }
