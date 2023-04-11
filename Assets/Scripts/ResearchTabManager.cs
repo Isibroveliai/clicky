@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,67 +12,54 @@ public class ResearchTabManager : MonoBehaviour
 	[SerializeField]
 	GameObject lineHolder;
 	[SerializeField]
-	GameObject content;
-	UIManager ui;
+	GameObject pages;
 	GameManager mng;
-	public Dictionary<ResearchNodeButton, List<Tuple<ResearchNodeButton, LineDrawer>>> graph; // stores node and its neighbors along with their lines
+	[SerializeField]
+	TMP_Text researchDescriptionText;
+	[SerializeField]
+	TMP_Text researchAdditionalText;
+	[SerializeField]
+	RectTransform researchProgressbar;
+	private float initialProgressbarSize;
+	[SerializeField]
+
+	public TMP_Text currentResearchLabel;
+
+	public Dictionary<ResearchNodeButton, List<ResearchNodeButton>> graph; // stores node and its neighbors along with their lines
 	
 	Dictionary<ResearchNode, ResearchNodeButton> nodeButtonPairs; // used to get ResearchNodeButton that corresponds to ResearchNode
-	//private void Awake()
-	//{
-	//	nodeButtonPairs = new Dictionary<ResearchNode, ResearchNodeButton>();
-	//	for (int i = 0; i < content.transform.childCount; i++)
-	//	{
-	//		GameObject child = content.transform.GetChild(i).gameObject;
-	//		ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
-	//		nodeButtonPairs.Add(node.node, node);
-	//	}
-	//}
+	
 	void Start()
     {
-		ui = GameObject.Find("/UI").GetComponent<UIManager>();
 		mng = GameManager.instance;
 		nodeButtonPairs = new Dictionary<ResearchNode, ResearchNodeButton>();
 
-		graph = new Dictionary<ResearchNodeButton, List<Tuple<ResearchNodeButton, LineDrawer>>>();
+		graph = new Dictionary<ResearchNodeButton, List<ResearchNodeButton>>();
 
-		//go through each child object of content game object (every button)
-		for (int i = 0; i < content.transform.childCount; i++) 
+		for(int i = 0; i < pages.transform.childCount; i++)
 		{
-			List<Tuple<ResearchNodeButton, LineDrawer>> neighbors = new List<Tuple<ResearchNodeButton, LineDrawer>>(); // stores a node's neighbors with lines
-			GameObject child = content.transform.GetChild(i).gameObject;
-			ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
-
-			nodeButtonPairs.Add(node.node, node); //TODO: change ResearchNode variable in ResearchNodeButton
-			child.GetComponent<Button>().interactable = false; //default button state is uninteractable
-
-			foreach (ResearchNodeButton next in node.next)
+			GameObject page = pages.transform.GetChild(i).gameObject;
+			//go through each child object of page game object (every button)
+			for (int j = 0; j < page.transform.childCount; j++)
 			{
-				LineDrawer drawer;
+				List <ResearchNodeButton> neighbors = new List<ResearchNodeButton>(); // stores a node's neighbors
+				GameObject child = page.transform.GetChild(j).gameObject;
+				ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
 
-				//Check all existing registered pairs
-				var pair1 = graph.ContainsKey(node) ? graph[node].Find((pair) => pair.Item1 == next) : null;
-				var pair2 = graph.ContainsKey(next) ? graph[next].Find((pair) => pair.Item1 == node) : null;
-				var pair = pair1 != null ? pair1 : pair2;
+				nodeButtonPairs.Add(node.node, node); //TODO: change ResearchNode variable in ResearchNodeButton
+				child.GetComponent<Button>().interactable = false; //default button state is uninteractable
 
-				if (pair != null)
+				foreach (ResearchNodeButton next in node.next)
 				{
-					drawer = pair.Item2;
+					neighbors.Add(next);
 				}
-				else // if graph[] doesnt contain both nodes as keys, create a new line object
-				{
-					GameObject newLine = Instantiate(line, lineHolder.transform);
-					drawer = newLine.GetComponent<LineDrawer>();
-					drawer.StartPos = node.GetComponent<RectTransform>().position;
-					drawer.EndPos = next.GetComponent<RectTransform>().position;
-					drawer.UpdateColor(ui.startingLineColor);
-				}
-				neighbors.Add(new Tuple<ResearchNodeButton, LineDrawer>(next, drawer));
+				
+				graph.Add(node, neighbors);
+
 			}
-			graph.Add(node, neighbors);
-
 		}
-		ResearchNodeButton start = content.transform.Find("Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
+		
+		ResearchNodeButton start = pages.transform.Find("MainPage/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
 
 
 		start.ChangeButtonState(true);
@@ -80,24 +69,37 @@ public class ResearchTabManager : MonoBehaviour
 		GameManager.OnResearchStopped += OnResearchStopped;
 
 		LoadButtonState(mng.unlockedResearches);
+
+		initialProgressbarSize = researchProgressbar.sizeDelta.x;
+		UpdateResearchDescription("");
+		UpdateCurrentResearchLabel("");
+		UpdateResearchProgress(0);
 	}
 
-
+	void Update()
+	{
+		if(mng.activeResearch)
+		{
+			UpdateResearchProgress(mng.researchPercent);
+		}
+	}
 	public void OnResearchStarted(ResearchNode research)
 	{
-		UpdateLines(research, ui.inProgressLineColor);
+		UpdateCurrentResearchLabel(research.displayName);
 	}
 	public void OnResearchStopped(ResearchNode research)
 	{
-		UpdateLines(research, ui.startingLineColor);
 		nodeButtonPairs[research].ChangeButtonState(true);
+		UpdateResearchProgress(0);
+		UpdateCurrentResearchLabel("");
 	}
 
 	public void OnResearchFinished(ResearchNode research)
 	{
-		UpdateLines(research, ui.finishedLineColor);
 		nodeButtonPairs[research].researched = true;
 		UnlockNeighbors(nodeButtonPairs[research]);
+		UpdateResearchProgress(0);
+		UpdateCurrentResearchLabel("");
 	}
 
 	/// <summary>
@@ -109,24 +111,6 @@ public class ResearchTabManager : MonoBehaviour
 		foreach (var neighbor in node.next)
 		{
 			if (!neighbor.researched) neighbor.ChangeButtonState(true);
-		}
-	}
-	
-	/// <summary>
-	/// Update all lines of a node with given color
-	/// </summary>
-	/// <param name="research"></param>
-	/// <param name="color"></param>
-	void UpdateLines(ResearchNode research, Color color)
-	{
-		List<Tuple<ResearchNodeButton, LineDrawer>> neighbors = graph[nodeButtonPairs[research]];
-
-		foreach (var pair in neighbors)
-		{
-			if (pair.Item1.researched)
-			{
-				pair.Item2.UpdateColor(color);
-			}
 		}
 	}
 
@@ -142,7 +126,33 @@ public class ResearchTabManager : MonoBehaviour
 			nodeButtonPairs[unlocked].researched = true;
 			nodeButtonPairs[unlocked].ChangeButtonState(false);
 			UnlockNeighbors(nodeButtonPairs[unlocked]);
-			UpdateLines(unlocked, ui.finishedLineColor);
+		}
+	}
+	public void UpdateResearchDescription(string text)
+	{
+		researchDescriptionText.text = text;
+	}
+	public void UpdateResearchAdditionalText(string text, Color color)
+	{
+		researchAdditionalText.text = text;
+		researchAdditionalText.color = color;
+	}
+	public void UpdateResearchProgress(float percent)
+	{
+		float width = initialProgressbarSize * percent;
+		float height = researchProgressbar.sizeDelta.y;
+		researchProgressbar.sizeDelta = new Vector2(width, height);
+	}
+
+	public void UpdateCurrentResearchLabel(string researchName)
+	{
+		if (researchName == "")
+		{
+			currentResearchLabel.text = "";
+		}
+		else
+		{
+			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
 	}
 }

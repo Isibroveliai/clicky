@@ -894,7 +894,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   line: {fileID: 3873940889835898576, guid: bcb999e7a3fb9614293dd65aafccaeac, type: 3}
   lineHolder: {fileID: 1125850329}
-  content: {fileID: 1557628416}
+  pages: {fileID: 0}
+  researchDescriptionText: {fileID: 1928533175}
+  researchAdditionalText: {fileID: 435909254}
+  researchProgressbar: {fileID: 1750079343}
+  currentResearchLabel: {fileID: 1566840794}
 --- !u!1 &340896645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,7 +1329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     currency:
-      value: 0
+      value: 1500
       postfix: 0
     unlockedResearch: []
     activeResearch: 
@@ -1347,6 +1351,7 @@ MonoBehaviour:
   currencyPerClick:
     value: 1
     postfix: 0
+  researchPercent: 0
 --- !u!114 &452054943 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4477041125245646300, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
@@ -2463,7 +2468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2728,7 +2733,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 272810642}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3282,7 +3287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3407,7 +3412,7 @@ RectTransform:
   - {fileID: 1750079343}
   - {fileID: 1566840793}
   m_Father: {fileID: 272810642}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3592,11 +3597,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1541956031}
   m_CullTransparentMesh: 1
---- !u!1 &1557628416 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4254846398683640226, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
-  m_PrefabInstance: {fileID: 1928533174}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1566840792
 GameObject:
   m_ObjectHideFlags: 0
@@ -4605,7 +4605,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 893917492}
+    m_TransformParent: {fileID: 1960161864}
     m_Modifications:
     - target: {fileID: 4477041125245646295, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_Name
@@ -4621,7 +4621,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4657,7 +4657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: -1.0001221
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4665,23 +4665,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -21.199997
+      value: -19.784996
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 47.499992
+      value: 56.509995
       objectReference: {fileID: 0}
     - target: {fileID: 4477041125245646296, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5064,9 +5064,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2130857845}
     m_Modifications:
+    - target: {fileID: 163457612786029812, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448007056616698419, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3321049034078249255, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254846398683640226, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_Name
+      value: MainPage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254846398683640226, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254846398683640237, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4254846398683640237, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_SizeDelta.x
@@ -5090,7 +5110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4254846399365343664, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4254846399365343666, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_Sprite
@@ -5179,6 +5199,14 @@ PrefabInstance:
     - target: {fileID: 4254846399365343667, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823910520135747029, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954955203163625933, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8183150394529858015, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -5733,6 +5761,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956056503}
   m_CullTransparentMesh: 1
+--- !u!224 &1960161864 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1448007056616698419, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+  m_PrefabInstance: {fileID: 1928533174}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1983556978
 GameObject:
   m_ObjectHideFlags: 0
@@ -6091,13 +6124,6 @@ MonoBehaviour:
   energyDangerColor: {r: 0.16862746, g: 0.27058825, b: 0.30980393, a: 1}
   researchTabManager: {fileID: 272810645}
   researchCounter: {fileID: 159097759}
-  researchDescriptionText: {fileID: 1928533175}
-  researchAdditionalText: {fileID: 435909254}
-  currentResearchLabel: {fileID: 1566840794}
-  researchProgressbar: {fileID: 1750079343}
-  startingLineColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 1}
-  finishedLineColor: {r: 0.93725497, g: 0.7411765, b: 0.41176474, a: 1}
-  inProgressLineColor: {r: 0.227451, g: 0.43921572, b: 0.5568628, a: 1}
 --- !u!224 &2132500584 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1238465160641286902, guid: ee2cfa5352b8fb340b8901186aa72108, type: 3}

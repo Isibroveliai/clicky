@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
 	public ResearchNode node;
+	ResearchTabManager tab;
 	public List<ResearchNodeButton> next;
 	public bool researched = false;
 
@@ -17,7 +18,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 
 	void Awake()
     {
-		ui = GameObject.Find("/UI").GetComponent<UIManager>();
+		tab = GetComponentInParent<ResearchTabManager>();
 		image = GetComponent<Image>();
 		image.sprite = node.sprite;
 		button = GetComponent<Button>();
@@ -34,22 +35,22 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		ui.UpdateResearchAdditionalText("", ui.energySafeColor);
-		ui.UpdateResearchDescription("");
+		tab.UpdateResearchAdditionalText("", Color.white);
+		tab.UpdateResearchDescription("");
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		if (!node.CanBuy() && !researched)
 		{
-			ui.UpdateResearchAdditionalText("Not enough currency", ui.energyDangerColor);
+			tab.UpdateResearchAdditionalText("Not enough currency", Color.red);
 		}
 		else if (researched)
 		{
-			ui.UpdateResearchAdditionalText("Unlocked!", ui.energySafeColor);
+			tab.UpdateResearchAdditionalText("Unlocked!", Color.white);
 		}
 
-		ui.UpdateResearchDescription(node.description);
+		tab.UpdateResearchDescription(node.description);
 	}
 	public void ChangeButtonState(bool state) => button.interactable = state;
 	
