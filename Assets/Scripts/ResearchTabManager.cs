@@ -147,10 +147,22 @@ public class ResearchTabManager : MonoBehaviour
 	{
 		researchDescriptionText.text = text;
 	}
-	public void UpdateResearchAdditionalText(string text, Color color)
+	/// <summary>
+	/// Updates additional text of research node description.
+	/// </summary>
+	/// <param name="text">new text</param>
+	/// <param name="append">flag for adding new text to current</param>
+	/// <param name="color">new color of text</param>
+	public void UpdateResearchAdditionalText(string text, bool append, Color color)
 	{
-		researchAdditionalText.text = text;
+		if(append)
+		{
+			researchAdditionalText.text = string.Concat(researchAdditionalText.text, text);
+			
+		}
+		else researchAdditionalText.text = text;
 		researchAdditionalText.color = color;
+		
 	}
 	public void UpdateResearchProgress(float percent)
 	{
