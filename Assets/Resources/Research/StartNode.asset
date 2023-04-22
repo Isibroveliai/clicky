@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Unlock research paths
   description: Unlocks the reseearch tree
   currencyCost:
-    value: 0
+    value: 100
     postfix: 0
   researchCost: 0
   sprite: {fileID: 21300000, guid: a3e491f99ea3ad74f8731ca93e84c497, type: 3}

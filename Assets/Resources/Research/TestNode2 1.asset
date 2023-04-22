@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
   m_Name: TestNode2 1
   m_EditorClassIdentifier: 
+  id: 736a5b5c-c15d-4343-b4ed-29f44a36aee2
   displayName: You shouldn't see this
   description: Foo bar baz. heh
   currencyCost:

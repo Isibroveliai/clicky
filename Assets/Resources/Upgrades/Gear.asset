@@ -22,7 +22,7 @@ MonoBehaviour:
   energyUsage: 25
   energyCapRaise: 0
   currencyGeneration:
-    value: 0
+    value: 1
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0

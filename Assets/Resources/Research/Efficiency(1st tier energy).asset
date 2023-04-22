@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Efficiency
   description: test
   currencyCost:
-    value: 0
+    value: 50
     postfix: 0
   researchCost: 100
   sprite: {fileID: 21300000, guid: cf373cbde5909ea47a6b3a3afe78b0b2, type: 3}
