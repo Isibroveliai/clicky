@@ -66,6 +66,8 @@ public class ResearchTabManager : MonoBehaviour
 		currentPage = GameObject.Find("Pages/MainPage");
 
 		start.ChangeButtonState(true);
+		start.ChangeSprite();
+		start.OnUnlock();
 
 		GameManager.OnResearchStarted += OnResearchStarted;
 		GameManager.OnResearchFinished += OnResearchFinished;
@@ -120,7 +122,11 @@ public class ResearchTabManager : MonoBehaviour
 	{
 		foreach (var neighbor in node.next)
 		{
-			if (!neighbor.IsResearched()) neighbor.ChangeButtonState(true);
+			if (!neighbor.IsResearched())
+			{
+				neighbor.ChangeButtonState(true);
+				neighbor.OnUnlock();
+			} 
 		}
 	}
 
@@ -140,6 +146,7 @@ public class ResearchTabManager : MonoBehaviour
 			}
 
 			button.ChangeButtonState(false);
+			button.OnUnlock();
 			UnlockNeighbors(button);
 		}
 	}

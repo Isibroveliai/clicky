@@ -13,7 +13,7 @@ public class ResearchNode : ScriptableObject
 	public int researchCost;
 	public Sprite sprite;
 	public bool instantUnlock;
-
+	public List<ResearchNodeButton> next;
 
 	public List<Upgrade> unlockUpgrades;
 	
