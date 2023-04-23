@@ -2,47 +2,33 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
 using System;
 
-[System.Serializable]
+[Serializable]
 public class SaveObject
 {
-	public DateTime saveTime;
-	public float currency;
-
-	public float researchProduction;
-
-	public float currencyGeneration;
-
-	public float energyUsage;
-
-	public float maxEnergy;
-
-	public float clickMultiplier;
-
-	public Dictionary<string, int> upgradeCounts;
-	public List<string> unlockedUpgrades;
-	public List<string> unlockedResearch;
+	public GameData data;
 	public GameSettings settings;
 }
+
 public static class SaveManager 
 {
-	public static void Save(SaveObject save, string path)
+	public static string path = Path.Combine(Application.persistentDataPath, "clicky.sav");
+
+	public static void Save(SaveObject save)
 	{
+		save.data.lastSave = DateTime.Now;
+
 		FileStream fs = new FileStream(path, FileMode.Create);
 		BinaryFormatter bf = new BinaryFormatter();
 		bf.Serialize(fs, save);
 		fs.Close();
-		Debug.Log("Saved data");
-		Debug.Log(path);
-		
 	}
-	public static SaveObject Load(string path)
+
+	public static SaveObject Load()
 	{
 		if (!File.Exists(path)) 
 		{
-			Debug.Log("No save file detected");
 			return null;
 		}
 
@@ -57,9 +43,16 @@ public static class SaveManager
 		}
 		catch (SerializationException)
 		{
+			// TODO: Display error to player
 			Debug.Log("Failed to deserialize");
 		}
+
 		return null;
+	}
+
+	public static void DeleteSave()
+	{
+		File.Delete(path);
 	}
 
 }

@@ -16,10 +16,14 @@ MonoBehaviour:
   displayName: "Bugs away!\u2122"
   description: Various bugs and filth in the workplace won't bother you anymore!
     Decreases energy consumption and increases research speed.
-  baseCurrencyCost: 20000
+  baseCurrencyCost:
+    value: 0
+    postfix: 0
   energyUsage: 0
   energyCapRaise: 0
-  currencyGeneration: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 60
   researchProduction: 60
   icon: {fileID: 2800000, guid: 1da03b62d8983de49921a6ca1ccb6b48, type: 3}

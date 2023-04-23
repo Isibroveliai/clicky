@@ -1,6 +1,4 @@
 using UnityEngine;
-using System;
-using UnityEditor;
 
 [CreateAssetMenu]
 public class Upgrade : ScriptableObject
@@ -11,10 +9,10 @@ public class Upgrade : ScriptableObject
 	public string displayName;
 	[TextArea(1, 3)]
 	public string description;
-	public int baseCurrencyCost;
+	public HugeNumber baseCurrencyCost;
 	public int energyUsage;
 	public float energyCapRaise;
-	public int currencyGeneration;
+	public HugeNumber currencyGeneration;
 	public float energyConsumptionDecrease;
 	public int researchProduction;
 	
@@ -23,8 +21,8 @@ public class Upgrade : ScriptableObject
 
 	public bool CanBuy()
 	{
-		GameManager manager = GameManager.instance;
-		return manager.currency >= baseCurrencyCost;
+		GameManager mng = GameManager.instance;
+		return mng.data.currency >= baseCurrencyCost;
 	}
 
 	public void Buy()

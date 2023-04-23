@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "ResearchNode", menuName = "clicky/ResearchNode", order = 0)]
 public class ResearchNode : ScriptableObject
@@ -11,7 +9,7 @@ public class ResearchNode : ScriptableObject
 	public string displayName;
 	[TextArea(1, 3)]
 	public string description;
-	public int currencyCost;
+	public HugeNumber currencyCost;
 	public int researchCost;
 	public Sprite sprite;
 	public bool instantUnlock;
@@ -21,7 +19,7 @@ public class ResearchNode : ScriptableObject
 	
   	public bool CanBuy()
 	{
-		GameManager manager = GameManager.instance;
-		return manager.currency >= currencyCost;
+		GameManager mng = GameManager.instance;
+		return mng.data.currency >= currencyCost;
 	}
 }

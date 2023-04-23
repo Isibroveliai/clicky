@@ -18,5 +18,5 @@ public class ScriptableObjectIdDrawer : PropertyDrawer
 		EditorGUI.PropertyField(position, property, label, true);
 		GUI.enabled = true;
 	}
-}
+}	
 #endif

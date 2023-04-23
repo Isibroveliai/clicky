@@ -16,10 +16,14 @@ MonoBehaviour:
   displayName: Efficiency
   description: Increase the efficiency of current devices. Reduce the total energy
     consumption by 5%.
-  baseCurrencyCost: 10000
+  baseCurrencyCost:
+    value: 10
+    postfix: 0
   energyUsage: 0
   energyCapRaise: 0
-  currencyGeneration: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 0.05
   researchProduction: 0
   icon: {fileID: 2800000, guid: cf373cbde5909ea47a6b3a3afe78b0b2, type: 3}

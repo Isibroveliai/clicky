@@ -16,10 +16,14 @@ MonoBehaviour:
   displayName: Pipe
   description: 'Everyone knows that more pipes provide even more materials. Every
     pipe upgrade increases click generation by 1000!  '
-  baseCurrencyCost: 100
+  baseCurrencyCost:
+    value: 20
+    postfix: 0
   energyUsage: 50
   energyCapRaise: 0
-  currencyGeneration: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
   icon: {fileID: 2800000, guid: 82097fe5cd774914781262a2ffde8069, type: 3}

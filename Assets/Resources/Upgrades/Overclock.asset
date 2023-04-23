@@ -16,10 +16,14 @@ MonoBehaviour:
   displayName: Overclock
   description: Overclock your furnaces and other mashines! This upgrade uses a lot
     of energy, but provides a generous amount of currency.
-  baseCurrencyCost: 60000
+  baseCurrencyCost:
+    value: 10
+    postfix: 1
   energyUsage: 500
   energyCapRaise: 0
-  currencyGeneration: 1000
+  currencyGeneration:
+    value: 0
+    postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
   icon: {fileID: 2800000, guid: 5fdede2a7630502488021f8c79543864, type: 3}

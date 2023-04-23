@@ -8,20 +8,26 @@ using Unity.VisualScripting;
 public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
 	public ResearchNode node;
+	ResearchTabManager tab;
 	public List<ResearchNodeButton> next;
-	public bool researched = false;
 
 	private Button button;
 	private Image image;
 	UIManager ui;
-
+	Color defaultColor;
+	Color warningColor;
 	void Awake()
     {
-		ui = GameObject.Find("/UI").GetComponent<UIManager>();
+		ui = GetComponentInParent<UIManager>();
+		defaultColor = ui.energySafeColor;
+		warningColor = ui.energyDangerColor;
+		tab = GetComponentInParent<ResearchTabManager>();
 		image = GetComponent<Image>();
 		image.sprite = node.sprite;
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
+		tab.UpdateResearchAdditionalText("", false, defaultColor);
+		tab.UpdateResearchDescription("");
 	}
 	void StartResearch()
 	{
@@ -31,25 +37,36 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		manager.StartResearch(node);
 		AudioManager.PlayButtonClick();
 	}
+
+	public bool IsResearched()
+	{
+		return GameManager.instance.data.unlockedResearch.Contains(node.id);
+	}
 	
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		ui.UpdateResearchAdditionalText("", ui.energySafeColor);
-		ui.UpdateResearchDescription("");
+		tab.UpdateResearchAdditionalText("", false, defaultColor);
+		tab.UpdateResearchDescription("");
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if (!node.CanBuy() && !researched)
+		var researched = IsResearched();
+		if ( !researched)
 		{
-			ui.UpdateResearchAdditionalText("Not enough currency", ui.energyDangerColor);
+			string text = string.Format("Cost: {0}", node.currencyCost);
+			tab.UpdateResearchAdditionalText(text, false, defaultColor);
+			if(!node.CanBuy())
+			{
+				tab.UpdateResearchAdditionalText("\nNot enough currency!", true, warningColor);
+			}			
 		}
 		else if (researched)
 		{
-			ui.UpdateResearchAdditionalText("Unlocked!", ui.energySafeColor);
+			tab.UpdateResearchAdditionalText("Unlocked!", false, defaultColor);
 		}
 
-		ui.UpdateResearchDescription(node.description);
+		tab.UpdateResearchDescription(node.description);
 	}
 	public void ChangeButtonState(bool state) => button.interactable = state;
 	
