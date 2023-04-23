@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &44669676 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8454239789997416787, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
-  m_PrefabInstance: {fileID: 1183887774}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &83532291 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4477041125245646300, guid: c6a63bcc000d411418514b53e545a61f, type: 3}
@@ -1894,17 +1883,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6940801077383832140, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
   m_PrefabInstance: {fileID: 1928533174}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &778063330 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7395473568304054285, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
-  m_PrefabInstance: {fileID: 1183887774}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &820266428
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,11 +3474,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263425051}
   m_CullTransparentMesh: 1
---- !u!1 &1532701914 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2596728532970826490, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
-  m_PrefabInstance: {fileID: 1183887774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1541956031
 GameObject:
   m_ObjectHideFlags: 0
@@ -4871,10 +4844,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventTime: 30
-  startEventFlag: 0
-  timer: 0
-  eventfrequency: 20
-  currentScore: 0
+  eventFrequency: 20
+  eventTextbox: {fileID: 691372547}
+  eventText: {fileID: 153595740}
 --- !u!4 &1752507237
 Transform:
   m_ObjectHideFlags: 0
@@ -6213,17 +6185,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983556978}
   m_CullTransparentMesh: 1
---- !u!114 &2055665938 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6743614061569015894, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
-  m_PrefabInstance: {fileID: 1183887774}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2121437231
 GameObject:
   m_ObjectHideFlags: 0
@@ -6430,19 +6391,11 @@ MonoBehaviour:
     button: {fileID: 1118712558}
   - panel: {fileID: 1053374192}
     button: {fileID: 1704645188}
-  eventTab: {fileID: 691372547}
-  eventText: {fileID: 153595740}
   gameOverTab: {fileID: 565476646}
   currencyCounter: {fileID: 1237179554}
-  upgradeTab: {fileID: 0}
-  changeWindowButtonObj: {fileID: 1532701914}
-  saveInfoText: {fileID: 2055665938}
-  volumeSlider: {fileID: 44669676}
-  volumeValueText: {fileID: 778063330}
   energyCounter: {fileID: 1880873462}
   energySafeColor: {r: 0.93725497, g: 0.7411765, b: 0.41176474, a: 1}
   energyDangerColor: {r: 0.16862746, g: 0.27058825, b: 0.30980393, a: 1}
-  researchTabManager: {fileID: 272810645}
   researchCounter: {fileID: 159097759}
 --- !u!224 &2132500584 stripped
 RectTransform:
