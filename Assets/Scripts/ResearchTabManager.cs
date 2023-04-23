@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
-using UnityEditor.U2D.Path;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -173,12 +170,9 @@ public class ResearchTabManager : MonoBehaviour
 
 	public void UpdateCurrentResearchLabel(string researchName)
 	{
-		if (researchName == "")
-		{
+		if (researchName == "") {
 			currentResearchLabel.text = "";
-		}
-		else
-		{
+		} else {
 			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
 	}

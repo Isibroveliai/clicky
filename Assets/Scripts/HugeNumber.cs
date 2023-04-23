@@ -1,5 +1,8 @@
 ﻿using System;
 
+// Important note about HugeNumber, when adding two numbers,where the difference
+// in magnitude between them is larger than 1 million, the addition will be ignored.
+
 [Serializable]
 public struct HugeNumber
 {
