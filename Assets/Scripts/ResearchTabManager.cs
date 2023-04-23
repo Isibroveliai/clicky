@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
-using UnityEditor.U2D.Path;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -66,6 +63,7 @@ public class ResearchTabManager : MonoBehaviour
 		currentPage = GameObject.Find("Pages/MainPage");
 
 		start.ChangeButtonState(true);
+		start.node.revealed = true;
 		start.ChangeSprite();
 		start.OnUnlock();
 
