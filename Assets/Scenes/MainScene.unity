@@ -301,7 +301,7 @@ PrefabInstance:
     - target: {fileID: 1238465160641286900, guid: ee2cfa5352b8fb340b8901186aa72108, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 298ed7db322a14247b31645f3623fbd1, type: 3}
+      objectReference: {fileID: 21300000, guid: aedb247c37faa1b49b7462c15635e968, type: 3}
     - target: {fileID: 1238465160641286902, guid: ee2cfa5352b8fb340b8901186aa72108, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -2659,7 +2659,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1c272988380f14f43830bb492ecec10a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 75b812cb425055847be8e0b77d65d037, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2776,6 +2776,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -151.04
       objectReference: {fileID: 0}
+    - target: {fileID: 6743614061718814924, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aedb247c37faa1b49b7462c15635e968, type: 3}
     - target: {fileID: 6743614061718814927, guid: 9fe063ad8d9e0544f9d2234996eb112b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -3013,7 +3017,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c5afdd99271633d4286236b9f4598003, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bcc3447d3703d0d4db62c8a2b4f43c0e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4599,7 +4603,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f39b9e0bb33d0c4a8c280ecc10186a5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fea15c3453dbd8743b46922190ad0246, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5464,6 +5468,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8183150394529858001, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183150394529858012, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aedb247c37faa1b49b7462c15635e968, type: 3}
     - target: {fileID: 8183150394529858015, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -6394,9 +6406,9 @@ MonoBehaviour:
   gameOverTab: {fileID: 565476646}
   currencyCounter: {fileID: 1237179554}
   energyCounter: {fileID: 1880873462}
+  researchCounter: {fileID: 159097759}
   energySafeColor: {r: 0.93725497, g: 0.7411765, b: 0.41176474, a: 1}
   energyDangerColor: {r: 0.16862746, g: 0.27058825, b: 0.30980393, a: 1}
-  researchCounter: {fileID: 159097759}
 --- !u!224 &2132500584 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1238465160641286902, guid: ee2cfa5352b8fb340b8901186aa72108, type: 3}
