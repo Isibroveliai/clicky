@@ -23,11 +23,9 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		warningColor = ui.energyDangerColor;
 		tab = GetComponentInParent<ResearchTabManager>();
 		image = GetComponent<Image>();
-		image.sprite = node.sprite;
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
-		tab.UpdateResearchAdditionalText("", false, defaultColor);
-		tab.UpdateResearchDescription("");
+		node.revealed = false;
 	}
 	void StartResearch()
 	{
@@ -51,6 +49,12 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		if (!node.revealed)
+		{
+			tab.UpdateResearchDescription("Progress research further to reveal...");
+			tab.UpdateResearchAdditionalText("", false, defaultColor);
+			return;
+		}
 		var researched = IsResearched();
 		if ( !researched)
 		{
@@ -65,9 +69,19 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		{
 			tab.UpdateResearchAdditionalText("Unlocked!", false, defaultColor);
 		}
-
 		tab.UpdateResearchDescription(node.description);
+
 	}
 	public void ChangeButtonState(bool state) => button.interactable = state;
+	public void OnUnlock()
+	{
+		foreach(ResearchNodeButton neighbor in next)
+		{
+			neighbor.ChangeSprite();
+			neighbor.node.revealed = true;		
+		}
+		
+	}
+	public void ChangeSprite() => image.sprite = node.sprite;
 	
 }
