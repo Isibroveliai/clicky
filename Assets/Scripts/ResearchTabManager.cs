@@ -178,12 +178,9 @@ public class ResearchTabManager : MonoBehaviour
 
 	public void UpdateCurrentResearchLabel(string researchName)
 	{
-		if (researchName == "")
-		{
+		if (researchName == "") {
 			currentResearchLabel.text = "";
-		}
-		else
-		{
+		} else {
 			currentResearchLabel.text = $"Researching '{researchName}'...";
 		}
 	}

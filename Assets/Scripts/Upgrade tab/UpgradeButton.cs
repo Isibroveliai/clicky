@@ -56,8 +56,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	void FixedUpdate()
 	{
-		// TODO: Refactor, to not check can buy every frame.
-		// Add "OnClick" event to ClickerManager to solve this problem.
 		if (isDisabled)
 		{
 			button.interactable = false;
@@ -65,7 +63,6 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		else
 		{
 			button.interactable = upgrade.CanBuy();
-
 
 			Color buttonTextColor = button.interactable ? normalTextColor : disabledTextColor;
 			currencyCostLabel.color = buttonTextColor;

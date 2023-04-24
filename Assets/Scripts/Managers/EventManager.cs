@@ -1,34 +1,28 @@
+using TMPro;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-	private static UIManager ui;
-
+	// Duration in seconds, how long each event lasts
 	public float eventTime = 30;
 
-	public bool startEventFlag = false;
+	// Time in seconds, how frequently should event by tried to be picked
+	public int eventFrequency = 20;
 
-	public float timer = 0;
+	// Indicates if an event is currently active
+	private bool startEventFlag = false;
 
-	public int eventfrequency = 20;
+	public GameObject eventTextbox;
+	public TMP_Text eventText;
+	private GameManager mng;
 
-	public float currentScore;
-
-	GameManager mng;
-
-	// Start is called before the first frame update
 	void Start()
 	{
+		eventTextbox.SetActive(false);
 		mng = GameManager.instance;
-		InvokeRepeating("EventInitiation", eventfrequency, eventfrequency);
-		ui = GameObject.Find("/UI").GetComponent<UIManager>();
+		InvokeRepeating(nameof(EventInitiation), eventFrequency, eventFrequency);
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		timer += Time.deltaTime;
-	}
 	private void EventInitiation()
 	{
 		var random = new System.Random();
@@ -42,6 +36,7 @@ public class EventManager : MonoBehaviour
 			EventPicker();
 		}
 	}
+
 	private void EventPicker()
 	{
 		var random = new System.Random();
@@ -64,15 +59,15 @@ public class EventManager : MonoBehaviour
 		{
 			case 1:
 				Event1Start();
-				Invoke("Event1End", eventTime);
+				Invoke(nameof(Event1End), eventTime);
 				break;
 			case 2:
 				Event2Start();
-				Invoke("Event2End", eventTime);
+				Invoke(nameof(Event2End), eventTime);
 				break;
 			case 3:
 				Event3Start();
-				Invoke("Event3End", eventTime);
+				Invoke(nameof(Event3End), eventTime);
 				break;
 			default:
 				break;
@@ -81,36 +76,44 @@ public class EventManager : MonoBehaviour
 	}
 	private void Event1Start()
 	{
-		ui.SetEventText("Hard times... Resource generation is slower..");
-		ui.SetEventTextShown(true);
+		ShowEventText("Hard times... Resource generation is slower..");
 
 		mng.currencyPerClick = new HugeNumber(0.5f);
 	}
 	private void Event1End()
 	{
-		ui.SetEventTextShown(false);
+		HideEventText();
 		mng.currencyPerClick = new HugeNumber(1);
 	}
 	private void Event2Start()
 	{
-		ui.SetEventText("Inspiration! You gain currency faster!");
-		ui.SetEventTextShown(true);
+		ShowEventText("Inspiration! You gain currency faster!");
 		mng.currencyPerClick = new HugeNumber(5);
 	}
 	private void Event2End()
 	{
-		ui.SetEventTextShown(false);
+		HideEventText();
 		mng.currencyPerClick = new HugeNumber(1);
 	}
 	private void Event3Start()
 	{
-		ui.SetEventText("Eureka! Your research accelerates!");
-		ui.SetEventTextShown(true);
+		ShowEventText("Eureka! Your research accelerates!");
 		mng.researchProduction *= 2;
 	}
 	private void Event3End()
 	{
-		ui.SetEventTextShown(false);
+		HideEventText();
 		mng.researchProduction /= 2;
+	}
+
+	public void ShowEventText(string text)
+	{
+		eventText.text = text;
+		eventTextbox.SetActive(true);
+	}
+
+	public void HideEventText()
+	{
+		eventTextbox.SetActive(false);
 	}
 }

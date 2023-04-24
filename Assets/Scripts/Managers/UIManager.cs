@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using System.Collections.Generic;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
@@ -17,43 +16,22 @@ public class UIManager : MonoBehaviour
 	public UITab[] tabs;
 	private UITab activeTab;
 
-	public GameObject eventTab;
-	public TMP_Text eventText;
-
 	public GameObject gameOverTab;
 
 	public TMP_Text currencyCounter;
-
-	public UpgradeTab upgradeTab;
-
-	[Header("Options tab")]
-	public GameObject changeWindowButtonObj;
-	public TMP_Text saveInfoText;
-	public Slider volumeSlider;
-	public TMP_Text volumeValueText;
-
-	[Header("Energy")]
 	public TMP_Text energyCounter;
+	public TMP_Text researchCounter;
+
 	public Color energySafeColor;
 	public Color energyDangerColor;
 
-	[Header("Research")]
-	public ResearchTabManager researchTabManager;
-	public TMP_Text researchCounter;
-
 	void Start()
 	{
-		eventTab.SetActive(false);
 		gameOverTab.SetActive(false);
 		activeTab = tabs[0];
-		for (int i = 0; i < tabs.Length; i++)
-		{
-			UITab tab = tabs[i];
-			//tab.panel.SetActive(true); //to do all their Start() methods
-			
+		foreach (UITab tab in tabs)
+		{		
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
-			//if (tab.panel.name == "ResearchTab") researchTabManager = tab.panel.GetComponent<ResearchTabManager>(); // TODO: find another way to do this
-			//else if(tab.panel.name == "Options") 
 			tab.panel.SetActive(false);
 		}
 
@@ -65,8 +43,6 @@ public class UIManager : MonoBehaviour
 		UpdateScoreDisplay(mng.data.currency);
 		UpdateResearchSpeedDisplay(mng.researchProduction);
 	}
-
-	
 
 	public void SetGameOverShown(bool isShown)
 	{
@@ -84,17 +60,7 @@ public class UIManager : MonoBehaviour
 	}
 	public void UpdateEnergyDisplayDanger(bool warning)
 	{
-		if (warning) energyCounter.color = energyDangerColor;
-		else energyCounter.color = energySafeColor;
-	}	
-
-	public void SetEventTextShown(bool isShown)
-	{
-		eventTab.SetActive(isShown);
-	}
-	public void SetEventText(string text)
-	{
-		eventText.text = text;
+		energyCounter.color = warning ? energyDangerColor : energySafeColor;
 	}
 
 	public void UpdateResearchSpeedDisplay(float researchSpeed)

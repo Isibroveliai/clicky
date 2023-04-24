@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: StartNode
   m_EditorClassIdentifier: 
   id: c3c44084-a359-473b-a189-666242d6327c
-  displayName: Unlock research paths
-  description: Unlocks the reseearch tree
+  displayName: Humble Beginings
+  description: Unlocks research tree.
   currencyCost:
     value: 100
     postfix: 0
   researchCost: 0
-  sprite: {fileID: 21300000, guid: a3e491f99ea3ad74f8731ca93e84c497, type: 3}
+  sprite: {fileID: 21300000, guid: 7fddbc6c6f5bb054b93563cd7a2c5fc2, type: 3}
   instantUnlock: 0
   next: []
   unlockUpgrades:
