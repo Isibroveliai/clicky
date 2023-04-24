@@ -367,9 +367,9 @@ public class GameManager : MonoBehaviour
 		if(startCriticalEnergy)
 		{
 			CheckCurrency();
-			currentTime += Time.deltaTime / 5;
+			currentTime += Time.deltaTime;
 			
-			data.currency -= (currencyGeneration + (int)currentTime) * Time.deltaTime; // add scaling ?
+			data.currency -= (currencyGeneration + (int)Math.Pow(1.1,currentTime)) * Time.deltaTime; // add scaling ?
 			if (rawEnergyUsage < maxEnergy)
 			{
 				startCriticalEnergy = false;

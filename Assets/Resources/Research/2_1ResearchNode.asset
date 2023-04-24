@@ -21,4 +21,6 @@ MonoBehaviour:
   researchCost: 1000
   sprite: {fileID: 21300000, guid: c0818606878f6c74b93d3c4ba3263f48, type: 3}
   instantUnlock: 0
+  next: []
   unlockUpgrades: []
+  revealed: 0
