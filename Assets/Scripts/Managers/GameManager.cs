@@ -5,8 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+	public static GameManager instance;
 	// Anything saved in `data` and `settings` is persistent
 	public GameData data;
 	public GameSettings settings;
@@ -16,7 +17,7 @@ public class GameManager : Singleton<GameManager>
 	public List<ResearchNode> unlockedResearches;
 	public ResearchNode activeResearch;
 
-	private static readonly float baseMaxEnergy = 100;
+	private static readonly float baseMaxEnergy = 500;
 
 	[ReadOnly]
 	public float maxEnergy = baseMaxEnergy;
@@ -24,6 +25,7 @@ public class GameManager : Singleton<GameManager>
 	public float researchProduction = 0;
 	// [ReadOnly] // Doesn't work in conjuction with HugeNumber :(
 	public HugeNumber currencyGeneration = new HugeNumber(0);
+
 	[ReadOnly]
 	public float rawEnergyUsage = 0;
 	[ReadOnly]
@@ -33,12 +35,27 @@ public class GameManager : Singleton<GameManager>
 
 	public float researchPercent = 0.0f;
 
+	public bool startCriticalEnergy = false;
+	public float currentTime;
+	float baseTime;
 	public static event Action<Upgrade> OnUpgradeUnlocked;
 	public static event Action<ResearchNode> OnResearchStarted;
 	public static event Action<ResearchNode> OnResearchFinished;
 	public static event Action<ResearchNode> OnResearchStopped;
 
-	public override void Setup()
+	public void Awake()
+	{
+		if (instance != null && instance != this)
+		{
+			Destroy(this);
+			return;
+		}
+		instance = this;
+
+		Setup();
+	
+	}
+	void Setup()
 	{
 		settings = new GameSettings();
 		data = new GameData();
@@ -49,13 +66,19 @@ public class GameManager : Singleton<GameManager>
 		
 		CheckResourcesIds();
 		LoadSaveFile();
+
+		Time.timeScale = 1f;
 	}
 
 	void Update()
 	{
 		if(SceneManager.GetActiveScene().buildIndex == 0) return; // if in main menu do nothing
 
-		data.currency += currencyGeneration * Time.deltaTime;
+		if(!startCriticalEnergy)
+		{
+			data.currency += currencyGeneration * Time.deltaTime;
+		}
+			 
 
 		if (activeResearch)
 		{
@@ -69,6 +92,8 @@ public class GameManager : Singleton<GameManager>
 			}
 		}
 
+		CheckEnergy();
+
 		ui.UpdateScoreDisplay(data.currency);
 	}
 
@@ -77,9 +102,13 @@ public class GameManager : Singleton<GameManager>
 		data.currency += currencyPerClick;
 	}
 
-	public static void RestartScene()
+	public static void RestartGame()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+	public static void ExitMainMenu()
+	{
+		SceneManager.LoadScene(0);
 	}
 
 	public float GetEnergyUsage()
@@ -298,8 +327,6 @@ public class GameManager : Singleton<GameManager>
 		data.researchProgress = 0;
 		activeResearch = null;
 		data.activeResearch = null;
-
-	
 	}
 
 	public void StopResearch()
@@ -323,5 +350,43 @@ public class GameManager : Singleton<GameManager>
 		var research = activeResearch;
 		ResetActiveResearch();
 		OnResearchFinished(research);
+	}
+	/// <summary>
+	/// Constantly checks energy usage level, if it reaches max cap, decrease currency
+	/// Every ~5 seconds, currency decrease becomes larger
+	/// Upon restoring safe levels, refresh stats and continue as normal
+	/// </summary>
+	void CheckEnergy()
+	{
+		if (rawEnergyUsage >= maxEnergy && !startCriticalEnergy)
+		{
+			startCriticalEnergy = true;
+			currentTime = 0;
+		}
+
+		if(startCriticalEnergy)
+		{
+			CheckCurrency();
+			currentTime += Time.deltaTime / 5;
+			
+			data.currency -= (currencyGeneration + (int)currentTime) * Time.deltaTime; // add scaling ?
+			if (rawEnergyUsage < maxEnergy)
+			{
+				startCriticalEnergy = false;
+				RefreshUpgradeAndResearchEffects();
+			}
+		}
+	}
+	//
+	void CheckCurrency()
+	{
+		if(data.currency <= 0f) //gg
+		{
+			data.currency = new HugeNumber(0f);
+			ui.SetGameOverShown(true);
+			data = new GameData();
+			SaveManager.Save(GetSaveObject());
+			Time.timeScale = 0f;
+		}
 	}
 }

@@ -25,6 +25,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		image = GetComponent<Image>();
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
+		node.revealed = false;
 	}
 	void StartResearch()
 	{

@@ -130,6 +130,14 @@ public struct HugeNumber
 	{
 		return !(a > b);
 	}
+	public static bool operator >=(HugeNumber a, float b)
+	{
+		return a.value == b || a.value > b;
+	}
+	public static bool operator <=(HugeNumber a, float b)
+	{
+		return a.value == b || a.value < b;
+	}
 
 	public static HugeNumber operator +(HugeNumber a, HugeNumber b)
 	{
@@ -159,6 +167,14 @@ public struct HugeNumber
 	public static HugeNumber operator -(HugeNumber a, HugeNumber b)
 	{
 		return a + (-b);
+	}
+	public static HugeNumber operator -(HugeNumber a, float b)
+	{
+		return new HugeNumber(a.value - b, a.postfix);
+	}
+	public static HugeNumber operator +(HugeNumber a, float b)
+	{
+		return new HugeNumber(a.value + b, a.postfix);
 	}
 
 	public static HugeNumber operator *(HugeNumber a, HugeNumber b)

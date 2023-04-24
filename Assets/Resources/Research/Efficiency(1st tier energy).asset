@@ -24,3 +24,4 @@ MonoBehaviour:
   next: []
   unlockUpgrades:
   - {fileID: 11400000, guid: ac53ab6dfe0542248b9eeea29935e55b, type: 2}
+  revealed: 1
