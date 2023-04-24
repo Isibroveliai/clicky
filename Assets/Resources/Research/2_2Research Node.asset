@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
-  m_Name: StartNode
+  m_Name: 2_2Research Node
   m_EditorClassIdentifier: 
-  id: c3c44084-a359-473b-a189-666242d6327c
-  displayName: Humble Beginings
-  description: Unlocks research tree.
+  id: e2db4ac6-9d6a-4605-ae55-2411ce675c66
+  displayName: Abacus
+  description: 
   currencyCost:
-    value: 100
+    value: 300
     postfix: 0
-  researchCost: 0
-  sprite: {fileID: 21300000, guid: 7fddbc6c6f5bb054b93563cd7a2c5fc2, type: 3}
+  researchCost: 1000
+  sprite: {fileID: 21300000, guid: b0340b4c0cf60144483313a451d5d40c, type: 3}
   instantUnlock: 0
-  unlockUpgrades:
-  - {fileID: 11400000, guid: ee3eeeaaab9303f4f8ee0a29f61e15b7, type: 2}
+  unlockUpgrades: []

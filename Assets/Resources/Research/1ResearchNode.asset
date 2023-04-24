@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
-  m_Name: StartNode
+  m_Name: 1ResearchNode
   m_EditorClassIdentifier: 
-  id: c3c44084-a359-473b-a189-666242d6327c
-  displayName: Humble Beginings
-  description: Unlocks research tree.
+  id: bd0ef8fc-1307-4429-891f-087e878d7f79
+  displayName: Flasks
+  description: 
   currencyCost:
-    value: 100
+    value: 200
     postfix: 0
-  researchCost: 0
-  sprite: {fileID: 21300000, guid: 7fddbc6c6f5bb054b93563cd7a2c5fc2, type: 3}
+  researchCost: 500
+  sprite: {fileID: 21300000, guid: ec251efb6825baf439b676ce84579f65, type: 3}
   instantUnlock: 0
-  unlockUpgrades:
-  - {fileID: 11400000, guid: ee3eeeaaab9303f4f8ee0a29f61e15b7, type: 2}
+  unlockUpgrades: []
