@@ -24,3 +24,6 @@ MonoBehaviour:
   next: []
   unlockUpgrades: []
   revealed: 0
+  onBuyEvent:
+    m_PersistentCalls:
+      m_Calls: []

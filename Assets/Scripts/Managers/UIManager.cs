@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Unity.VisualScripting;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class UIManager : MonoBehaviour
 
 	public UITab[] tabs;
 	private UITab activeTab;
+	private UITab prevTab;
 
 	public GameObject gameOverTab;
 
@@ -70,11 +72,32 @@ public class UIManager : MonoBehaviour
 
 	public void ChangeTab(UITab tab)
 	{
-		tab.panel.SetActive(!tab.panel.activeSelf);
+		if(!tab.panel.activeSelf) 
+		{
+			tab.panel.SetActive(true);
+			Animator anim1 = activeTab.panel.GetComponent<Animator>();
+			anim1.SetTrigger("Enable");
+		}
+		
+		
 		if (activeTab != tab)
 		{
-			activeTab.panel.SetActive(false);
+			Animator anim1 = activeTab.panel.GetComponent<Animator>();
+			anim1.SetTrigger("Disable");
+			Animator anim2 = tab.panel.GetComponent<Animator>();
+			anim2.SetTrigger("Enable");
+			prevTab = activeTab;
 			activeTab = tab;
 		}
+		else
+		{
+			Animator anim1 = activeTab.panel.GetComponent<Animator>();
+			anim1.SetTrigger("Disable");
+		}
+	
+	}
+	public void DisablePreviousTab()
+	{
+		prevTab.panel.SetActive(false);
 	}
 }
