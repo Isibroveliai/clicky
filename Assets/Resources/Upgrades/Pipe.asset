@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Pipe
   m_EditorClassIdentifier: 
-  id: ce444468-0e99-4878-9a73-5054c662d5fb
+  id: 3d2e58e0-73b7-4e53-a857-13a487f2871d
   displayName: Pipe
   description: 'Everyone knows that more pipes provide even more materials. Every
-    pipe upgrade increases click generation by 1000!  '
+    pipe upgrade increases currency generation by 10!  '
   baseCurrencyCost:
-    value: 20
+    value: 1000
     postfix: 0
   energyUsage: 50
   energyCapRaise: 0
   currencyGeneration:
-    value: 0
+    value: 10
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
