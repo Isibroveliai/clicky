@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Oil
+  m_Name: Battery
   m_EditorClassIdentifier: 
-  id: ce444468-0e99-4878-9a73-5054c662d5fb
-  displayName: Oil barrel
-  description: Slick your mashine up with some oil! Each oil barrel provides currency
-    generation and research production.
+  id: 137acff8-d990-48da-bb82-e3c694330431
+  displayName: Battery
+  description: Batteries will help store your created power. Now that's efficiency!
+    Raises your energy usage cap and decreases energy consumption.
   baseCurrencyCost:
-    value: 30000
+    value: 10000
     postfix: 0
   energyUsage: 0
-  energyCapRaise: 0
+  energyCapRaise: 20
   currencyGeneration:
-    value: 100
+    value: 0
     postfix: 0
-  energyConsumptionDecrease: 0
-  researchProduction: 20
-  icon: {fileID: 2800000, guid: 4fb8ccdbf8647584e848e05305709df6, type: 3}
+  energyConsumptionDecrease: 10
+  researchProduction: 0
+  icon: {fileID: 2800000, guid: f282eb970ee31334ba7ace298f193e57, type: 3}

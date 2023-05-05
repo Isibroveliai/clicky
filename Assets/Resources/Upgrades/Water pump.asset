@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Oil
+  m_Name: Water pump
   m_EditorClassIdentifier: 
-  id: ce444468-0e99-4878-9a73-5054c662d5fb
-  displayName: Oil barrel
-  description: Slick your mashine up with some oil! Each oil barrel provides currency
-    generation and research production.
+  id: bf77813a-b847-423c-b37a-42d446413f75
+  displayName: Water pump
+  description: Cool your generators efficiently with water pumps! Provides more currency
+    generation and a slight research production increase.
   baseCurrencyCost:
-    value: 30000
+    value: 20000
     postfix: 0
-  energyUsage: 0
+  energyUsage: 250
   energyCapRaise: 0
   currencyGeneration:
     value: 100
     postfix: 0
   energyConsumptionDecrease: 0
-  researchProduction: 20
-  icon: {fileID: 2800000, guid: 4fb8ccdbf8647584e848e05305709df6, type: 3}
+  researchProduction: 10
+  icon: {fileID: 2800000, guid: 87cfccf5039421d4faadcb666a097ace, type: 3}
