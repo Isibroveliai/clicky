@@ -8,7 +8,7 @@ using UnityEngine.Events;
 /// Used for research node buy event callbacks
 /// 
 /// use template:
-///		public void Function(BaseEventData eventData)
+///		public void Function([int] [float] [string])
 ///		{
 ///			//your logic
 ///		}
@@ -28,5 +28,9 @@ public class ResearchCallbacks : MonoBehaviour
 	public void TestCallback()
 	{
 		Debug.Log("RESEARCH NODE BOUGHT");
+	}
+	public void TestWithArg(int i)
+	{
+		print(i);
 	}
 }

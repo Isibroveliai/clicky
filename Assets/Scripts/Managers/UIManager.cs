@@ -2,21 +2,48 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Unity.VisualScripting;
 
 // TODO: Make this a singleton, so it is acccesible everywhere
 public class UIManager : MonoBehaviour
 {
+	
 	[Serializable]
 	public class UITab
 	{
-		public GameObject panel;
-		public Button button;
+		public enum flags{
+			NOSWAP,
+			SWAP
+		}
+		public GameObject panel; // add reference in editor
+		public Button button; // add reference in editor
+		[ReadOnly]
+		public Button closeButton;
+		public Animator anim {get; set;}
+		public flags flag;
+		private string[] triggers;
+		public UITab()
+		{		
+			triggers = new string[] {"Enable", "Disable"};
+		}
+		public UITab(GameObject panel, Button button) : this()
+		{
+			this.panel = panel;
+			this.button = button;
+		}
+
+		public void ResetTriggers()
+		{
+			foreach(string trig in triggers)
+			{
+				anim.ResetTrigger(trig);
+			}
+		}
+
 	}
 
 	public UITab[] tabs;
-	private UITab activeTab;
-	private UITab prevTab;
+	public UITab activeTab;
+	public UITab nextTab;
 
 	public GameObject gameOverTab;
 
@@ -27,14 +54,28 @@ public class UIManager : MonoBehaviour
 	public Color energySafeColor;
 	public Color energyDangerColor;
 
-	void Start()
+	[ReadOnly]
+	public bool animationEnd;
+	private void Start()
 	{
 		gameOverTab.SetActive(false);
-		activeTab = tabs[0];
+		activeTab = new UITab();
+		animationEnd = true;
 		foreach (UITab tab in tabs)
-		{		
+		{	
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
+			tab.anim = tab.panel.GetComponent<Animator>();
+			//tab.anim.enabled = false;
 			tab.panel.SetActive(false);
+			tab.closeButton = tab.panel.transform.Find("CloseButton").GetComponent<Button>();
+			tab.closeButton.onClick.AddListener(() => {
+				animationEnd = false;  
+				tab.ResetTriggers();
+				tab.flag = UITab.flags.NOSWAP;
+				tab.anim.SetTrigger("Disable");
+				print("CLOSE BUTTON ON CLICK");
+				//tab.ResetTriggers(); 
+			});
 		}
 
 		GameManager mng = GameManager.instance;
@@ -44,6 +85,10 @@ public class UIManager : MonoBehaviour
 		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 		UpdateScoreDisplay(mng.data.currency);
 		UpdateResearchSpeedDisplay(mng.researchProduction);
+	}
+
+	private void Update() {
+	
 	}
 
 	public void SetGameOverShown(bool isShown)
@@ -70,34 +115,39 @@ public class UIManager : MonoBehaviour
 		researchCounter.text = researchSpeed.ToString();
 	}
 
+	//nelieskit niekas nes galimai sulust bent ka mentai pakeitus :^)
 	public void ChangeTab(UITab tab)
 	{
-		if(!tab.panel.activeSelf) 
-		{
-			tab.panel.SetActive(true);
-			Animator anim1 = activeTab.panel.GetComponent<Animator>();
-			anim1.SetTrigger("Enable");
-		}
+		if(!animationEnd) return;
+		tab.panel.SetActive(true);
+		tab.ResetTriggers();
+		nextTab = null;
 		
-		
-		if (activeTab != tab)
+		if(activeTab.panel == null)
 		{
-			Animator anim1 = activeTab.panel.GetComponent<Animator>();
-			anim1.SetTrigger("Disable");
-			Animator anim2 = tab.panel.GetComponent<Animator>();
-			anim2.SetTrigger("Enable");
-			prevTab = activeTab;
+			Debug.Log("IS NULL");
 			activeTab = tab;
+		}
+		else if(activeTab != tab)
+		{
+			animationEnd = false;
+			activeTab.ResetTriggers();
+			print("SWITCH");
+			tab.anim.SetTrigger("Enable");
+			activeTab.anim.SetTrigger("Disable");
+			activeTab.flag = UITab.flags.SWAP;
+			nextTab = tab;
 		}
 		else
 		{
-			Animator anim1 = activeTab.panel.GetComponent<Animator>();
-			anim1.SetTrigger("Disable");
+			animationEnd = false;
+			activeTab.ResetTriggers();
+			print("DISABLE SAME");
+			tab.anim.SetTrigger("Disable");
+			activeTab.flag = UITab.flags.NOSWAP;
 		}
 	
 	}
-	public void DisablePreviousTab()
-	{
-		prevTab.panel.SetActive(false);
-	}
+
+	
 }
