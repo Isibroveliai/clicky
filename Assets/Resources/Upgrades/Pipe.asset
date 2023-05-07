@@ -15,14 +15,14 @@ MonoBehaviour:
   id: 3d2e58e0-73b7-4e53-a857-13a487f2871d
   displayName: Pipe
   description: 'Everyone knows that more pipes provide even more materials. Every
-    pipe upgrade increases currency generation by 10!  '
+    pipe upgrade increases currency generation by 20!  '
   baseCurrencyCost:
     value: 1000
     postfix: 0
-  energyUsage: 50
+  energyUsage: 100
   energyCapRaise: 0
   currencyGeneration:
-    value: 10
+    value: 20
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0

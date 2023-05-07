@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Uhm... It's a pet rock. It motivates the workforce..? Provides 1 research
     generation.
   baseCurrencyCost:
-    value: 1000
+    value: 500
     postfix: 0
   energyUsage: 0
   energyCapRaise: 0

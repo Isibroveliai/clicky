@@ -19,7 +19,7 @@ MonoBehaviour:
   baseCurrencyCost:
     value: 500
     postfix: 0
-  energyUsage: 0
+  energyUsage: 25
   energyCapRaise: 0
   currencyGeneration:
     value: 5
