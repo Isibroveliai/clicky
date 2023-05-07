@@ -15,15 +15,15 @@ MonoBehaviour:
   id: bf77813a-b847-423c-b37a-42d446413f75
   displayName: Water pump
   description: Cool your generators efficiently with water pumps! Provides more currency
-    generation and a slight research production increase.
+    generation and a research production increase.
   baseCurrencyCost:
     value: 20000
     postfix: 0
-  energyUsage: 250
+  energyUsage: 350
   energyCapRaise: 0
   currencyGeneration:
     value: 100
     postfix: 0
   energyConsumptionDecrease: 0
-  researchProduction: 10
+  researchProduction: 40
   icon: {fileID: 2800000, guid: 87cfccf5039421d4faadcb666a097ace, type: 3}

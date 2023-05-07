@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 43072f1b-fe99-4a44-b384-b561cc0e5c06
   displayName: Tesseract
-  description: So... Much... Power!! Provides lots of currency generation and raises
-    energy usage cap.
+  description: So... Much... Power!! Provides a ginormous amount of currency generation
+    and raises energy usage cap.
   baseCurrencyCost:
     value: 1000000
     postfix: 0
   energyUsage: 0
   energyCapRaise: 500
   currencyGeneration:
-    value: 1000
+    value: 5000
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0

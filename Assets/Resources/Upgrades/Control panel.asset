@@ -17,12 +17,12 @@ MonoBehaviour:
   description: Install a control panel at in your work space! Control panels provide
     more currency generation.
   baseCurrencyCost:
-    value: 30
+    value: 3000
     postfix: 0
   energyUsage: 75
   energyCapRaise: 0
   currencyGeneration:
-    value: 0
+    value: 30
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0

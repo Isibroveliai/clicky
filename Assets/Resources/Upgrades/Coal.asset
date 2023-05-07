@@ -16,12 +16,12 @@ MonoBehaviour:
   displayName: Coal cart
   description: Invest in more coal for the furnace. Slighty increases currency generation.
   baseCurrencyCost:
-    value: 0
+    value: 100
     postfix: 0
-  energyUsage: 50
+  energyUsage: 20
   energyCapRaise: 0
   currencyGeneration:
-    value: 0
+    value: 4
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0

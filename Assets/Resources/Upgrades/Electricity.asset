@@ -17,9 +17,9 @@ MonoBehaviour:
   description: Invest in a bigger electricity level. Each electricity upgrade provides
     1 more currency generation!
   baseCurrencyCost:
-    value: 10
+    value: 50
     postfix: 0
-  energyUsage: 0
+  energyUsage: 5
   energyCapRaise: 0
   currencyGeneration:
     value: 1
