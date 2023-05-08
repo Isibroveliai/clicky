@@ -9,6 +9,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 {
 	public ResearchNode node;
 	ResearchTabManager tab;
+	[ReadOnly]
 	public List<ResearchNodeButton> next;
 
 	private Button button;
@@ -16,6 +17,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	UIManager ui;
 	Color defaultColor;
 	Color warningColor;
+	Animator animator;
 	void Awake()
     {
 		ui = GetComponentInParent<UIManager>();
@@ -25,6 +27,9 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		image = GetComponent<Image>();
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
+
+		animator = GetComponent<Animator>();
+		
 		node.revealed = false;
 	}
 	void StartResearch()
@@ -43,12 +48,21 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	
 	public void OnPointerExit(PointerEventData eventData)
 	{
+		SetTriggers("Leave", "Enter");
 		tab.UpdateResearchAdditionalText("", false, defaultColor);
 		tab.UpdateResearchDescription("");
 	}
 
+	void SetTriggers(string toSet, string toReset)
+	{
+		animator.SetTrigger(toSet);
+		animator.ResetTrigger(toReset); // maybe not needed?
+	}
+
 	public void OnPointerEnter(PointerEventData eventData)
 	{
+		SetTriggers("Enter", "Leave");
+
 		if (!node.revealed)
 		{
 			tab.UpdateResearchDescription("Progress research further to reveal...");

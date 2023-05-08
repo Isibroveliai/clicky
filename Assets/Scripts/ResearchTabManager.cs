@@ -24,8 +24,6 @@ public class ResearchTabManager : MonoBehaviour
 
 	public TMP_Text currentResearchLabel;
 
-	public Dictionary<ResearchNodeButton, List<ResearchNodeButton>> graph; // stores node and its neighbors along with their lines
-
 	Dictionary<ResearchNode, ResearchNodeButton> nodeButtonPairs; // used to get ResearchNodeButton that corresponds to ResearchNode
 	GameObject currentPage;
 	void Start()
@@ -33,40 +31,10 @@ public class ResearchTabManager : MonoBehaviour
 		mng = GameManager.instance;
 		nodeButtonPairs = new Dictionary<ResearchNode, ResearchNodeButton>();
 
-		graph = new Dictionary<ResearchNodeButton, List<ResearchNodeButton>>();
-
-		for(int i = 0; i < pages.transform.childCount; i++)
-		{
-			GameObject page = pages.transform.GetChild(i).gameObject;
-			GameObject content = page.transform.Find("Content").gameObject;
-			page.SetActive(true);
-			//go through each child object of page game object (every button)
-			for (int j = 0; j < content.transform.childCount; j++)
-			{
-				List <ResearchNodeButton> neighbors = new List<ResearchNodeButton>(); // stores a node's neighbors
-				GameObject child = content.transform.GetChild(j).gameObject;
-				ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
-
-				nodeButtonPairs.Add(node.node, node); //TODO: change ResearchNode variable in ResearchNodeButton
-				child.GetComponent<Button>().interactable = false; //default button state is uninteractable
-
-				foreach (ResearchNodeButton next in node.next)
-				{
-					neighbors.Add(next);
-				}
-
-				graph.Add(node, neighbors);
-			}
-		}
-
-		ResearchNodeButton start = pages.transform.Find("MainPage/Content/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
-		currentPage = GameObject.Find("Pages/MainPage");
-
-		start.ChangeButtonState(true);
-		start.node.revealed = true;
-		start.ChangeSprite();
-		start.OnUnlock();
-
+		SetupPairs();
+		SetButtonNeighbors();
+		SetupStartNode();
+		
 		GameManager.OnResearchStarted += OnResearchStarted;
 		GameManager.OnResearchFinished += OnResearchFinished;
 		GameManager.OnResearchStopped += OnResearchStopped;
@@ -78,13 +46,8 @@ public class ResearchTabManager : MonoBehaviour
 		UpdateCurrentResearchLabel("");
 		UpdateResearchProgress(0);
 
-		for (int i = 0; i < pages.transform.childCount; i++)
-		{
-			GameObject page = pages.transform.GetChild(i).gameObject;
-			page.SetActive(false);
-		}
-		currentPage.SetActive(true);
 
+		InitPages();
  	}
 
 	void Update()
@@ -94,6 +57,59 @@ public class ResearchTabManager : MonoBehaviour
 			UpdateResearchProgress(mng.researchPercent);
 		}
 	}
+
+	private void SetupPairs()
+	{
+		for (int i = 0; i < pages.transform.childCount; i++)
+		{
+			GameObject page = pages.transform.GetChild(i).gameObject;
+			GameObject content = page.transform.Find("Content").gameObject;
+			page.SetActive(true);
+			//go through each child object of page game object (every button)
+			for (int j = 0; j < content.transform.childCount; j++)
+			{
+				List<ResearchNodeButton> neighbors = new List<ResearchNodeButton>(); // stores a node's neighbors
+				GameObject child = content.transform.GetChild(j).gameObject;
+				ResearchNodeButton node = child.GetComponent<ResearchNodeButton>();
+
+				nodeButtonPairs.Add(node.node, node); //TODO: change ResearchNode variable in ResearchNodeButton
+				child.GetComponent<Button>().interactable = false; //default button state is uninteractable
+			}
+		}
+	}
+
+	private void SetButtonNeighbors()
+	{
+		foreach (ResearchNode node in nodeButtonPairs.Keys)
+		{
+			ResearchNodeButton curBtn = nodeButtonPairs[node];
+			foreach(ResearchNode nextNode in node.next)
+			{
+				curBtn.next.Add(nodeButtonPairs[nextNode]);
+			}
+		}
+	}
+	private void SetupStartNode()
+	{
+		ResearchNodeButton start = pages.transform.Find("MainPage/Content/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research
+		currentPage = GameObject.Find("Pages/MainPage");
+
+		start.ChangeButtonState(true);
+		start.node.revealed = true;
+		start.ChangeSprite();
+		start.OnUnlock();
+	}
+
+	private void InitPages()
+	{
+		for (int i = 0; i < pages.transform.childCount; i++)
+		{
+			GameObject page = pages.transform.GetChild(i).gameObject;
+			page.SetActive(false);
+		}
+		currentPage.SetActive(true);
+	}
+	
 	public void OnResearchStarted(ResearchNode research)
 	{
 		UpdateCurrentResearchLabel(research.displayName);
@@ -110,6 +126,7 @@ public class ResearchTabManager : MonoBehaviour
 		UnlockNeighbors(nodeButtonPairs[research]);
 		UpdateResearchProgress(0);
 		UpdateCurrentResearchLabel("");
+		research.OnBuy();
 	}
 
 	/// <summary>

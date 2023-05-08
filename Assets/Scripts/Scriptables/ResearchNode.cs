@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 [CreateAssetMenu(fileName = "ResearchNode", menuName = "clicky/ResearchNode", order = 0)]
 public class ResearchNode : ScriptableObject
@@ -13,13 +15,27 @@ public class ResearchNode : ScriptableObject
 	public int researchCost;
 	public Sprite sprite;
 	public bool instantUnlock;
-	public List<ResearchNodeButton> next;
-
+	public List<ResearchNode> next;
+	
 	public List<Upgrade> unlockUpgrades;
 	public bool revealed = false;
-  	public bool CanBuy()
+
+	public UnityEvent onBuyEvent;
+
+	public bool CanBuy()
 	{
 		GameManager mng = GameManager.instance;
 		return mng.data.currency >= currencyCost;
+	
+	}
+
+	public void OnBuy()
+	{
+		onBuyEvent.Invoke();
+	}
+
+	public bool IsResearched()
+	{
+		return GameManager.instance.data.unlockedResearch.Contains(id);
 	}
 }

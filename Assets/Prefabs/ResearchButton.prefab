@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4477041125245646297}
   - component: {fileID: 4477041125245646300}
   - component: {fileID: 1520805733975715376}
+  - component: {fileID: 4106739686021888084}
   m_Layer: 5
   m_Name: ResearchButton
   m_TagString: Untagged
@@ -158,3 +159,23 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls: []
+--- !u!95 &4106739686021888084
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477041125245646295}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e1f1cf214f13ba04698bba4d083facd0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
