@@ -1,138 +1,109 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+using EventHandler = System.Func<EventFrame, System.Collections.IEnumerator>;
+
 public class EventManager : MonoBehaviour
 {
+
 	// Duration in seconds, how long each event lasts
 	public float eventTime = 30;
 
 	// Time in seconds, how frequently should event by tried to be picked
 	public int eventFrequency = 20;
 
-	// Indicates if an event is currently active
-	private bool startEventFlag = false;
+	public float eventChance = 0.5f;
 
 	public GameObject eventTextbox;
 	public TMP_Text eventText;
 	private GameManager mng;
 
-	//no touchy
-	private Animator anim;
-	//private EventTrigger eventTrigger;
-	private Button switchButton;
-	private bool panelExtended = false;
-	[SerializeField]
-	private float delay = 1.5f;
-	//
+	private List<EventFrame> activeEvents;
+	private List<Tuple<EventHandler, int>> eventWeights;
+
+	private readonly System.Random rand = new();
 
 	void Start()
 	{
+		activeEvents = new List<EventFrame>();
+		eventWeights = new List<Tuple<EventHandler, int>>
+		{
+			Tuple.Create<EventHandler, int>(Event1, 1),
+			Tuple.Create<EventHandler, int>(Event2, 1),
+			Tuple.Create<EventHandler, int>(Event3, 1)
+		};
 
 		eventTextbox.SetActive(false);
 		mng = GameManager.instance;
-		InvokeRepeating(nameof(EventInitiation), eventFrequency, eventFrequency);
+		InvokeRepeating(nameof(EventLauncher), eventFrequency, eventFrequency);
 
 		anim = eventTextbox.GetComponentInChildren<Animator>();
 		switchButton = eventTextbox.GetComponentInChildren<Button>();
 		switchButton.onClick.AddListener(() => { OnButton(); });
-		//eventTrigger = eventTextbox.GetComponentInChildren<EventTrigger>();
-		//var enter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter};
-		//var exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
-		//enter.callback.AddListener(eventData => { OnEnter(eventData); });
-		//exit.callback.AddListener(eventData => { OnExit(eventData); });
-		//eventTrigger.triggers.Add(enter);
-		//eventTrigger.triggers.Add(exit);
-		
 	}
 
-	private void EventInitiation()
+	private EventHandler PickRandomEvent()
 	{
-		var random = new System.Random();
-		if (random.Next(10) > 5)
+		int weightsSum = 0;
+		foreach (var entry in eventWeights)
 		{
-			startEventFlag = true;
-		}
-		if (startEventFlag)
-		{
-			startEventFlag = false;
-			EventPicker();
-		}
-	}
-
-	private void EventPicker()
-	{
-		var random = new System.Random();
-		int[] chances = { 33, 33, 33 };
-		int totalRatio = 0;
-
-		foreach (int c in chances)
-			totalRatio += c;
-		int x = random.Next(0, totalRatio);
-
-		int iteration = 0;
-		foreach (int c in chances)
-		{
-			iteration++;
-			if ((x -= c) < 0)
-				break;
+			weightsSum += entry.Item2;
 		}
 
-		switch (iteration)
+		var randValue = rand.Next(weightsSum);
+		foreach (var entry in eventWeights)
 		{
-			case 1:
-				
-				Event1Start();
-				Invoke(nameof(Event1End), eventTime);
-				break;
-			case 2:
-				
-				Event2Start();
-				Invoke(nameof(Event2End), eventTime);
-				break;
-			case 3:
-				
-				Event3Start();
-				Invoke(nameof(Event3End), eventTime);
-				break;
-			default:
-				break;
+			if (randValue <= entry.Item2)
+			{
+				return entry.Item1;
+			}
+			randValue -= entry.Item2;
 		}
 		StartCoroutine(PlayDisableAnimAfterDelay(delay));
 
+		return eventWeights.Last().Item1;
 	}
-	private void Event1Start()
-	{
-		ShowEventText("Hard times... Resource generation is slower..");
 
-		mng.currencyPerClick = new HugeNumber(0.5f);
-	}
-	private void Event1End()
+	private void EventLauncher()
 	{
-		HideEventText();
-		mng.currencyPerClick = new HugeNumber(1);
+		if (!(rand.NextDouble() < eventChance))
+		{
+			return;
+		}
+		var e = new EventFrame();
+		var randEvent = PickRandomEvent();
+		StartCoroutine(randEvent(e));
+		activeEvents.Add(e);
 	}
-	private void Event2Start()
+
+	private IEnumerator Event1(EventFrame e)
 	{
-		ShowEventText("Inspiration! You gain currency faster!");
-		mng.currencyPerClick = new HugeNumber(5);
+		e.description = "Hard times... Resource generation is slower..";
+		e.clickMultiplier = 0.5f;
+
+		yield return new WaitForSeconds(eventTime);
 	}
-	private void Event2End()
+
+	private IEnumerator Event2(EventFrame e)
 	{
-		HideEventText();
-		mng.currencyPerClick = new HugeNumber(1);
+		e.description = "Inspiration! You gain currency faster!";
+		e.clickMultiplier = 5;
+
+		yield return new WaitForSeconds(eventTime);
 	}
-	private void Event3Start()
+
+	private IEnumerator Event3(EventFrame e)
 	{
-		ShowEventText("Eureka! Your research accelerates!");
-		mng.researchProduction *= 2;
-	}
-	private void Event3End()
-	{
-		HideEventText();
-		mng.researchProduction /= 2;
+		e.description = "Eureka! Your research accelerates!";
+		e.researchMultiplier = 2;
+
+		yield return new WaitForSeconds(eventTime);
 	}
 
 	public void ShowEventText(string text)
@@ -159,7 +130,7 @@ public class EventManager : MonoBehaviour
 	}
 	public void OnButton()
 	{
-		
+
 		if (panelExtended)
 		{
 			DisableAnim();

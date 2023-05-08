@@ -5463,6 +5463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventTime: 10
   eventFrequency: 5
+  eventChance: 0.5
   eventTextbox: {fileID: 691372547}
   eventText: {fileID: 153595740}
   delay: 2
