@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
+  m_Name: r_1_research
+  m_EditorClassIdentifier: 
+  id: 63c97f94-31e9-4db7-80ee-430055bfc89b
+  displayName: Ruler
+  description: 
+  currencyCost:
+    value: 10
+    postfix: 0
+  researchCost: 10
+  sprite: {fileID: 21300000, guid: 27ad47573db0d6a419c036d027ad421f, type: 3}
+  instantUnlock: 0
+  next:
+  - {fileID: 11400000, guid: 56a912a4825de354eba422d5f1ebf5b6, type: 2}
+  - {fileID: 11400000, guid: 9be2ca6afadd17f4eb1e00753810c4cf, type: 2}
+  - {fileID: 11400000, guid: 090ba4d049d859141a5eb4ec5051ab0b, type: 2}
+  unlockUpgrades: []
+  revealed: 1
+  onBuyEvent:
+    m_PersistentCalls:
+      m_Calls: []

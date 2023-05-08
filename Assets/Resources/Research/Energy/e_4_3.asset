@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
+  m_Name: e_4_3
+  m_EditorClassIdentifier: 
+  id: 99575b21-5e16-457b-8576-7789ae6ade02
+  displayName: Radioactivity
+  description: 
+  currencyCost:
+    value: 0
+    postfix: 0
+  researchCost: 0
+  sprite: {fileID: 21300000, guid: d8ccd1bd2b5d84d45805bb40701733b7, type: 3}
+  instantUnlock: 0
+  next:
+  - {fileID: 11400000, guid: 6205e62af6cd8554f9b63fb3d1e6abeb, type: 2}
+  unlockUpgrades: []
+  revealed: 0
+  onBuyEvent:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
+  m_Name: e_2_1
+  m_EditorClassIdentifier: 
+  id: ef0114f1-fd7f-4954-abca-8bdfeffdd319
+  displayName: A lot more coal
+  description: 
+  currencyCost:
+    value: 0
+    postfix: 0
+  researchCost: 0
+  sprite: {fileID: 21300000, guid: 2c0958dc496c54c4684d7d45c91de779, type: 3}
+  instantUnlock: 0
+  next:
+  - {fileID: 11400000, guid: b99b4626e7e21434db2f0d67c2442f9c, type: 2}
+  - {fileID: 11400000, guid: 00e1929dcd37a3c4981cffa1e85d100f, type: 2}
+  unlockUpgrades: []
+  revealed: 0
+  onBuyEvent:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1265,7 +1265,7 @@ MonoBehaviour:
   - {x: 0.1, y: 0}
   - {x: 0.4, y: 0}
   - {x: 0.7, y: 0}
-  - {x: -1, y: -1}
+  - {x: -0.5, y: 0}
 --- !u!114 &1244321618
 MonoBehaviour:
   m_ObjectHideFlags: 0

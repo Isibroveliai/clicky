@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
+  m_Name: 1_research
+  m_EditorClassIdentifier: 
+  id: a0c50089-e8f7-44d0-a32e-455bb2d158bc
+  displayName: Research upgrade
+  description: 
+  currencyCost:
+    value: 10
+    postfix: 0
+  researchCost: 19
+  sprite: {fileID: 21300000, guid: 69650fce3966898439bbc913cfa5339a, type: 3}
+  instantUnlock: 0
+  next:
+  - {fileID: 11400000, guid: 8c8e4a6fe6785d741a7b03d2c3e362bc, type: 2}
+  - {fileID: 11400000, guid: cf68251b045fd2c4fb17ec24a999435b, type: 2}
+  unlockUpgrades: []
+  revealed: 0
+  onBuyEvent:
+    m_PersistentCalls:
+      m_Calls: []
