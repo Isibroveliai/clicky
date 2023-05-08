@@ -1,5 +1,8 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class EventManager : MonoBehaviour
 {
@@ -16,11 +19,33 @@ public class EventManager : MonoBehaviour
 	public TMP_Text eventText;
 	private GameManager mng;
 
+	//no touchy
+	private Animator anim;
+	//private EventTrigger eventTrigger;
+	private Button switchButton;
+	private bool panelExtended = false;
+	[SerializeField]
+	private float delay = 1.5f;
+	//
+
 	void Start()
 	{
+
 		eventTextbox.SetActive(false);
 		mng = GameManager.instance;
 		InvokeRepeating(nameof(EventInitiation), eventFrequency, eventFrequency);
+
+		anim = eventTextbox.GetComponentInChildren<Animator>();
+		switchButton = eventTextbox.GetComponentInChildren<Button>();
+		switchButton.onClick.AddListener(() => { OnButton(); });
+		//eventTrigger = eventTextbox.GetComponentInChildren<EventTrigger>();
+		//var enter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter};
+		//var exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
+		//enter.callback.AddListener(eventData => { OnEnter(eventData); });
+		//exit.callback.AddListener(eventData => { OnExit(eventData); });
+		//eventTrigger.triggers.Add(enter);
+		//eventTrigger.triggers.Add(exit);
+		
 	}
 
 	private void EventInitiation()
@@ -58,20 +83,24 @@ public class EventManager : MonoBehaviour
 		switch (iteration)
 		{
 			case 1:
+				
 				Event1Start();
 				Invoke(nameof(Event1End), eventTime);
 				break;
 			case 2:
+				
 				Event2Start();
 				Invoke(nameof(Event2End), eventTime);
 				break;
 			case 3:
+				
 				Event3Start();
 				Invoke(nameof(Event3End), eventTime);
 				break;
 			default:
 				break;
 		}
+		StartCoroutine(PlayDisableAnimAfterDelay(delay));
 
 	}
 	private void Event1Start()
@@ -116,4 +145,50 @@ public class EventManager : MonoBehaviour
 	{
 		eventTextbox.SetActive(false);
 	}
+
+	//-----------leave this alone pls :)---------------------
+	public void EnableAnim()
+	{
+		ResetTriggers("Enable", "Disable");
+		anim.SetTrigger("Enable");
+	}
+	public void DisableAnim()
+	{
+		ResetTriggers("Enable", "Disable");
+		anim.SetTrigger("Disable");
+	}
+	public void OnButton()
+	{
+		
+		if (panelExtended)
+		{
+			DisableAnim();
+		}
+		else
+		{
+			EnableAnim();
+		}
+		panelExtended = !panelExtended;
+	}
+
+	public void ResetTriggers(params string[] triggers)
+	{
+		foreach(string str in triggers)
+		{
+			anim.ResetTrigger(str);
+		}
+	}
+
+	IEnumerator PlayDisableAnimAfterDelay(float delay)
+	{
+		print("before");
+		yield return new WaitForSeconds(delay);
+		print("after");
+		DisableAnim();
+	}
+
+	//-------------------------------------------------------
+
+
+
 }

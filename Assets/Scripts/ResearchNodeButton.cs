@@ -57,6 +57,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 	{
 		animator.SetTrigger(toSet);
 		animator.ResetTrigger(toReset); // maybe not needed?
+
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
