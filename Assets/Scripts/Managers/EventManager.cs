@@ -29,6 +29,14 @@ public class EventManager : MonoBehaviour
 
 	private readonly System.Random rand = new();
 
+	//no touchy
+	private Animator anim;
+	//private EventTrigger eventTrigger;
+	private Button switchButton;
+	private bool panelExtended = false;
+	[SerializeField]
+	private float delay = 1.5f;
+
 	void Start()
 	{
 		activeEvents = new List<EventFrame>();
