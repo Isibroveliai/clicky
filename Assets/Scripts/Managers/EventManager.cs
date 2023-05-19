@@ -4,59 +4,90 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-using EventHandler = System.Func<EventFrame, System.Collections.IEnumerator>;
+using MyEventHandler = System.Func<EventFrame, System.Collections.IEnumerator>;
 
-public class EventManager : MonoBehaviour
+public class EventManager : Singleton<EventManager>
 {
-
-	// Duration in seconds, how long each event lasts
-	public float eventTime = 30;
-
 	// Time in seconds, how frequently should event by tried to be picked
-	public int eventFrequency = 20;
+	public float eventFrequency = 20.0f;
 
 	public float eventChance = 0.5f;
 
+	public GameObject eventNotificationContainer;
 	public GameObject eventTextbox;
 	public TMP_Text eventText;
 	private GameManager mng;
 
-	private List<EventFrame> activeEvents;
-	private List<Tuple<EventHandler, int>> eventWeights;
+	public List<Tuple<GameObject, EventFrame>> activeEvents;
+	private List<Tuple<MyEventHandler, int>> eventWeights;
+	private IEnumerator currentEventNotification;
 
 	private readonly System.Random rand = new();
 
-	//no touchy
 	private Animator anim;
-	//private EventTrigger eventTrigger;
-	private Button switchButton;
-	private bool panelExtended = false;
-	[SerializeField]
-	private float delay = 1.5f;
 
-	void Start()
+	public static event Action<EventFrame> OnEventStarted;
+	public static event Action<EventFrame> OnEventFinished;
+
+	private float researchMultiplier = 1;
+	private float clickMultiplier = 1;
+	
+	public override void Setup()
 	{
-		activeEvents = new List<EventFrame>();
-		eventWeights = new List<Tuple<EventHandler, int>>
+		activeEvents = new List<Tuple<GameObject, EventFrame>>();
+		eventWeights = new List<Tuple<MyEventHandler, int>>
 		{
-			Tuple.Create<EventHandler, int>(Event1, 1),
-			Tuple.Create<EventHandler, int>(Event2, 1),
-			Tuple.Create<EventHandler, int>(Event3, 1)
+			Tuple.Create<MyEventHandler, int>(Event1, 1),
+			Tuple.Create<MyEventHandler, int>(Event2, 1),
+			Tuple.Create<MyEventHandler, int>(Event3, 1)
 		};
 
-		eventTextbox.SetActive(false);
 		mng = GameManager.instance;
 		InvokeRepeating(nameof(EventLauncher), eventFrequency, eventFrequency);
 
 		anim = eventTextbox.GetComponentInChildren<Animator>();
-		switchButton = eventTextbox.GetComponentInChildren<Button>();
-		switchButton.onClick.AddListener(() => { OnButton(); });
+
+		for (int i = 0; i < eventNotificationContainer.transform.childCount; i++)
+		{
+			var child = eventNotificationContainer.transform.GetChild(i);
+			child.gameObject.SetActive(false);
+		}
 	}
 
-	private EventHandler PickRandomEvent()
+	public void StopCurrentNotificationIfExists()
+	{
+		if (currentEventNotification != null)
+		{
+			StopCoroutine(currentEventNotification);
+			currentEventNotification = null;
+		}
+	}
+
+	public void OnNotificationPointerEnter(GameObject obj)
+	{
+		EventFrame eventFrame = null;
+		foreach (var entry in activeEvents)
+		{
+			if (entry.Item1 == obj)
+			{
+				eventFrame = entry.Item2;
+				break;
+			}
+		}
+		if (eventFrame == null) return;
+
+		StopCurrentNotificationIfExists();
+		ShowDescription(eventFrame.description);
+		
+	}
+
+	public void OnNotificationPointerExit(GameObject obj)
+	{
+		HideDescription();
+	}
+
+	private MyEventHandler PickRandomEvent()
 	{
 		int weightsSum = 0;
 		foreach (var entry in eventWeights)
@@ -73,7 +104,6 @@ public class EventManager : MonoBehaviour
 			}
 			randValue -= entry.Item2;
 		}
-		StartCoroutine(PlayDisableAnimAfterDelay(delay));
 
 		return eventWeights.Last().Item1;
 	}
@@ -84,10 +114,90 @@ public class EventManager : MonoBehaviour
 		{
 			return;
 		}
-		var e = new EventFrame();
+
+		if (activeEvents.Count >= eventNotificationContainer.transform.childCount)
+		{
+			Debug.Log("Attempt create event, while at limit");
+			return;
+		}
+		
 		var randEvent = PickRandomEvent();
-		StartCoroutine(randEvent(e));
-		activeEvents.Add(e);
+		if (randEvent == null) return;
+		StartCoroutine(EventWrapper(randEvent));
+	}
+
+	private void ShowDescription(string text)
+	{
+		eventText.text = text;
+		anim.ResetTrigger("Show");
+		anim.SetTrigger("Show");
+	}
+
+	public void HideDescription()
+	{
+		anim.ResetTrigger("Hide");
+		anim.SetTrigger("Hide");
+	}
+
+	private IEnumerator TemporarilyShowDescription(string text, float duration)
+	{
+		ShowDescription(text);
+		yield return new WaitForSeconds(duration);
+		HideDescription();
+	}
+
+	private GameObject GetUnusedNotificationObject()
+	{
+		for (int i = 0; i < eventNotificationContainer.transform.childCount; i++)
+		{
+			var child = eventNotificationContainer.transform.GetChild(i);
+			if (!child.gameObject.activeSelf)
+			{
+				return child.gameObject;
+			}
+		}
+		return null;
+	}
+
+	private IEnumerator EventWrapper(MyEventHandler handler)
+	{
+		var e = new EventFrame();
+		var coroutine = handler(e);
+		coroutine.MoveNext();
+
+		int i = activeEvents.Count-1;
+		var notifObject = GetUnusedNotificationObject();
+		notifObject.SetActive(true);
+		var entry = Tuple.Create(notifObject, e);
+		activeEvents.Add(entry);
+		OnEventStarted?.Invoke(e);
+
+		StopCurrentNotificationIfExists();
+		var notificationCoroutine = TemporarilyShowDescription(e.description, 1.5f);
+		StartCoroutine(notificationCoroutine);
+		currentEventNotification = notificationCoroutine;
+
+		yield return coroutine;
+
+		OnEventFinished?.Invoke(e);
+		activeEvents.Remove(entry);
+		notifObject.SetActive(false);
+
+		ApplyChanges(e);
+	}
+
+	private int ApplyChanges(EventFrame e)
+	{
+		researchMultiplier = 1;
+		clickMultiplier = 1;
+		foreach (var entry in activeEvents)
+		{
+			var frame = entry.Item2;
+			clickMultiplier *= frame.clickMultiplier;
+			researchMultiplier *= frame.researchMultiplier;
+		}
+
+		return 0;
 	}
 
 	private IEnumerator Event1(EventFrame e)
@@ -95,7 +205,8 @@ public class EventManager : MonoBehaviour
 		e.description = "Hard times... Resource generation is slower..";
 		e.clickMultiplier = 0.5f;
 
-		yield return new WaitForSeconds(eventTime);
+		yield return ApplyChanges(e);
+		yield return new WaitForSeconds(30);
 	}
 
 	private IEnumerator Event2(EventFrame e)
@@ -103,7 +214,8 @@ public class EventManager : MonoBehaviour
 		e.description = "Inspiration! You gain currency faster!";
 		e.clickMultiplier = 5;
 
-		yield return new WaitForSeconds(eventTime);
+		yield return ApplyChanges(e);
+		yield return new WaitForSeconds(30);
 	}
 
 	private IEnumerator Event3(EventFrame e)
@@ -111,63 +223,7 @@ public class EventManager : MonoBehaviour
 		e.description = "Eureka! Your research accelerates!";
 		e.researchMultiplier = 2;
 
-		yield return new WaitForSeconds(eventTime);
+		yield return ApplyChanges(e);
+		yield return new WaitForSeconds(30);
 	}
-
-	public void ShowEventText(string text)
-	{
-		eventText.text = text;
-		eventTextbox.SetActive(true);
-	}
-
-	public void HideEventText()
-	{
-		eventTextbox.SetActive(false);
-	}
-
-	//-----------leave this alone pls :)---------------------
-	public void EnableAnim()
-	{
-		ResetTriggers("Enable", "Disable");
-		anim.SetTrigger("Enable");
-	}
-	public void DisableAnim()
-	{
-		ResetTriggers("Enable", "Disable");
-		anim.SetTrigger("Disable");
-	}
-	public void OnButton()
-	{
-
-		if (panelExtended)
-		{
-			DisableAnim();
-		}
-		else
-		{
-			EnableAnim();
-		}
-		panelExtended = !panelExtended;
-	}
-
-	public void ResetTriggers(params string[] triggers)
-	{
-		foreach(string str in triggers)
-		{
-			anim.ResetTrigger(str);
-		}
-	}
-
-	IEnumerator PlayDisableAnimAfterDelay(float delay)
-	{
-		print("before");
-		yield return new WaitForSeconds(delay);
-		print("after");
-		DisableAnim();
-	}
-
-	//-------------------------------------------------------
-
-
-
 }

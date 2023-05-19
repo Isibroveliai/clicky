@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
 		instance = this;
 
 		Setup();
-	
 	}
+
 	void Setup()
 	{
 		settings = new GameSettings();
