@@ -82,13 +82,15 @@ public class GameManager : MonoBehaviour
 
 		if (activeResearch)
 		{
-			data.researchProgress += researchProduction * Time.deltaTime;
+			float multiplier = EventManager.instance.researchMultiplier;
+			data.researchProgress += researchProduction * Time.deltaTime * multiplier;
 			researchPercent = Math.Clamp(data.researchProgress / activeResearch.researchCost, 0, 1);
 
 			if (data.researchProgress >= activeResearch.researchCost)
 			{
 				researchPercent = 0.0f;
-				ResearchFinished();
+				ResearchFinished(activeResearch);
+				ResetActiveResearch();
 			}
 		}
 
@@ -99,7 +101,7 @@ public class GameManager : MonoBehaviour
 
 	public void GenerateCurrency()
 	{
-		data.currency += currencyPerClick;
+		data.currency += currencyPerClick * EventManager.instance.clickMultiplier;
 	}
 
 	public static void RestartGame()
@@ -292,10 +294,17 @@ public class GameManager : MonoBehaviour
 
 	// ======================= Research ========================
 
+	public void UnlockResearchForFreeNow(ResearchNode research)
+	{		
+		if (unlockedResearches.Contains(research)) return;
+		OnResearchStarted?.Invoke(research);
+		ResearchFinished(research);
+	}
+
 	public bool StartResearch(ResearchNode research)
 	{
 		// TODO: Check if player has unlocked at least 1 previous research, check if player has dependency
-		if (unlockedResearches.Contains(activeResearch)) return false;
+		if (unlockedResearches.Contains(research)) return false;
 		if (research.currencyCost > data.currency)
 		{
 			return false;
@@ -311,12 +320,13 @@ public class GameManager : MonoBehaviour
 		if (research.researchCost > 0)
 		{
 			data.researchProgress = 0;
-			OnResearchStarted(research);
+			OnResearchStarted?.Invoke(research);
 		}
 		else
 		{
-			OnResearchStarted(research);
-			ResearchFinished();
+			OnResearchStarted?.Invoke(research);
+			ResearchFinished(research);
+			ResetActiveResearch();
 		}
 
 		return true;
@@ -335,21 +345,19 @@ public class GameManager : MonoBehaviour
 
 		var research = activeResearch;
 		ResetActiveResearch();
-		OnResearchStopped(research);
+		OnResearchStopped?.Invoke(research);
 	}
 
-	private void ResearchFinished()
+	private void ResearchFinished(ResearchNode research)
 	{
-		foreach (var upgrade in activeResearch.unlockUpgrades)
+		foreach (var upgrade in research.unlockUpgrades)
 		{
 			UnlockUpgrade(upgrade);
 		}
-		unlockedResearches.Add(activeResearch);
-		data.unlockedResearch.Add(activeResearch.id);
+		unlockedResearches.Add(research);
+		data.unlockedResearch.Add(research.id);
 
-		var research = activeResearch;
-		ResetActiveResearch();
-		OnResearchFinished(research);
+		OnResearchFinished?.Invoke(research);
 	}
 	/// <summary>
 	/// Constantly checks energy usage level, if it reaches max cap, decrease currency

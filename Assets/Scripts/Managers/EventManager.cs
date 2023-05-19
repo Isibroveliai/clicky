@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using MyEventHandler = System.Func<EventFrame, System.Collections.IEnumerator>;
@@ -30,17 +31,21 @@ public class EventManager : Singleton<EventManager>
 	public static event Action<EventFrame> OnEventStarted;
 	public static event Action<EventFrame> OnEventFinished;
 
-	private float researchMultiplier = 1;
-	private float clickMultiplier = 1;
+	[HideInInspector]
+	public float researchMultiplier = 1;
+	[HideInInspector]
+	public float clickMultiplier = 1;
 	
 	public override void Setup()
 	{
 		activeEvents = new List<Tuple<GameObject, EventFrame>>();
 		eventWeights = new List<Tuple<MyEventHandler, int>>
 		{
-			Tuple.Create<MyEventHandler, int>(Event1, 1),
-			Tuple.Create<MyEventHandler, int>(Event2, 1),
-			Tuple.Create<MyEventHandler, int>(Event3, 1)
+			//Tuple.Create<MyEventHandler, int>(Event1, 1),
+			//Tuple.Create<MyEventHandler, int>(Event2, 1),
+			//Tuple.Create<MyEventHandler, int>(Event3, 1),
+			//Tuple.Create<MyEventHandler, int>(Event4, 1),
+			Tuple.Create<MyEventHandler, int>(Event5, 1)
 		};
 
 		mng = GameManager.instance;
@@ -162,31 +167,30 @@ public class EventManager : Singleton<EventManager>
 	private IEnumerator EventWrapper(MyEventHandler handler)
 	{
 		var e = new EventFrame();
-		var coroutine = handler(e);
-		coroutine.MoveNext();
-
-		int i = activeEvents.Count-1;
 		var notifObject = GetUnusedNotificationObject();
-		notifObject.SetActive(true);
 		var entry = Tuple.Create(notifObject, e);
 		activeEvents.Add(entry);
-		OnEventStarted?.Invoke(e);
 
+		var enumerator = handler(e);
+		OnEventStarted?.Invoke(e);
+		enumerator.MoveNext();
+
+		notifObject.SetActive(true);
 		StopCurrentNotificationIfExists();
 		var notificationCoroutine = TemporarilyShowDescription(e.description, 1.5f);
 		StartCoroutine(notificationCoroutine);
 		currentEventNotification = notificationCoroutine;
 
-		yield return coroutine;
+		yield return enumerator;
 
 		OnEventFinished?.Invoke(e);
 		activeEvents.Remove(entry);
 		notifObject.SetActive(false);
 
-		ApplyChanges(e);
+		ApplyChanges();
 	}
 
-	private int ApplyChanges(EventFrame e)
+	private int ApplyChanges()
 	{
 		researchMultiplier = 1;
 		clickMultiplier = 1;
@@ -195,9 +199,37 @@ public class EventManager : Singleton<EventManager>
 			var frame = entry.Item2;
 			clickMultiplier *= frame.clickMultiplier;
 			researchMultiplier *= frame.researchMultiplier;
+			foreach (var upgrade in frame.upgrades)
+			{
+				GameManager.instance.UnlockUpgrade(upgrade);
+			}
+			foreach (var research in frame.research)
+			{
+				GameManager.instance.UnlockResearchForFreeNow(research);
+			}
 		}
 
 		return 0;
+	}
+
+	private Upgrade GetUpgrade(string path)
+	{
+		var upgrade = Resources.Load<Upgrade>($"Upgrades/{path}");
+		if (upgrade == null)
+		{
+			Debug.LogWarning($"Failed to find upgrade '{path}'");
+		}
+		return upgrade;
+	}
+
+	private ResearchNode GetResearch(string path)
+	{
+		var research = Resources.Load<ResearchNode>($"Research/{path}");
+		if (research == null)
+		{
+			Debug.LogWarning($"Failed to find research node '{path}'");
+		}
+		return research;
 	}
 
 	private IEnumerator Event1(EventFrame e)
@@ -205,7 +237,7 @@ public class EventManager : Singleton<EventManager>
 		e.description = "Hard times... Resource generation is slower..";
 		e.clickMultiplier = 0.5f;
 
-		yield return ApplyChanges(e);
+		yield return ApplyChanges();
 		yield return new WaitForSeconds(30);
 	}
 
@@ -214,7 +246,7 @@ public class EventManager : Singleton<EventManager>
 		e.description = "Inspiration! You gain currency faster!";
 		e.clickMultiplier = 5;
 
-		yield return ApplyChanges(e);
+		yield return ApplyChanges();
 		yield return new WaitForSeconds(30);
 	}
 
@@ -223,7 +255,25 @@ public class EventManager : Singleton<EventManager>
 		e.description = "Eureka! Your research accelerates!";
 		e.researchMultiplier = 2;
 
-		yield return ApplyChanges(e);
+		yield return ApplyChanges();
 		yield return new WaitForSeconds(30);
+	}
+
+	private IEnumerator Event4(EventFrame e)
+	{
+		e.description = "One mans trash is anothers treasure";
+		e.upgrades.Add(GetUpgrade("Coal"));
+
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(1);
+	}
+
+	private IEnumerator Event5(EventFrame e)
+	{
+		e.description = "YES! SCIENCE!";
+		e.research.Add(GetResearch("Main/2_2_research"));
+
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(1);
 	}
 }
