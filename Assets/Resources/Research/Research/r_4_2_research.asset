@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892d98a5cf0e59f43a3038137aab1ac3, type: 3}
+  m_Name: r_4_2_research
+  m_EditorClassIdentifier: 
+  id: 348b7c3e-e4c3-4007-b8a7-f1b4d10d842d
+  displayName: It keeps repeating
+  description: 
+  currencyCost:
+    value: 0
+    postfix: 0
+  researchCost: 0
+  sprite: {fileID: 21300000, guid: 43a2380eb95ac8b48973d77c82f24316, type: 3}
+  instantUnlock: 0
+  next: []
+  unlockUpgrades: []
+  revealed: 0
+  onBuyEvent:
+    m_PersistentCalls:
+      m_Calls: []
