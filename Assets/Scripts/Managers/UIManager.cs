@@ -7,6 +7,7 @@ using System;
 public class UIManager : MonoBehaviour
 {
 	
+	GameManager mng;
 	[Serializable]
 	public class UITab
 	{
@@ -78,7 +79,7 @@ public class UIManager : MonoBehaviour
 			});
 		}
 
-		GameManager mng = GameManager.instance;
+		mng = GameManager.instance;
 		
 		//fixes display issue on start when save date is loaded
 		UpdateEnergyDisplayDanger(mng.GetEnergyUsage() >= mng.maxEnergy);
@@ -88,7 +89,7 @@ public class UIManager : MonoBehaviour
 	}
 
 	private void Update() {
-	
+		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 	}
 
 	public void SetGameOverShown(bool isShown)

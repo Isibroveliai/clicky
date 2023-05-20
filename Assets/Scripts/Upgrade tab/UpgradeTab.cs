@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 
 public class UpgradeTab : MonoBehaviour
@@ -32,6 +32,7 @@ public class UpgradeTab : MonoBehaviour
 		var upgradeComponent = button.GetComponent<UpgradeButton>();
 		upgradeComponent.upgrade = upgrade;
 		upgradeComponent.upgradeTab = this;
+		upgrade.button = button;
 		button.transform.SetParent(buttonContainer.transform, false);
 	}
 }

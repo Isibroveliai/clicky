@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 [CreateAssetMenu]
 public class Upgrade : ScriptableObject
 {
@@ -16,7 +16,7 @@ public class Upgrade : ScriptableObject
 	public float energyConsumptionDecrease;
 	public int researchProduction;
 	
-
+	public GameObject button; // is set elsewhere
 	public Texture icon;
 
 	public bool CanBuy()

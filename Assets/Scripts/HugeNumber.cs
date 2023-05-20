@@ -77,6 +77,23 @@ public struct HugeNumber
 			return $"{value:0.000}{postfixStr}";
 		}
 	}
+	public float GetNumberValue() //im not proud of this
+	{
+		switch(postfix){
+			case Postfix.None:
+				return value;
+			case Postfix.Thousand:
+				return value * 1000;
+			case Postfix.Million:
+				return value * 1000_000;
+			case Postfix.Billion:
+				return value * 1000_000_000;
+			case Postfix.Trillion:
+				return value * 1000_000_000_000;
+			default:
+				return 0;
+		}
+	}
 
 	public bool Equals(HugeNumber obj)
 	{

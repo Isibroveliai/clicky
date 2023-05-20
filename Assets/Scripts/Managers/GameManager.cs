@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour
 	public List<Upgrade> unlockedUpgrades;
 	public List<ResearchNode> unlockedResearches;
 	public ResearchNode activeResearch;
-
-	private static readonly float baseMaxEnergy = 500;
+	public List<Upgrade> upgradesInShop;
 
 	[ReadOnly]
-	public float maxEnergy = baseMaxEnergy;
+	public float baseMaxEnergy = 200;
+	[ReadOnly]
+	public float maxEnergy = 0;
 	[ReadOnly]
 	public float researchProduction = 0;
 	// [ReadOnly] // Doesn't work in conjuction with HugeNumber :(
@@ -68,6 +69,8 @@ public class GameManager : MonoBehaviour
 		LoadSaveFile();
 
 		Time.timeScale = 1f;
+
+		maxEnergy = baseMaxEnergy;
 	}
 
 	void Update()
@@ -76,7 +79,7 @@ public class GameManager : MonoBehaviour
 
 		if(!startCriticalEnergy)
 		{
-			data.currency += currencyGeneration * Time.deltaTime;
+			data.currency += currencyGeneration * Time.deltaTime * EventManager.instance.generationMultiplier;
 		}
 			 
 
@@ -93,7 +96,7 @@ public class GameManager : MonoBehaviour
 				ResetActiveResearch();
 			}
 		}
-
+		
 		CheckEnergy();
 
 		ui.UpdateScoreDisplay(data.currency);
@@ -203,6 +206,7 @@ public class GameManager : MonoBehaviour
 		if (unlockedUpgrades.Contains(upgrade)) return;
 
 		unlockedUpgrades.Add(upgrade);
+		upgradesInShop.Add(upgrade);
 		OnUpgradeUnlocked?.Invoke(upgrade);
 	}
 

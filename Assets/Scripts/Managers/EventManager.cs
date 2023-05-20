@@ -15,12 +15,14 @@ public class EventManager : Singleton<EventManager>
 
 	public float eventChance = 0.5f;
 
+	public List<Upgrade> upgradeUnlockFromEvent;
+	public List<ResearchNode> researchUnlockFromEvent;
 	public GameObject eventNotificationContainer;
 	public GameObject eventTextbox;
 	public TMP_Text eventText;
 	private GameManager mng;
 
-	public List<Tuple<GameObject, EventFrame>> activeEvents;
+	public List<Tuple<GameObject, EventFrame, MyEventHandler>> activeEvents;
 	private List<Tuple<MyEventHandler, int>> eventWeights;
 	private IEnumerator currentEventNotification;
 
@@ -35,17 +37,29 @@ public class EventManager : Singleton<EventManager>
 	public float researchMultiplier = 1;
 	[HideInInspector]
 	public float clickMultiplier = 1;
+	[HideInInspector]
+	public float maxEnergy = 1;
 	
+	[HideInInspector]
+	public float generationMultiplier = 1;
 	public override void Setup()
 	{
-		activeEvents = new List<Tuple<GameObject, EventFrame>>();
+		activeEvents = new List<Tuple<GameObject, EventFrame, MyEventHandler>>();
 		eventWeights = new List<Tuple<MyEventHandler, int>>
 		{
-			//Tuple.Create<MyEventHandler, int>(Event1, 1),
-			//Tuple.Create<MyEventHandler, int>(Event2, 1),
-			//Tuple.Create<MyEventHandler, int>(Event3, 1),
-			//Tuple.Create<MyEventHandler, int>(Event4, 1),
-			Tuple.Create<MyEventHandler, int>(Event5, 1)
+			Tuple.Create<MyEventHandler, int>(EventLowerCurrencyGen, 10),
+			Tuple.Create<MyEventHandler, int>(EventLowerClickCurrencyGen, 12),
+			Tuple.Create<MyEventHandler, int>(EventHigherClickCurrencyGen, 12),
+			Tuple.Create<MyEventHandler, int>(EventHigherCurrencyGen, 10),
+			Tuple.Create<MyEventHandler, int>(EventEverythingBetter, 8),
+			Tuple.Create<MyEventHandler, int>(EventEnergyOverload, 5),
+			Tuple.Create<MyEventHandler, int>(EventGiveMoney, 1),
+			//Tuple.Create<MyEventHandler, int>(EventUnlockUpgrade, 2),
+			Tuple.Create<MyEventHandler, int>(EventSystemFailure, 1),
+			Tuple.Create<MyEventHandler, int>(EventDisableRandomUpgrades, 5),
+			
+			
+			//Tuple.Create<MyEventHandler, int>(Event5, 1)
 		};
 
 		mng = GameManager.instance;
@@ -95,13 +109,17 @@ public class EventManager : Singleton<EventManager>
 	private MyEventHandler PickRandomEvent()
 	{
 		int weightsSum = 0;
-		foreach (var entry in eventWeights)
+		
+		var notActive = eventWeights.Where(e => activeEvents.All(e1 => { return !e1.Item3.Equals(e.Item1); })).ToList();
+
+		foreach (var entry in notActive)
 		{
+			print(string.Format("{0}", entry.Item2));
 			weightsSum += entry.Item2;
 		}
 
 		var randValue = rand.Next(weightsSum);
-		foreach (var entry in eventWeights)
+		foreach (var entry in notActive)
 		{
 			if (randValue <= entry.Item2)
 			{
@@ -110,7 +128,7 @@ public class EventManager : Singleton<EventManager>
 			randValue -= entry.Item2;
 		}
 
-		return eventWeights.Last().Item1;
+		return notActive.Last().Item1;
 	}
 
 	private void EventLauncher()
@@ -125,8 +143,9 @@ public class EventManager : Singleton<EventManager>
 			Debug.Log("Attempt create event, while at limit");
 			return;
 		}
-		
+
 		var randEvent = PickRandomEvent();
+		
 		if (randEvent == null) return;
 		StartCoroutine(EventWrapper(randEvent));
 	}
@@ -168,7 +187,7 @@ public class EventManager : Singleton<EventManager>
 	{
 		var e = new EventFrame();
 		var notifObject = GetUnusedNotificationObject();
-		var entry = Tuple.Create(notifObject, e);
+		var entry = Tuple.Create(notifObject, e, handler);
 		activeEvents.Add(entry);
 
 		var enumerator = handler(e);
@@ -194,11 +213,16 @@ public class EventManager : Singleton<EventManager>
 	{
 		researchMultiplier = 1;
 		clickMultiplier = 1;
+		generationMultiplier = 1;
+		maxEnergy = 0;
+		mng.maxEnergy = mng.baseMaxEnergy;
 		foreach (var entry in activeEvents)
 		{
 			var frame = entry.Item2;
 			clickMultiplier *= frame.clickMultiplier;
 			researchMultiplier *= frame.researchMultiplier;
+			maxEnergy += frame.energyCap;
+			generationMultiplier *= frame.generationMultiplier;
 			foreach (var upgrade in frame.upgrades)
 			{
 				GameManager.instance.UnlockUpgrade(upgrade);
@@ -208,7 +232,7 @@ public class EventManager : Singleton<EventManager>
 				GameManager.instance.UnlockResearchForFreeNow(research);
 			}
 		}
-
+		mng.maxEnergy -= maxEnergy;
 		return 0;
 	}
 
@@ -232,48 +256,129 @@ public class EventManager : Singleton<EventManager>
 		return research;
 	}
 
-	private IEnumerator Event1(EventFrame e)
+	private IEnumerator EventLowerClickCurrencyGen(EventFrame e)
 	{
-		e.description = "Hard times... Resource generation is slower..";
+		e.description = "Exhaustion... Currency generation from click is slower.";
 		e.clickMultiplier = 0.5f;
 
 		yield return ApplyChanges();
-		yield return new WaitForSeconds(30);
+		yield return new WaitForSeconds(10);
 	}
-
-	private IEnumerator Event2(EventFrame e)
+		private IEnumerator EventLowerCurrencyGen(EventFrame e)
 	{
-		e.description = "Inspiration! You gain currency faster!";
-		e.clickMultiplier = 5;
+		e.description = "Slow day... Currency generation from upgrades is slower";
+		e.generationMultiplier = 0.5f;
 
 		yield return ApplyChanges();
-		yield return new WaitForSeconds(30);
+		yield return new WaitForSeconds(10);
 	}
 
-	private IEnumerator Event3(EventFrame e)
+	private IEnumerator EventHigherCurrencyGen(EventFrame e)
 	{
-		e.description = "Eureka! Your research accelerates!";
+		e.description = "Overtime! Increased currency generation from upgrades.";
+		e.generationMultiplier = 1.5f;
+
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(15);
+	}
+	private IEnumerator EventHigherClickCurrencyGen(EventFrame e)
+	{
+		e.description = "Motivation! Your click currency gain is faster!";
+		e.clickMultiplier = 1.5f;
+
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(15);
+	}
+
+	private IEnumerator EventIncreaseResearch(EventFrame e)
+	{
+		e.description = "Eureka! Your research accelerates.";
 		e.researchMultiplier = 2;
 
 		yield return ApplyChanges();
 		yield return new WaitForSeconds(30);
 	}
 
-	private IEnumerator Event4(EventFrame e)
+	private IEnumerator EventUnlockUpgrade(EventFrame e)
 	{
-		e.description = "One mans trash is anothers treasure";
+		e.description = "One mans trash is anothers treasure. Coal upgrade unlocked.";
+
 		e.upgrades.Add(GetUpgrade("Coal"));
 
 		yield return ApplyChanges();
 		yield return new WaitForSeconds(1);
 	}
-
-	private IEnumerator Event5(EventFrame e)
+	private IEnumerator EventEnergyOverload(EventFrame e)
 	{
-		e.description = "YES! SCIENCE!";
+		e.description = "Energy crisis! The energy cap is halved.";
+		//e.upgrades.Add(GetUpgrade("Coal"));
+		e.energyCap = mng.maxEnergy / 2;
+
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(5);
+	}
+	private IEnumerator EventUnlockResearch(EventFrame e)
+	{
+		e.description = "";
 		e.research.Add(GetResearch("Main/2_2_research"));
 
 		yield return ApplyChanges();
 		yield return new WaitForSeconds(1);
 	}
+	private IEnumerator EventDisableRandomUpgrades(EventFrame e)
+	{
+		
+		e.description = "Reboot... Some purchased upgrades need to be reenabled.";
+		if(mng.upgradesInShop.Count() == 0) yield break; //still plays notif but i cannot be bothered to fix so just leave this coroutine
+		System.Random r = new System.Random();
+
+		if(mng.upgradesInShop.Count() > 1)
+		{
+			int count = r.Next(1, mng.upgradesInShop.Count() - 1);
+
+			for(int i = 0; i < count; i ++)
+			{
+				int ind = r.Next(0,  mng.upgradesInShop.Count() );
+				if(mng.data.disabledUpgrades.Contains(mng.upgradesInShop[ind].id))
+					continue;
+				mng.DisableUpgrade(mng.upgradesInShop[ind]);
+				mng.upgradesInShop[ind].button.GetComponent<UpgradeButton>().DisableButtonPressed();
+			}
+		}
+		else
+		{
+			mng.DisableUpgrade(mng.upgradesInShop[0]);
+			mng.upgradesInShop[0].button.GetComponent<UpgradeButton>().DisableButtonPressed();
+		} 
+		
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(1);
+	}
+
+	private IEnumerator EventGiveMoney(EventFrame e)
+	{
+		e.description = "Government financing! Currency has been added to your account.";
+		mng.data.currency *= 1.5f;
+		yield return new WaitForSeconds(1);
+	}
+
+	private IEnumerator EventSystemFailure(EventFrame e)
+	{
+		e.description = "System failure... Currency generation currently unavailable.";
+		e.generationMultiplier = 0;
+		e.clickMultiplier = 0;
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(5);
+	}
+
+	private IEnumerator EventEverythingBetter(EventFrame e)
+	{
+		e.description = "A bit of everything! Every stat increased.";
+		e.generationMultiplier = 1.15f;
+		e.clickMultiplier = 1.15f;
+		e.researchMultiplier = 1.15f;
+		yield return ApplyChanges();
+		yield return new WaitForSeconds(30);
+	}
+	
 }
