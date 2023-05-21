@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Lab
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: ce444468-0e99-4878-9a73-5054c662d5fb
   displayName: Laboratories
   description: Science is POWER! Generate increase research speed by 5.

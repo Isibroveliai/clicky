@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+
 public class UpgradeTab : MonoBehaviour
 {
 	public GameObject buttonContainer;
@@ -9,15 +10,21 @@ public class UpgradeTab : MonoBehaviour
 
 	public void Start()
 	{
+		
+
 		GameManager manager = GameManager.instance;
 		foreach (var upgrade in manager.unlockedUpgrades)
 		{
-			AppendUpgradeButton(upgrade);
+			
+			if(!upgrade.instantUnlock)
+				AppendUpgradeButton(upgrade);
 		}
 
 		GameManager.OnUpgradeUnlocked += (upgrade) =>
 		{
-			AppendUpgradeButton(upgrade);
+			print("ON UPGRADE UNLOCKED");
+			if(!upgrade.instantUnlock)
+				AppendUpgradeButton(upgrade);
 		};
 	}
 
@@ -32,7 +39,20 @@ public class UpgradeTab : MonoBehaviour
 		var upgradeComponent = button.GetComponent<UpgradeButton>();
 		upgradeComponent.upgrade = upgrade;
 		upgradeComponent.upgradeTab = this;
-		upgrade.button = button;
+		//upgrade.button = button;
 		button.transform.SetParent(buttonContainer.transform, false);
+	}
+	public void DisableButton(Upgrade upgrade)
+	{
+		Transform buttonObj = gameObject.transform.Find("Upgrades/Viewport/Layout");
+		
+		for(int i = 0; i < buttonObj.transform.childCount; i ++)
+		{
+			UpgradeButton child = buttonObj.transform.GetChild(i).gameObject.GetComponent<UpgradeButton>();
+			if(child.upgrade.id == upgrade.id)
+			{
+				child.DisableButtonPressed();
+			}
+		}
 	}
 }

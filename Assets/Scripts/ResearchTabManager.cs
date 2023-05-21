@@ -28,6 +28,7 @@ public class ResearchTabManager : MonoBehaviour
 	GameObject currentPage;
 	void Start()
     {
+		print("tab start");
 		mng = GameManager.instance;
 		nodeButtonPairs = new Dictionary<ResearchNode, ResearchNodeButton>();
 
@@ -89,6 +90,7 @@ public class ResearchTabManager : MonoBehaviour
 			}
 		}
 	}
+
 	private void SetupStartNode()
 	{
 		ResearchNodeButton start = pages.transform.Find("MainPage/Content/Start").GetComponent<ResearchNodeButton>(); // the starting research panel node, unlocks all further research

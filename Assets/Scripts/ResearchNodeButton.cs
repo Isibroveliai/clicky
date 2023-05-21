@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
+
 
 public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
@@ -27,6 +27,7 @@ public class ResearchNodeButton : MonoBehaviour, IPointerExitHandler, IPointerEn
 		image = GetComponent<Image>();
 		button = GetComponent<Button>();
 		button.onClick.AddListener(() => StartResearch());
+		
 
 		animator = GetComponent<Animator>();
 		

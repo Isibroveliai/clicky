@@ -8,8 +8,9 @@ using UnityEngine;
 
 using MyEventHandler = System.Func<EventFrame, System.Collections.IEnumerator>;
 
-public class EventManager : Singleton<EventManager>
+public class EventManager : MonoBehaviour // PO SCENE RELOAD BUNA NEGERAI SU SINGLETON KLASE PLS NEKEISKIT
 {
+	public static EventManager instance;
 	// Time in seconds, how frequently should event by tried to be picked
 	public float eventFrequency = 20.0f;
 
@@ -42,20 +43,33 @@ public class EventManager : Singleton<EventManager>
 	
 	[HideInInspector]
 	public float generationMultiplier = 1;
-	public override void Setup()
+
+	public void Awake()
+	{
+		if (instance != null && instance != this )
+		{
+			Destroy(this);
+			return;
+		}
+		instance = this ;
+
+		Setup();
+	
+	}
+	public  void Setup()
 	{
 		activeEvents = new List<Tuple<GameObject, EventFrame, MyEventHandler>>();
 		eventWeights = new List<Tuple<MyEventHandler, int>>
 		{
-			Tuple.Create<MyEventHandler, int>(EventLowerCurrencyGen, 10),
-			Tuple.Create<MyEventHandler, int>(EventLowerClickCurrencyGen, 12),
-			Tuple.Create<MyEventHandler, int>(EventHigherClickCurrencyGen, 12),
-			Tuple.Create<MyEventHandler, int>(EventHigherCurrencyGen, 10),
-			Tuple.Create<MyEventHandler, int>(EventEverythingBetter, 8),
-			Tuple.Create<MyEventHandler, int>(EventEnergyOverload, 5),
-			Tuple.Create<MyEventHandler, int>(EventGiveMoney, 1),
+			// Tuple.Create<MyEventHandler, int>(EventLowerCurrencyGen, 10),
+			// Tuple.Create<MyEventHandler, int>(EventLowerClickCurrencyGen, 12),
+			// Tuple.Create<MyEventHandler, int>(EventHigherClickCurrencyGen, 12),
+			// Tuple.Create<MyEventHandler, int>(EventHigherCurrencyGen, 10),
+			// Tuple.Create<MyEventHandler, int>(EventEverythingBetter, 8),
+			// Tuple.Create<MyEventHandler, int>(EventEnergyOverload, 5),
+			// Tuple.Create<MyEventHandler, int>(EventGiveMoney, 1),
 			//Tuple.Create<MyEventHandler, int>(EventUnlockUpgrade, 2),
-			Tuple.Create<MyEventHandler, int>(EventSystemFailure, 1),
+			//Tuple.Create<MyEventHandler, int>(EventSystemFailure, 1),
 			Tuple.Create<MyEventHandler, int>(EventDisableRandomUpgrades, 5),
 			
 			
@@ -342,13 +356,17 @@ public class EventManager : Singleton<EventManager>
 				if(mng.data.disabledUpgrades.Contains(mng.upgradesInShop[ind].id))
 					continue;
 				mng.DisableUpgrade(mng.upgradesInShop[ind]);
-				mng.upgradesInShop[ind].button.GetComponent<UpgradeButton>().DisableButtonPressed();
+				var tab = Resources.FindObjectsOfTypeAll<UpgradeTab>();
+				print(tab[0]);
+				tab[0].DisableButton(mng.upgradesInShop[ind]);
 			}
 		}
 		else
 		{
 			mng.DisableUpgrade(mng.upgradesInShop[0]);
-			mng.upgradesInShop[0].button.GetComponent<UpgradeButton>().DisableButtonPressed();
+			var tab = Resources.FindObjectsOfTypeAll<UpgradeTab>();
+				print(tab[0]);
+				tab[0].DisableButton(mng.upgradesInShop[0]);
 		} 
 		
 		yield return ApplyChanges();

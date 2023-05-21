@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
 
 		unlockedResearches = new List<ResearchNode>();
 		unlockedUpgrades = new List<Upgrade>();
+		upgradesInShop = new List<Upgrade>();
 		
 		CheckResourcesIds();
 		LoadSaveFile();
@@ -73,6 +74,29 @@ public class GameManager : MonoBehaviour
 		maxEnergy = baseMaxEnergy;
 	}
 
+	//cant use generics with scriptable objects ??
+	public void UnsubsribeEvents()
+	{
+		foreach(var d in OnUpgradeUnlocked.GetInvocationList())
+		{
+			OnUpgradeUnlocked -= (Action<Upgrade>)d;
+		}
+
+		foreach(var d in OnResearchStarted.GetInvocationList())
+		{
+			OnResearchStarted -= (Action<ResearchNode>)d;
+		}
+
+		foreach(var d in OnResearchStopped.GetInvocationList())
+		{
+			OnResearchStopped -= (Action<ResearchNode>)d;
+		}
+
+		foreach(var d in OnResearchFinished.GetInvocationList())
+		{
+			OnResearchFinished -= (Action<ResearchNode>)d;
+		}
+	}
 	void Update()
 	{
 		if(SceneManager.GetActiveScene().buildIndex == 0) return; // if in main menu do nothing
@@ -107,12 +131,15 @@ public class GameManager : MonoBehaviour
 		data.currency += currencyPerClick * EventManager.instance.clickMultiplier;
 	}
 
-	public static void RestartGame()
+	public  void RestartGame()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		SaveManager.DeleteSave();
+		UnsubsribeEvents();
+		SceneManager.LoadScene(0);
 	}
-	public static void ExitMainMenu()
+	public  void ExitMainMenu()
 	{
+		UnsubsribeEvents();
 		SceneManager.LoadScene(0);
 	}
 
@@ -204,9 +231,14 @@ public class GameManager : MonoBehaviour
 	public void UnlockUpgrade(Upgrade upgrade)
 	{
 		if (unlockedUpgrades.Contains(upgrade)) return;
-
 		unlockedUpgrades.Add(upgrade);
-		upgradesInShop.Add(upgrade);
+		if(upgrade.instantUnlock)
+		{
+			data.upgradeCounts.Add(upgrade.id, 1);
+			RefreshUpgradeAndResearchEffects();
+		}
+		else upgradesInShop.Add(upgrade);
+			
 		OnUpgradeUnlocked?.Invoke(upgrade);
 	}
 
@@ -222,12 +254,10 @@ public class GameManager : MonoBehaviour
 			data.upgradeCounts.Add(upgrade.id, 0);
 		}
 		data.upgradeCounts[upgrade.id]++;
-
+ 
 		RefreshUpgradeAndResearchEffects();
 
 		ui.UpdateResearchSpeedDisplay(researchProduction);
-		ui.UpdateEnergyDisplay(GetEnergyUsage(), maxEnergy);
-		ui.UpdateEnergyDisplayDanger(GetEnergyUsage() >= maxEnergy);		
 	}
 
 	public void DisableUpgrade(Upgrade upgrade)
@@ -236,8 +266,6 @@ public class GameManager : MonoBehaviour
 		RefreshUpgradeAndResearchEffects();
 
 		ui.UpdateResearchSpeedDisplay(researchProduction);
-		ui.UpdateEnergyDisplay(GetEnergyUsage(), maxEnergy);
-		ui.UpdateEnergyDisplayDanger(GetEnergyUsage() >= maxEnergy);
 	}
 
 	public void EnableUpgrade(Upgrade upgrade)
@@ -246,8 +274,6 @@ public class GameManager : MonoBehaviour
 		RefreshUpgradeAndResearchEffects();
 
 		ui.UpdateResearchSpeedDisplay(researchProduction);
-		ui.UpdateEnergyDisplay(GetEnergyUsage(), maxEnergy);
-		ui.UpdateEnergyDisplayDanger(GetEnergyUsage() >= maxEnergy);
 	}
 
 	private void ApplyUpgradeEffects(Upgrade upgrade, int count)
@@ -255,7 +281,7 @@ public class GameManager : MonoBehaviour
 		currencyGeneration    += upgrade.currencyGeneration * count;
 		rawEnergyUsage        += upgrade.energyUsage        * count;
 		researchProduction    += upgrade.researchProduction * count;
-		maxEnergy             += upgrade.energyCapRaise     * count;
+		baseMaxEnergy             += upgrade.energyCapRaise     * count;
 		energyUsageEfficiency *= (float)Math.Pow(1 - upgrade.energyConsumptionDecrease, count);
 	}
 
@@ -270,8 +296,7 @@ public class GameManager : MonoBehaviour
 		rawEnergyUsage = 0;
 		energyUsageEfficiency = 1;
 		researchProduction = 0;
-		maxEnergy = baseMaxEnergy;
-
+		baseMaxEnergy = 200; // :(
 		foreach (var upgrade in unlockedUpgrades)
 		{
 			if (data.disabledUpgrades.Contains(upgrade.id)) continue;
@@ -279,16 +304,8 @@ public class GameManager : MonoBehaviour
 			var count = data.upgradeCounts.GetValueOrDefault(upgrade.id, 0);
 			ApplyUpgradeEffects(upgrade, count);
 		}
-
-		foreach (var research in unlockedResearches)
-		{
-			if (!research.instantUnlock) continue;
-
-			foreach (var upgrade in research.unlockUpgrades)
-			{
-				ApplyUpgradeEffects(upgrade, 1);
-			}
-		}
+		maxEnergy = baseMaxEnergy;
+	
 
 		// TODO: update ui
 		// ui.UpdateResearchSpeedDisplay(researchProduction);

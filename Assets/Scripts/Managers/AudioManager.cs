@@ -1,14 +1,28 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class AudioManager : Singleton<AudioManager>
-{
+public class AudioManager : MonoBehaviour
+{	
+	public static AudioManager instance;
 	private AudioSource audioSource;
 	private static System.Random rng = new System.Random();
 	public AudioClip[] buttonClick;
 	public AudioClip[] buyUpgrade;
 
-	public override void Setup()
+	public void Awake()
+	{
+		if (instance != null && instance != this )
+		{
+			Destroy(this);
+			return;
+		}
+		instance = this ;
+
+		Setup();
+	
+	}
+
+	public void Setup()
 	{
 		audioSource = GetComponent<AudioSource>();
 	}

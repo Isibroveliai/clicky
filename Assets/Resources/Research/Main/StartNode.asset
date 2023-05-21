@@ -20,14 +20,13 @@ MonoBehaviour:
     postfix: 0
   researchCost: 0
   sprite: {fileID: 21300000, guid: 7fddbc6c6f5bb054b93563cd7a2c5fc2, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 4938b6d2c04081340814440caa3eccae, type: 2}
   - {fileID: 11400000, guid: 110a951faadb2234fa3b8b1b92701eba, type: 2}
   - {fileID: 11400000, guid: 160a70864ddaaf34cb31d9c2dc389a37, type: 2}
   unlockUpgrades:
   - {fileID: 11400000, guid: ee3eeeaaab9303f4f8ee0a29f61e15b7, type: 2}
-  revealed: 0
+  revealed: 1
   onBuyEvent:
     m_PersistentCalls:
       m_Calls:
@@ -43,27 +42,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
-      - m_Target: {fileID: 3828268558991743254, guid: 6b51d5eb5eb13a04eb191e3f6c156da3, type: 3}
-        m_TargetAssemblyTypeName: ResearchCallbacks, Assembly-CSharp
-        m_MethodName: TestCallback
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ResearchCallbacks, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2

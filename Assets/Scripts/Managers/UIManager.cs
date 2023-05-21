@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
 			tab.button.onClick.AddListener(() => { ChangeTab(tab); });
 			tab.anim = tab.panel.GetComponent<Animator>();
 			//tab.anim.enabled = false;
-			tab.panel.SetActive(false);
+			tab.panel.SetActive(true);
 			tab.closeButton = tab.panel.transform.Find("CloseButton").GetComponent<Button>();
 			tab.closeButton.onClick.AddListener(() => {
 				animationEnd = false;  
@@ -77,12 +77,13 @@ public class UIManager : MonoBehaviour
 				print("CLOSE BUTTON ON CLICK");
 				//tab.ResetTriggers(); 
 			});
+			tab.panel.SetActive(false);
 		}
 
 		mng = GameManager.instance;
 		
 		//fixes display issue on start when save date is loaded
-		UpdateEnergyDisplayDanger(mng.GetEnergyUsage() >= mng.maxEnergy);
+		UpdateEnergyDisplayDanger();
 		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 		UpdateScoreDisplay(mng.data.currency);
 		UpdateResearchSpeedDisplay(mng.researchProduction);
@@ -90,6 +91,7 @@ public class UIManager : MonoBehaviour
 
 	private void Update() {
 		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
+		UpdateEnergyDisplayDanger();
 	}
 
 	public void SetGameOverShown(bool isShown)
@@ -106,9 +108,9 @@ public class UIManager : MonoBehaviour
 	{
 		energyCounter.text = string.Format("{0:0}/{1:0} kW", current, max);
 	}
-	public void UpdateEnergyDisplayDanger(bool warning)
+	public void UpdateEnergyDisplayDanger()
 	{
-		energyCounter.color = warning ? energyDangerColor : energySafeColor;
+		energyCounter.color = mng.rawEnergyUsage >= mng.maxEnergy ? energyDangerColor : energySafeColor;
 	}
 
 	public void UpdateResearchSpeedDisplay(float researchSpeed)
