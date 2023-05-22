@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Overclock
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: f0d2c550-d90a-4625-85ac-5e9a126bb209
   displayName: Overclock
   description: Overclock your furnaces and other mashines! This upgrade uses a lot
     of energy, but provides a generous amount of currency.
   baseCurrencyCost:
-    value: 20000
+    value: 13000
     postfix: 1
-  energyUsage: 500
+  energyUsage: 400
   energyCapRaise: 0
   currencyGeneration:
     value: 75
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: 5fdede2a7630502488021f8c79543864, type: 3}

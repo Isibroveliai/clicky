@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Tesseract
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: 43072f1b-fe99-4a44-b384-b561cc0e5c06
   displayName: Tesseract
   description: So... Much... Power!! Provides a ginormous amount of currency generation
@@ -20,11 +21,10 @@ MonoBehaviour:
     value: 1000000
     postfix: 0
   energyUsage: 0
-  energyCapRaise: 500
+  energyCapRaise: 10000
   currencyGeneration:
     value: 5000
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: 17237082dd4a57b489181bb0e8d52070, type: 3}

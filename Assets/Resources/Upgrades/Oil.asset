@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Oil
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: 063757e3-17a5-40c0-a9de-9298584727be
   displayName: Oil
   description: Slick your mashine up with some oil! Each oil barrel provides currency
@@ -19,12 +20,11 @@ MonoBehaviour:
   baseCurrencyCost:
     value: 30000
     postfix: 0
-  energyUsage: 200
+  energyUsage: 750
   energyCapRaise: 0
   currencyGeneration:
-    value: 100
+    value: 150
     postfix: 0
   energyConsumptionDecrease: 0
-  researchProduction: 20
-  button: {fileID: 0}
+  researchProduction: 50
   icon: {fileID: 2800000, guid: 4fb8ccdbf8647584e848e05305709df6, type: 3}

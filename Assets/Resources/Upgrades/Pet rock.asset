@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Pet rock
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: dff80b6b-5874-4679-8086-8a9720103653
   displayName: Pet rock
   description: Uhm... It's a pet rock. It motivates the workforce..? Provides 1 research
     generation.
   baseCurrencyCost:
-    value: 500
+    value: 10000
     postfix: 0
   energyUsage: 0
   energyCapRaise: 0
@@ -26,5 +27,4 @@ MonoBehaviour:
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 1
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: 7a727cfcedb601e47a1749308954d0da, type: 3}

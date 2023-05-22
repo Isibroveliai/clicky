@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Pipe
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: 3d2e58e0-73b7-4e53-a857-13a487f2871d
   displayName: Pipe
   description: 'Everyone knows that more pipes provide even more materials. Every
-    pipe upgrade increases currency generation by 20!  '
+    pipe upgrade increases currency generation and raises the energy usage cap!  '
   baseCurrencyCost:
-    value: 1000
+    value: 1500
     postfix: 0
-  energyUsage: 100
-  energyCapRaise: 0
+  energyUsage: 0
+  energyCapRaise: 50
   currencyGeneration:
-    value: 20
+    value: 15
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: 82097fe5cd774914781262a2ffde8069, type: 3}
