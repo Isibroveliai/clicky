@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 	[ReadOnly]
 	public float energyUsageEfficiency = 0;
 	
-	public HugeNumber currencyPerClick = new HugeNumber(1);
+	public float currencyPerClick = 1;
 
 	public float researchPercent = 0.0f;
 
@@ -278,6 +278,7 @@ public class GameManager : MonoBehaviour
 
 	private void ApplyUpgradeEffects(Upgrade upgrade, int count)
 	{
+		currencyPerClick += upgrade.currencyPerClick * count;
 		currencyGeneration    += upgrade.currencyGeneration * count;
 		rawEnergyUsage        += upgrade.energyUsage        * count;
 		researchProduction    += upgrade.researchProduction * count;
@@ -293,6 +294,7 @@ public class GameManager : MonoBehaviour
 	private void RefreshUpgradeAndResearchEffects()
 	{
 		currencyGeneration = new HugeNumber(0);
+		currencyPerClick = 1;
 		rawEnergyUsage = 0;
 		energyUsageEfficiency = 1;
 		researchProduction = 0;
@@ -398,7 +400,7 @@ public class GameManager : MonoBehaviour
 			CheckCurrency();
 			currentTime += Time.deltaTime;
 			
-			data.currency -= (currencyGeneration + (int)Math.Pow(1.1,currentTime)) * Time.deltaTime; // add scaling ?
+			data.currency -= (currencyGeneration + (int)Math.Pow(1.1,currentTime)) * Time.deltaTime * (currencyGeneration.value == 0 ? 1 : currencyGeneration.value); // goofy aah scaling
 			if (rawEnergyUsage < maxEnergy)
 			{
 				startCriticalEnergy = false;

@@ -44,7 +44,8 @@ public class ResearchTabManager : MonoBehaviour
 
 		initialProgressbarSize = researchProgressbar.sizeDelta.x;
 		UpdateResearchDescription("");
-		UpdateCurrentResearchLabel("");
+		UpdateResearchAdditionalText("", false, Color.black);
+		UpdateCurrentResearchLabel(""); 
 		UpdateResearchProgress(0);
 
 
