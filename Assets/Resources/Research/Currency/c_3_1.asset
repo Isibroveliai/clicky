@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 82f3fc40-161a-4b25-bf7b-3ed13b391551
   displayName: More coins
-  description: 
+  description: Make even more money! That is the whole point. Increases currency
+    generation.
   currencyCost:
-    value: 0
+    value: 20000
     postfix: 0
-  researchCost: 0
+  researchCost: 5000
   sprite: {fileID: 21300000, guid: b24ff160b24f96e4a84d883f080e1276, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 1bf088fbc35b25d448b96f37be643203, type: 2}
   - {fileID: 11400000, guid: 23cc02d7ddfa39046ba6c9f64cc2d3e0, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: e9020bbf521a8474694a45ddab1028cd, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:
