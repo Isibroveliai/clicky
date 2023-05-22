@@ -1,6 +1,6 @@
 # Gearolution
 
-Gearolution is a clicker game based around the steampunk aesthetic. It has a unique mechanic where you can actually lose! Well, for now it is still in development, but eventually it will be a fully fleshed out and fun game.
+Gearolution is a clicker game based around the steampunk aesthetic. It has a unique mechanic where you can actually lose!
 
 Click.
 Gain currency.
