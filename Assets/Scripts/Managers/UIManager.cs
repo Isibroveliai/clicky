@@ -93,8 +93,9 @@ public class UIManager : MonoBehaviour
 	private void Update() {
 		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 		UpdateEnergyDisplayDanger();
-		UpdatePerClick(mng.currencyPerClick);
-		UpdatePerSecond(mng.currencyGeneration.value);
+		UpdatePerClick(mng.currencyPerClick.ToString());
+		UpdatePerSecond(mng.currencyGeneration.ToString());
+		UpdateResearchSpeedDisplay(mng.researchProduction);
 	}
 
 	public void SetGameOverShown(bool isShown)
@@ -121,11 +122,11 @@ public class UIManager : MonoBehaviour
 		researchCounter.text = string.Format("{0}/s", researchSpeed);
 	}
 
-	public void UpdatePerSecond(float value)
+	public void UpdatePerSecond(string value)
 	{
 		perSecondCounter.text = string.Format("{0}/s", value);
 	}	
-	public void UpdatePerClick(float value)
+	public void UpdatePerClick(string value)
 	{
 		perClickCounter.text = string.Format("{0}/click", value);
 	}

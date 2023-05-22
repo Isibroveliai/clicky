@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour
 
 	[ReadOnly]
 	public float baseMaxEnergy = 200;
-	[ReadOnly]
+	
 	public float maxEnergy = 0;
-	[ReadOnly]
+	
 	public float researchProduction = 0;
 	// [ReadOnly] // Doesn't work in conjuction with HugeNumber :(
 	public HugeNumber currencyGeneration = new HugeNumber(0);
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 	[ReadOnly]
 	public float energyUsageEfficiency = 0;
 	
-	public float currencyPerClick = 1;
+	public HugeNumber currencyPerClick = new HugeNumber(1);
 
 	public float researchPercent = 0.0f;
 
@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour
 	private void RefreshUpgradeAndResearchEffects()
 	{
 		currencyGeneration = new HugeNumber(0);
-		currencyPerClick = 1;
+		currencyPerClick = new HugeNumber(1);
 		rawEnergyUsage = 0;
 		energyUsageEfficiency = 1;
 		researchProduction = 0;
@@ -392,7 +392,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	void CheckEnergy()
 	{
-		if (rawEnergyUsage >= maxEnergy && !startCriticalEnergy)
+		if (GetEnergyUsage() >= maxEnergy && !startCriticalEnergy)
 		{
 			startCriticalEnergy = true;
 			currentTime = 0;
@@ -403,8 +403,8 @@ public class GameManager : MonoBehaviour
 			CheckCurrency();
 			currentTime += Time.deltaTime;
 			
-			data.currency -= (currencyGeneration + (int)Math.Pow(1.1,currentTime)) * Time.deltaTime * (currencyGeneration.value == 0 ? 1 : currencyGeneration.value); // goofy aah scaling
-			if (rawEnergyUsage < maxEnergy)
+			data.currency -= (currencyGeneration + (int)Math.Pow(1.2,currentTime)) * Time.deltaTime * (currencyGeneration.value == 0 ? 1 : (float)Math.Ceiling(currencyGeneration.value / 10)); // goofy aah scaling
+			if (GetEnergyUsage() < maxEnergy)
 			{
 				startCriticalEnergy = false;
 				RefreshUpgradeAndResearchEffects();
@@ -414,9 +414,9 @@ public class GameManager : MonoBehaviour
 	//
 	void CheckCurrency()
 	{
-		if(data.currency <= 0f) //gg
+		if(data.currency <= new HugeNumber(0)) //gg
 		{
-			data.currency = new HugeNumber(0f);
+			data.currency = new HugeNumber(0);
 			ui.SetGameOverShown(true);
 			data = new GameData();
 			SaveManager.Save(GetSaveObject());

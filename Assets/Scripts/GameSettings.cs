@@ -8,8 +8,8 @@ public class GameSettings
 	public float volumeLevel;
 	public GameSettings()
 	{
-		windowState = 1;
-		windowStateName = "Large";
+		windowState = 0;
+		windowStateName = "Small";
 		volumeLevel = 50f;
 	}
 }

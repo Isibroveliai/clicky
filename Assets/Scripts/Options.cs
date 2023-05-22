@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-
+using UnityEngine.SceneManagement;
 //maybe copy all options button click logic here?
 public class Options : MonoBehaviour
 {
@@ -32,6 +32,16 @@ public class Options : MonoBehaviour
 		UpdateWindowChangeButtonText(mng.settings.windowStateName);
 		UpdateVolumeText(mng.settings.volumeLevel.ToString());
 		SetVolumeValue(mng.settings.volumeLevel);		
+
+		for(int i = 0; i < gameObject.transform.childCount; i ++)
+		{
+			Button btn = gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
+			if(btn == null)
+				continue;
+			
+			btn.onClick.AddListener(() => AudioManager.PlayButtonClick());
+
+		}
 	}
 
 	public void IncrementWindowState()
@@ -74,7 +84,7 @@ public class Options : MonoBehaviour
 	public void QuitGame()
 	{
 		SaveGame();
-		Application.Quit();
+		SceneManager.LoadScene(0);
 	}
 
 	public void SaveGame()
@@ -91,6 +101,8 @@ public class Options : MonoBehaviour
 
 	public void DeleteSave()
 	{
+		if(SceneManager.GetActiveScene().buildIndex != 0)
+			SceneManager.LoadScene(0);
 		SaveManager.DeleteSave();
 	}
 

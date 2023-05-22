@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: a0c50089-e8f7-44d0-a32e-455bb2d158bc
   displayName: Research upgrade
-  description: Science equipment and stuff a lab in the upgrade shop!
+  description: Science equipment and a lab in the upgrade shop!
   currencyCost:
     value: 100
     postfix: 0

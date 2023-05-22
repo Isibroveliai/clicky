@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8223099369055373544
+--- !u!1 &1881526839182278600
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8223099369055373541}
-  - component: {fileID: 8223099369055373546}
-  - component: {fileID: 8223099369055373540}
+  - component: {fileID: 1881526839182278597}
+  - component: {fileID: 1881526839182278602}
+  - component: {fileID: 1881526839182278596}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -18,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8223099369055373541
+--- !u!4 &1881526839182278597
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8223099369055373544}
+  m_GameObject: {fileID: 1881526839182278600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,13 +33,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8223099369055373546
+--- !u!114 &1881526839182278602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8223099369055373544}
+  m_GameObject: {fileID: 1881526839182278600}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
@@ -135,30 +135,43 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &8223099369055373540
+--- !u!114 &1881526839182278596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8223099369055373544}
+  m_GameObject: {fileID: 1881526839182278600}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9760058b2d134784f87c18bd67c694bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    currency:
+      value: 1500
+      postfix: 0
+    unlockedResearch: []
+    activeResearch: 
+    researchProgress: 0
   settings:
     windowState: 1
     windowStateName: Large
-    volumeLevel: 100
-  allUpgrades: []
-  currency: 2500
-  researchProduction: 0
-  currencyGeneration: 0
-  energyUsage: 0
-  maxEnergy: 1000
-  clickMultiplier: 1
+    volumeLevel: 50
   unlockedUpgrades: []
-  unlockedResearch: []
-  saveFile: clicky.sav
-  savePath: 
+  unlockedResearches: []
+  activeResearch: {fileID: 0}
+  upgradesInShop: []
+  baseMaxEnergy: 200
+  maxEnergy: 100
+  researchProduction: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
+  rawEnergyUsage: 0
+  energyUsageEfficiency: 0
+  currencyPerClick: 1
+  researchPercent: 0
+  startCriticalEnergy: 0
+  currentTime: 0
+  researchSound: {fileID: 0}
