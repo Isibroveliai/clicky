@@ -308,6 +308,7 @@ MonoBehaviour:
   researchPercent: 0
   startCriticalEnergy: 0
   currentTime: 0
+  researchSound: {fileID: 8300000, guid: 5ceaa5505d1934047a2f0b08cb8ef594, type: 3}
 --- !u!1 &581296272
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +876,38 @@ PrefabInstance:
     - target: {fileID: 4870412491398431425, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1084491240}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4870412491482282533, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4870412491482282534, guid: 42e5db5035b47ee4eb01742fc050f6e7, type: 3}
       propertyPath: m_Sprite

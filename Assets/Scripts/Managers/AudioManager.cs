@@ -52,10 +52,14 @@ public class AudioManager : MonoBehaviour
 	/// <summary>
 	/// Play a specific sound once
 	/// </summary>
-	public static void PlaySingleSound(AudioClip clip)
+	public static void PlaySingleSound(AudioClip clip, float volume = 1)
 	{
+		var originalVolume = instance.audioSource.volume;
 		instance.audioSource.PlayOneShot(clip);
+		instance.audioSource.volume *= volume;
+		instance.audioSource.volume = originalVolume;
 	}
+
 	public void UpdateVolume(float vol)
 	{
 		print(vol / 100);

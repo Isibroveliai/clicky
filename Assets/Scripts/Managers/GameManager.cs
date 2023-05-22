@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
 	public static event Action<ResearchNode> OnResearchFinished;
 	public static event Action<ResearchNode> OnResearchStopped;
 
+	public AudioClip researchSound;
+
 	public void Awake()
 	{
 		if (instance != null && instance != this)
@@ -373,6 +375,7 @@ public class GameManager : MonoBehaviour
 
 	private void ResearchFinished(ResearchNode research)
 	{
+		AudioManager.PlaySingleSound(researchSound, 0.5f);
 		foreach (var upgrade in research.unlockUpgrades)
 		{
 			UnlockUpgrade(upgrade);

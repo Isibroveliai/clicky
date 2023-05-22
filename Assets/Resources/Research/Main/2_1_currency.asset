@@ -24,7 +24,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7e1062f075db5604886a1ab9607b829e, type: 2}
   unlockUpgrades:
   - {fileID: 11400000, guid: d9a5c7e2c9ba17c4f9b96d111a912e7b, type: 2}
-  revealed: 0
+  revealed: 1
   onBuyEvent:
     m_PersistentCalls:
       m_Calls: []
