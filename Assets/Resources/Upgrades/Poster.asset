@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Poster
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: d2a0ab02-ebfa-4980-ba58-b2a6c5d54954
   displayName: Motivational poster
   description: Motivate your workforce! Everyone works harder when motivated. You
-    probably shouldn't abuse this...
+    probably shouldn't abuse this... Greatly ncreases currency generation and slightly
+    increases research speed.
   baseCurrencyCost:
     value: 50000
     postfix: 0
   energyUsage: 0
   energyCapRaise: 0
   currencyGeneration:
-    value: 200
+    value: 500
     postfix: 0
   energyConsumptionDecrease: 0
-  researchProduction: 10
-  button: {fileID: 0}
+  researchProduction: 20
   icon: {fileID: 2800000, guid: 397c95555c5400649a04dbcf6ea01e09, type: 3}

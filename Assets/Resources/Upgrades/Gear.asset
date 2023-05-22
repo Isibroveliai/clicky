@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Gear
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: 544dbc90-0b18-4e0e-8640-03e60c69d538
   displayName: Gear
   description: GEAR up your mashine! Each addtional gear provides currency generation
@@ -22,9 +23,8 @@ MonoBehaviour:
   energyUsage: 30
   energyCapRaise: 0
   currencyGeneration:
-    value: 1
+    value: 8
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 5
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: 53d45cbb267d53c4696d6220b8458a51, type: 3}

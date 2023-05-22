@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Tools
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: 1f3e1f70-8526-4942-abb3-7dc0e0e66ef3
   displayName: Tools
   description: Provide better tools to your workforce. Provides currency generation
     and research production.
   baseCurrencyCost:
-    value: 500
+    value: 800
     postfix: 0
-  energyUsage: 25
+  energyUsage: 75
   energyCapRaise: 0
   currencyGeneration:
-    value: 5
+    value: 10
     postfix: 0
   energyConsumptionDecrease: 0
   researchProduction: 5
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: cbc1959e722c54046be9f5340eaccab5, type: 3}
