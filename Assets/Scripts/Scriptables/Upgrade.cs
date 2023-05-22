@@ -15,6 +15,7 @@ public class Upgrade : ScriptableObject
 	public int energyUsage;
 	public float energyCapRaise;
 	public HugeNumber currencyGeneration;
+	public int currencyPerClick;
 	public float energyConsumptionDecrease;
 	public int researchProduction;
 	

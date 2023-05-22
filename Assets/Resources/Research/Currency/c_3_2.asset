@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: d58107e9-805c-44fb-9055-35f3b9c2b0eb
   displayName: Gold mines!
-  description: 
+  description: Aquire new gold mines! Increases currency generation even further!
   currencyCost:
-    value: 0
+    value: 30000
     postfix: 0
-  researchCost: 0
+  researchCost: 7500
   sprite: {fileID: 21300000, guid: 4913cf8cc25b6cb409073075572f708c, type: 3}
   next:
   - {fileID: 11400000, guid: 62b6c8fe83fea624b906c4cc877882e2, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 7d612c096eeeff94bab46c8303d166f6, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

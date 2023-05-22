@@ -61,15 +61,15 @@ public class EventManager : MonoBehaviour // PO SCENE RELOAD BUNA NEGERAI SU SIN
 		activeEvents = new List<Tuple<GameObject, EventFrame, MyEventHandler>>();
 		eventWeights = new List<Tuple<MyEventHandler, int>>
 		{
-			// Tuple.Create<MyEventHandler, int>(EventLowerCurrencyGen, 10),
-			// Tuple.Create<MyEventHandler, int>(EventLowerClickCurrencyGen, 12),
-			// Tuple.Create<MyEventHandler, int>(EventHigherClickCurrencyGen, 12),
-			// Tuple.Create<MyEventHandler, int>(EventHigherCurrencyGen, 10),
-			// Tuple.Create<MyEventHandler, int>(EventEverythingBetter, 8),
-			// Tuple.Create<MyEventHandler, int>(EventEnergyOverload, 5),
-			// Tuple.Create<MyEventHandler, int>(EventGiveMoney, 1),
-			//Tuple.Create<MyEventHandler, int>(EventUnlockUpgrade, 2),
-			//Tuple.Create<MyEventHandler, int>(EventSystemFailure, 1),
+			Tuple.Create<MyEventHandler, int>(EventLowerCurrencyGen, 10),
+			Tuple.Create<MyEventHandler, int>(EventLowerClickCurrencyGen, 12),
+			Tuple.Create<MyEventHandler, int>(EventHigherClickCurrencyGen, 12),
+			Tuple.Create<MyEventHandler, int>(EventHigherCurrencyGen, 10),
+			Tuple.Create<MyEventHandler, int>(EventEverythingBetter, 8),
+			Tuple.Create<MyEventHandler, int>(EventEnergyOverload, 5),
+			Tuple.Create<MyEventHandler, int>(EventGiveMoney, 1),
+			//Tuple.Create<MyEventHandler, int>(EventUnlockUpgrade, 2), :(
+			Tuple.Create<MyEventHandler, int>(EventSystemFailure, 1),
 			Tuple.Create<MyEventHandler, int>(EventDisableRandomUpgrades, 5),
 			
 			

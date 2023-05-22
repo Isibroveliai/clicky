@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: bde8dd1a-38da-4fbe-89d7-61760086d961
   displayName: Modern philosophy
-  description: Why does it matter?
+  description: Greatly increases currency generation, but... Why does it matter..?
   currencyCost:
-    value: 0
+    value: 150000
     postfix: 0
-  researchCost: 0
+  researchCost: 200000
   sprite: {fileID: 21300000, guid: 1cfbf92966f6d4747b12b009188c6c89, type: 3}
   next:
   - {fileID: 11400000, guid: dbde2aff3c4467e4e82228142ca15b17, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 08ba6a96e30766a448bfca63b39f2c85, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: c03684e4-8be3-4bb9-aa9c-2045f9cefde1
   displayName: Paper money
-  description: 
+  description: You sure are generating a lot of income... How about some more? This
+    research unlocks Control panel upgrade.
   currencyCost:
-    value: 0
+    value: 10000
     postfix: 0
-  researchCost: 0
+  researchCost: 4000
   sprite: {fileID: 21300000, guid: 2aab7a03f2c6b2e4d9c461e36b3a4244, type: 3}
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: dfb3f7c0f11aa084bb64f87afbfb53f8, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

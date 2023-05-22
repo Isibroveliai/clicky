@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 53776c27-7090-4ac7-91a4-5e65627caf8a
   displayName: Nothing matters!
-  description: 
+  description: You can rule the world from the shadows. Unlocks Poster upgrade...
   currencyCost:
-    value: 0
+    value: 200000
     postfix: 0
-  researchCost: 0
+  researchCost: 500000
   sprite: {fileID: 21300000, guid: 86355446970c668489cb21394f8705ce, type: 3}
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 6886cbeabc19a264087f3caec20bfac5, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

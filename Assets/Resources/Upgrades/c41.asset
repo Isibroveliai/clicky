@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: Water pump
+  m_Name: c41
   m_EditorClassIdentifier: 
-  instantUnlock: 0
-  id: bf77813a-b847-423c-b37a-42d446413f75
-  displayName: Water pump
-  description: Cool your generators efficiently with water pumps! Provides more currency
-    generation and research speed.
+  instantUnlock: 1
+  id: 11fa8813-f971-4d8d-8eef-70cbbe73b308
+  displayName: 
+  description: 
   baseCurrencyCost:
-    value: 20000
+    value: 0
     postfix: 0
-  energyUsage: 200
+  energyUsage: 0
   energyCapRaise: 0
   currencyGeneration:
-    value: 75
+    value: 120
     postfix: 0
   currencyPerClick: 0
   energyConsumptionDecrease: 0
-  researchProduction: 75
-  icon: {fileID: 2800000, guid: 87cfccf5039421d4faadcb666a097ace, type: 3}
+  researchProduction: 0
+  icon: {fileID: 0}

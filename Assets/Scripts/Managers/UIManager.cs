@@ -51,7 +51,8 @@ public class UIManager : MonoBehaviour
 	public TMP_Text currencyCounter;
 	public TMP_Text energyCounter;
 	public TMP_Text researchCounter;
-
+	public TMP_Text perSecondCounter;
+	public TMP_Text perClickCounter;
 	public Color energySafeColor;
 	public Color energyDangerColor;
 
@@ -92,6 +93,8 @@ public class UIManager : MonoBehaviour
 	private void Update() {
 		UpdateEnergyDisplay(mng.GetEnergyUsage(), mng.maxEnergy);
 		UpdateEnergyDisplayDanger();
+		UpdatePerClick(mng.currencyPerClick);
+		UpdatePerSecond(mng.currencyGeneration.value);
 	}
 
 	public void SetGameOverShown(bool isShown)
@@ -115,7 +118,16 @@ public class UIManager : MonoBehaviour
 
 	public void UpdateResearchSpeedDisplay(float researchSpeed)
 	{
-		researchCounter.text = researchSpeed.ToString();
+		researchCounter.text = string.Format("{0}/s", researchSpeed);
+	}
+
+	public void UpdatePerSecond(float value)
+	{
+		perSecondCounter.text = string.Format("{0}/s", value);
+	}	
+	public void UpdatePerClick(float value)
+	{
+		perClickCounter.text = string.Format("{0}/click", value);
 	}
 
 	//nelieskit niekas nes galimai sulust bent ka mentai pakeitus :^)

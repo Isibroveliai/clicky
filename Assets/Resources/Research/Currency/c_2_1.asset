@@ -14,16 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: a24de559-e2cd-4ee8-bec9-769c28f5ec18
   displayName: Making coins!
-  description: 
+  description: You can make your own coins! Impressive. Increases currency generation!
   currencyCost:
-    value: 0
+    value: 5000
     postfix: 0
-  researchCost: 0
+  researchCost: 1000
   sprite: {fileID: 21300000, guid: b89d1d1585126d4489bf0e59123f31a7, type: 3}
   next:
   - {fileID: 11400000, guid: 7d0ba775606bbd74c9ee347cca0c53e4, type: 2}
   - {fileID: 11400000, guid: 19e1587a7d84b0247872b3e5a76c0c6f, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 2ea3fd226752cf44db69fd2e8e4483e7, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

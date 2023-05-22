@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1d09ba46-a3d1-4b15-ae40-b5344c11e893
   displayName: Your own currency
-  description: 
+  description: You have made your own currency! It has your portrait on it... Nice
+    side-profile! Increases currency generation.
   currencyCost:
-    value: 0
+    value: 1000
     postfix: 0
-  researchCost: 0
+  researchCost: 800
   sprite: {fileID: 21300000, guid: 654a46b60e1b42449b58ded4949886be, type: 3}
   next:
   - {fileID: 11400000, guid: b1ae5629d2d522e4993437237821a77a, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 607323a9f9d520e42818bd1c321123dd, type: 2}
   revealed: 1
   onBuyEvent:
     m_PersistentCalls:

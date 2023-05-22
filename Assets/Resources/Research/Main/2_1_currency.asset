@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 72644e24-4c28-4cc3-8724-6cfa777f7484
   displayName: Market
-  description: 
+  description: Start investing in local markets! Slightly inceases currency generation.
   currencyCost:
     value: 100
     postfix: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
   next:
   - {fileID: 11400000, guid: 7e1062f075db5604886a1ab9607b829e, type: 2}
   unlockUpgrades:
-  - {fileID: 11400000, guid: acef43339cc58ba47bf3558fe6b0b053, type: 2}
+  - {fileID: 11400000, guid: d9a5c7e2c9ba17c4f9b96d111a912e7b, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:
