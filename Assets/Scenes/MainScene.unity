@@ -4281,8 +4281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee4ade5924c4f04f9956dafc16dc9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventFrequency: 5
-  eventChance: 1
+  eventFrequency: 20
+  eventChance: 0.1
   upgradeUnlockFromEvent: []
   researchUnlockFromEvent: []
   eventNotificationContainer: {fileID: 1083095905}

@@ -109,6 +109,7 @@ public class Options : MonoBehaviour
 	{
 		UpdateVolumeText(volumeSlider.value.ToString());
 		mng.settings.volumeLevel = volumeSlider.value;
+		AudioManager.instance.UpdateVolume(volumeSlider.value);
 	}
 
 	public void UpdateWindowChangeButtonText(string text)

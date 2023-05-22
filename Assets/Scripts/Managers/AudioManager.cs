@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
 	public AudioClip[] buttonClick;
 	public AudioClip[] buyUpgrade;
 
+
 	public void Awake()
 	{
 		if (instance != null && instance != this )
@@ -25,6 +26,7 @@ public class AudioManager : MonoBehaviour
 	public void Setup()
 	{
 		audioSource = GetComponent<AudioSource>();
+		UpdateVolume(GameManager.instance.settings.volumeLevel);
 	}
 
 	/// <summary>
@@ -53,5 +55,10 @@ public class AudioManager : MonoBehaviour
 	public static void PlaySingleSound(AudioClip clip)
 	{
 		instance.audioSource.PlayOneShot(clip);
+	}
+	public void UpdateVolume(float vol)
+	{
+		print(vol / 100);
+		audioSource.volume = vol / 100;
 	}
 }

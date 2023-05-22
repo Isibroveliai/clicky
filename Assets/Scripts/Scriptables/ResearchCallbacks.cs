@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -29,8 +30,10 @@ public class ResearchCallbacks : MonoBehaviour
 	{
 		Debug.Log("RESEARCH NODE BOUGHT");
 	}
-	public void TestWithArg(int i)
+	public void ChangeFurnaceImage(Sprite sprite)
 	{
-		print(i);
+		GameObject furnace = GameObject.Find("/UI/CurrencyGenerator");
+		furnace.GetComponent<Image>().sprite = sprite;
+		print("CHANGED SPRITE");
 	}
 }
