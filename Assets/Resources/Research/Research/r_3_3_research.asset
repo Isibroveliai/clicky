@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4ce82885-f84a-4b5f-9733-91602a549be2
   displayName: Advanced materials
-  description: Newest technology furnace!
+  description: Newest technology - best furnace!
   currencyCost:
     value: 500000
     postfix: 0
@@ -27,4 +27,16 @@ MonoBehaviour:
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3828268558991743254, guid: 6b51d5eb5eb13a04eb191e3f6c156da3, type: 3}
+        m_TargetAssemblyTypeName: ResearchCallbacks, Assembly-CSharp
+        m_MethodName: ChangeFurnaceImage
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: -77544184338421922, guid: 1ce334b0d7c8d994295efa070e3d8a41, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

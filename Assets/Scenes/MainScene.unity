@@ -677,7 +677,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6098d9da3c7126e41ac4974d7b4d3d43, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 22ffc4fb17c52ee4bb33596b07bf1a73, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5013,7 +5013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 635070806052317731, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 635070808009355825, guid: 867f022ec6aeaec458add97f61673f11, type: 3}
       propertyPath: m_IsActive
@@ -6906,8 +6906,8 @@ MonoBehaviour:
   currencyCounter: {fileID: 1237179554}
   energyCounter: {fileID: 1880873462}
   researchCounter: {fileID: 159097759}
-  perSecondCounter: {fileID: 1393064880}
-  perClickCounter: {fileID: 2046623490}
+  perSecondCounter: {fileID: 0}
+  perClickCounter: {fileID: 0}
   energySafeColor: {r: 0.93725497, g: 0.7411765, b: 0.41176474, a: 1}
   energyDangerColor: {r: 0.16862746, g: 0.27058825, b: 0.30980393, a: 1}
   animationEnd: 0

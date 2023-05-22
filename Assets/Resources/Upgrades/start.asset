@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
-  m_Name: em21
+  m_Name: start
   m_EditorClassIdentifier: 
   instantUnlock: 1
-  id: 524d6b19-a682-41fa-9532-ffd0f4fb7c09
+  id: cc008b6d-1a5f-4894-b0ed-145fee4a39a5
   displayName: 
   description: 
   baseCurrencyCost:
@@ -22,9 +22,9 @@ MonoBehaviour:
   energyUsage: 0
   energyCapRaise: 0
   currencyGeneration:
-    value: 0
+    value: 1
     postfix: 0
   currencyPerClick: 0
-  energyConsumptionDecrease: 0.01
-  researchProduction: 0
+  energyConsumptionDecrease: 0
+  researchProduction: 1
   icon: {fileID: 0}
