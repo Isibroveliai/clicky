@@ -20,7 +20,6 @@ MonoBehaviour:
     postfix: 0
   researchCost: 0
   sprite: {fileID: 21300000, guid: d8ccd1bd2b5d84d45805bb40701733b7, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 6205e62af6cd8554f9b63fb3d1e6abeb, type: 2}
   unlockUpgrades: []

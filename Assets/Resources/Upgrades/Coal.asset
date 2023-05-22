@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
   m_Name: Coal
   m_EditorClassIdentifier: 
+  instantUnlock: 0
   id: 072ca211-cc1c-4751-80d8-9b42e441e6cb
   displayName: Coal cart
   description: Invest in more coal for the furnace. Slighty increases currency generation.
@@ -23,7 +24,7 @@ MonoBehaviour:
   currencyGeneration:
     value: 4
     postfix: 0
+  currencyPerClick: 0
   energyConsumptionDecrease: 0
   researchProduction: 0
-  button: {fileID: 0}
   icon: {fileID: 2800000, guid: 949825bcdeb90c44bb17623f9252b4d8, type: 3}

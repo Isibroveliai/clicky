@@ -25,6 +25,7 @@ MonoBehaviour:
   currencyGeneration:
     value: 75
     postfix: 0
+  currencyPerClick: 0
   energyConsumptionDecrease: 0
   researchProduction: 75
   icon: {fileID: 2800000, guid: 87cfccf5039421d4faadcb666a097ace, type: 3}

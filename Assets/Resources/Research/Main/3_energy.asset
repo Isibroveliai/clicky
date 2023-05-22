@@ -20,11 +20,10 @@ MonoBehaviour:
     postfix: 0
   researchCost: 300
   sprite: {fileID: 21300000, guid: 1d58fef5d64ca7441bce32265a623114, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 32743a9189b561d49b4a4ab77764e7de, type: 2}
   unlockUpgrades: []
-  revealed: 1
+  revealed: 0
   onBuyEvent:
     m_PersistentCalls:
       m_Calls: []
