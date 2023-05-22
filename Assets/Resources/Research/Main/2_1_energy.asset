@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7e6d579e-79e7-44af-8048-9a614a76e38d
   displayName: Fireeeee
-  description: 
+  description: Decreases overall energy consumption.
   currencyCost:
     value: 100
     postfix: 0
   researchCost: 100
   sprite: {fileID: 21300000, guid: e1666ab4b3c575847a8f15f9b47c4104, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 12c6cbefc26b61a438f0bea3b613e616, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 21ee8c622c07fa2478bfe3663e127ccd, type: 2}
   revealed: 1
   onBuyEvent:
     m_PersistentCalls:

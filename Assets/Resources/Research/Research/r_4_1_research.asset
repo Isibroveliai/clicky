@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 42babe7f-7481-4d68-b1e7-832ebca92fc0
   displayName: Zoom in a lot more
-  description: 
+  description: In essence, a 4D cube or, in other words, a tesseract. Probably dangerous
   currencyCost:
-    value: 0
+    value: 1000000
     postfix: 0
-  researchCost: 0
+  researchCost: 2000000
   sprite: {fileID: 21300000, guid: af292432f8058934ea6ccd025d2e6b43, type: 3}
-  instantUnlock: 0
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 67a9c977bb0d95e4c86503c1f44f3bee, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

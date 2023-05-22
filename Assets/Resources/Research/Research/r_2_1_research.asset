@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 719e58f9-d5ca-455b-ba7a-a6e73de2a4c9
   displayName: Zoom in
-  description: 
+  description: Unlocks better tools in the upgrade shop.
   currencyCost:
-    value: 0
+    value: 3000
     postfix: 0
-  researchCost: 0
+  researchCost: 10000
   sprite: {fileID: 21300000, guid: c9618ee424fbc9f41830d76f10944960, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 8a2339bb0276c794bba70d701aa5b1aa, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 587fa62866b415444819579c5558f09d, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

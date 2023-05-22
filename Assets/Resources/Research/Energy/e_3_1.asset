@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: d74c93bd-a78d-41b8-bd83-5a73b73daa7d
   displayName: Clean energy
-  description: 
+  description: Time to start pumping.
   currencyCost:
-    value: 0
+    value: 25000
     postfix: 0
-  researchCost: 0
+  researchCost: 7000
   sprite: {fileID: 21300000, guid: 178857336df26cc4da68a2c91d6175dd, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 374dd90f399835b4c8828b69459cc362, type: 2}
   - {fileID: 11400000, guid: e6e988c8a3908aa4a9c0a2c0f221b8b5, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 05fa4480546eac54e928dc29640049a8, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

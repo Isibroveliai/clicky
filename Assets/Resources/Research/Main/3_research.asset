@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 385b9b13-9f1e-41ce-927d-8da7bd5f054e
   displayName: Calculus
-  description: 
+  description: This is where it starts getting complex.
   currencyCost:
-    value: 300
+    value: 800
     postfix: 0
-  researchCost: 300
+  researchCost: 2000
   sprite: {fileID: 21300000, guid: c08beba7e1f7ea946a59dfd2940491d6, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 40ace2986b2f3fe4889cffec41de13f1, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: c706814ec56ac404d89371c2610bd53b, type: 2}
   revealed: 1
   onBuyEvent:
     m_PersistentCalls:

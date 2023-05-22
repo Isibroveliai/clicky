@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2bab69cd-80af-4e72-9990-c435bc6a448e
   displayName: Abacus
-  description: 
+  description: Counting stuff also mean better research speeds
   currencyCost:
     value: 300
     postfix: 0
-  researchCost: 300
+  researchCost: 500
   sprite: {fileID: 21300000, guid: b0340b4c0cf60144483313a451d5d40c, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 26144e048cc3b1449bd5ccca97134112, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 6f9e9df1114f27942a3f0c6e9f5c9557, type: 2}
   revealed: 1
   onBuyEvent:
     m_PersistentCalls:

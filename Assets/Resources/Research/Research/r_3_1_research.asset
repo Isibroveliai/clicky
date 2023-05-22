@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7c1669f9-a581-4828-9831-4e2fdd0ec57f
   displayName: Zoom in more
-  description: 
+  description: Bugs don't like atoms.
   currencyCost:
-    value: 0
+    value: 50000
     postfix: 0
-  researchCost: 0
+  researchCost: 500000
   sprite: {fileID: 21300000, guid: dd6199db31740f14eaef5bf5e073d0ff, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 9ade06c7560fbc145a19d72517dfc5a4, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: a7b345dc2bbd38b42900147cd82da943, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

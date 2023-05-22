@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1cb076c19004645a4b97b816a3c536, type: 3}
+  m_Name: e43
+  m_EditorClassIdentifier: 
+  instantUnlock: 1
+  id: 9b000cde-7147-441b-9235-035c7b65db3a
+  displayName: 
+  description: 
+  baseCurrencyCost:
+    value: 0
+    postfix: 0
+  energyUsage: 0
+  energyCapRaise: 0
+  currencyGeneration:
+    value: 0
+    postfix: 0
+  energyConsumptionDecrease: 0.04
+  researchProduction: 0
+  icon: {fileID: 0}

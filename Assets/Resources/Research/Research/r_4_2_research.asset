@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 348b7c3e-e4c3-4007-b8a7-f1b4d10d842d
   displayName: It keeps repeating
-  description: 
+  description: Pi is probably related...
   currencyCost:
-    value: 0
+    value: 1000000
     postfix: 0
-  researchCost: 0
+  researchCost: 2000000
   sprite: {fileID: 21300000, guid: 43a2380eb95ac8b48973d77c82f24316, type: 3}
-  instantUnlock: 0
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: d72ce5070aab0ae4ea96a0477d895522, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

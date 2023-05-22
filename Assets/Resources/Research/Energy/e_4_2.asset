@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: ab2ee22a-04da-4e6a-9cf2-02ef61b75ba7
   displayName: Electricity
-  description: 
+  description: More energy!!
   currencyCost:
-    value: 0
+    value: 100000
     postfix: 0
-  researchCost: 0
+  researchCost: 150000
   sprite: {fileID: 21300000, guid: 21e9e0a07b404fe47b2faae485d01a9f, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 67a08eee289e16444b7825c390597a0e, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 06c3c06c98fb96441a7d74af6a9ee82d, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: a0c50089-e8f7-44d0-a32e-455bb2d158bc
   displayName: Research upgrade
-  description: 
+  description: Science equipment and stuff a lab in the upgrade shop!
   currencyCost:
-    value: 10
+    value: 100
     postfix: 0
-  researchCost: 19
+  researchCost: 100
   sprite: {fileID: 21300000, guid: 69650fce3966898439bbc913cfa5339a, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 8c8e4a6fe6785d741a7b03d2c3e362bc, type: 2}
   - {fileID: 11400000, guid: cf68251b045fd2c4fb17ec24a999435b, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: ee3eeeaaab9303f4f8ee0a29f61e15b7, type: 2}
   revealed: 1
   onBuyEvent:
     m_PersistentCalls:

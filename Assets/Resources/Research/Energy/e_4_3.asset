@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 99575b21-5e16-457b-8576-7789ae6ade02
   displayName: Radioactivity
-  description: 
+  description: Decreases overall energy consumption... Also, I have a third arm.
   currencyCost:
-    value: 0
+    value: 150000
     postfix: 0
-  researchCost: 0
+  researchCost: 200000
   sprite: {fileID: 21300000, guid: d8ccd1bd2b5d84d45805bb40701733b7, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 6205e62af6cd8554f9b63fb3d1e6abeb, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: c36bc4105319a164a80fd4d720fb6f1d, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

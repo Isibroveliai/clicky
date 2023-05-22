@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: bc556df3-c2b8-4264-85a3-4c6977b1f0c7
   displayName: Magnetism
-  description: 
+  description: Faster research because magnets go brrr
   currencyCost:
-    value: 0
+    value: 50000
     postfix: 0
-  researchCost: 0
+  researchCost: 500000
   sprite: {fileID: 21300000, guid: 139fff8e6bdd06048a5a14d8c6f87bcc, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 00b9c53b541f8314dae9b6b53ad6657c, type: 2}
   - {fileID: 11400000, guid: 49fe4d721986c544f8c10588c2b30c65, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 9126301fbcf2fb745a5a5b289b283c83, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

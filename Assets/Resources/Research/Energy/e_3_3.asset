@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: e_3_3
   m_EditorClassIdentifier: 
   id: fc0b83bb-506b-485d-8fb9-b83828dd3fd3
-  displayName: Better coffee
-  description: 
+  displayName: Monsta
+  description: But what if I'm a monstaAA
   currencyCost:
-    value: 0
+    value: 40000
     postfix: 0
-  researchCost: 0
+  researchCost: 10000
   sprite: {fileID: 21300000, guid: ff4bc0f62848db046b7b8c17dc4b0821, type: 3}
-  instantUnlock: 0
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 4d43fa0781263554d87f9285c5228291, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

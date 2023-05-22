@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2b8b2cb4-7366-414d-b833-2c745bed1b1c
   displayName: Portals!
-  description: 
+  description: Portals helps us get high tech, like the pet rock!
   currencyCost:
-    value: 10
+    value: 1200000
     postfix: 0
-  researchCost: 10
+  researchCost: 2000000
   sprite: {fileID: 21300000, guid: fd2d9cf726b35c043a4384452d9cc62f, type: 3}
-  instantUnlock: 0
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 8ef3ad4f40c2eef42ab3bd355df93457, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

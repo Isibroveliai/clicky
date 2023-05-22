@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 63c97f94-31e9-4db7-80ee-430055bfc89b
   displayName: Ruler
-  description: 
+  description: New furnace!!
   currencyCost:
-    value: 10
+    value: 3000
     postfix: 0
-  researchCost: 10
+  researchCost: 5000
   sprite: {fileID: 21300000, guid: 27ad47573db0d6a419c036d027ad421f, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 56a912a4825de354eba422d5f1ebf5b6, type: 2}
   - {fileID: 11400000, guid: 9be2ca6afadd17f4eb1e00753810c4cf, type: 2}
   - {fileID: 11400000, guid: 090ba4d049d859141a5eb4ec5051ab0b, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 9289f0de7d8107b48b5a4cf1caa9404b, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

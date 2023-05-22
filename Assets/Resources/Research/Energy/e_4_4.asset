@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 6440cc79-4ed9-4884-87a8-e149e32bf5a2
   displayName: Antimatter
-  description: 
+  description: Batteries. From antimatter...?
   currencyCost:
-    value: 0
+    value: 200000
     postfix: 0
-  researchCost: 0
+  researchCost: 500000
   sprite: {fileID: 21300000, guid: 18821bcbf5ebd214587928af5b07d678, type: 3}
-  instantUnlock: 0
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 2f0b8995147798641a75365faac99052, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10b8cbd6-96ae-4c3d-b0b3-aa565781090f
   displayName: Coffee
-  description: 
+  description: 'Increased energy? Increased energy. '
   currencyCost:
-    value: 0
+    value: 30000
     postfix: 0
-  researchCost: 0
+  researchCost: 7500
   sprite: {fileID: 21300000, guid: 6e9fe0f97d2ef584d931433af7b0cd3c, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 7bae70a1ac29b834697f1c2467e775c5, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: e65e34b03db6dc447b80cf406dbee23b, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

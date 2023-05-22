@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 67eb6cc9-ef6e-4066-b101-9aa39228b94e
   displayName: More coal
-  description: 
+  description: Increases energy cap! Getting even more coal!
   currencyCost:
-    value: 0
+    value: 1000
     postfix: 0
-  researchCost: 0
+  researchCost: 800
   sprite: {fileID: 21300000, guid: c117467344b93f84a8791533ad975dd9, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: dddc339e2f11a144ab638ded94f8e7b3, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: df8d1811e5df3b84093db078c9d0f43b, type: 2}
   revealed: 1
   onBuyEvent:
     m_PersistentCalls:

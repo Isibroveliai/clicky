@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 129b4605-83ed-4b4b-b5bc-0082fceaad9a
   displayName: Cable insulations
-  description: 
+  description: Better cables, but also oil... I don't know
   currencyCost:
-    value: 0
+    value: 50000
     postfix: 0
-  researchCost: 0
+  researchCost: 100000
   sprite: {fileID: 21300000, guid: 90043afc1d494774f9dc0689f2d44950, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 9898c365c5610414f934f8518f445a32, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: a94a936900572c948af45eafd9f68920, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

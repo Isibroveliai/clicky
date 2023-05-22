@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4ce82885-f84a-4b5f-9733-91602a549be2
   displayName: Advanced materials
-  description: 
+  description: Newest technology furnace!
   currencyCost:
-    value: 0
+    value: 500000
     postfix: 0
-  researchCost: 0
+  researchCost: 2000000
   sprite: {fileID: 21300000, guid: b6ee9c19dd5d26e408ea2ec2be4d552f, type: 3}
-  instantUnlock: 0
   next:
   - {fileID: 11400000, guid: 633efc55528f28740801cc7ec20325c7, type: 2}
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 397972804aed42749bec6f3b5b65713e, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:

@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: fab2d9df-2317-493a-8b8a-b5c8afc5794d
   displayName: Nano materials
-  description: 
+  description: Probably can't go better than this...
   currencyCost:
-    value: 10
+    value: 2000000
     postfix: 0
-  researchCost: 10
+  researchCost: 5000000
   sprite: {fileID: 21300000, guid: 2db2b5a0eb09d1e4d8342739200145d2, type: 3}
-  instantUnlock: 0
   next: []
-  unlockUpgrades: []
+  unlockUpgrades:
+  - {fileID: 11400000, guid: 6a6e553bcbda170438383c74f1afd814, type: 2}
   revealed: 0
   onBuyEvent:
     m_PersistentCalls:
